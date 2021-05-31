@@ -29,10 +29,10 @@ Route::get('contact',[FrontendController::class,'contact'])->name('contact');
 // Route::get('about',[FrontendController::class,'about'])->name('about');
 
 
-Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
-Route::get('categories',[CategoryController::class,'Category'])->name('categories');
-Route::get('add-categories',[CategoryController::class,'CategoryForm'])->name('categoryform');
-Route::post('post-category',[CategoryController::class,'PostCategory'])->name('postCategory');
+Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+Route::get('/categories',[CategoryController::class,'Category'])->name('categories');
+Route::get('/add-categories',[CategoryController::class,'CategoryForm'])->name('categoryform');
+Route::post('/post-category',[CategoryController::class,'PostCategory'])->name('postCategory');
 
 
 require __DIR__.'/auth.php';

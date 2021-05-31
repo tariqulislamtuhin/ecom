@@ -33,10 +33,10 @@
                     <label for="name">Category Name</label>
                     <input type="text" class="form-control" id="name" placeholder="Category name" name="category_name">
                   </div>
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label for="slug"> Slug </label>
                     <input type="text" class="form-control" id="slug" placeholder="Slug"name="slug">
-                  </div>
+                  </div> --}}
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
     function Category(){
-        return view('backend.category.category_view');
+        $data = Category::all();
+        return view('backend.category.category_view',compact('data'));
     }
 
     function CategoryForm(){
@@ -20,8 +22,9 @@ class CategoryController extends Controller
         // return $request->all();
         $category = new Category;
         $category->category_name = $request->category_name;
-        $category->slug = $request->slug;
-        // $category->save();
-        return redirect()->action([CategoryController::class,'CategoryForm']);
+        $category->slug = str::slug($request->category_name);
+        $category->save();
+        // return back();
+        return redirect()->action([CategoryController::class,'Category']);
     }
 }

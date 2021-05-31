@@ -235,7 +235,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="{{ url("categories") }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Views Category</p>
                 </a>
@@ -857,8 +857,7 @@
     <!-- /.sidebar -->
   </aside>
 
-
-
+  
   @yield('content');
 
 
