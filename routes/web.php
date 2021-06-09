@@ -25,14 +25,21 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-Route::get('contact',[FrontendController::class,'contact'])->name('contact');
+Route::get('contact', [FrontendController::class, 'contact'])->name('contact');
 // Route::get('about',[FrontendController::class,'about'])->name('about');
 
 
-Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
-Route::get('/categories',[CategoryController::class,'Category'])->name('categories');
-Route::get('/add-categories',[CategoryController::class,'CategoryForm'])->name('categoryform');
-Route::post('/post-category',[CategoryController::class,'PostCategory'])->name('postCategory');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('/categories', [CategoryController::class, 'Category'])->name('categories');
+Route::get('/add-categories', [CategoryController::class, 'CategoryForm'])->name('categoryform');
+Route::post('/post-category', [CategoryController::class, 'PostCategory'])->name('postCategory');
+
+Route::get('/delete-category/{data}', [CategoryController::class, 'DeleteCategory'])->name('deletecategory');
+Route::get('/edit-category/{data}', [CategoryController::class, 'EditCategory'])->name('editcategory');
+Route::post('/update-category', [CategoryController::class, 'UpdateCategory'])->name('updatecategory');
+Route::get('/trashed-categories', [CategoryController::class, 'TrashCategory'])->name('trashcategory');
+Route::get('/restore-categories/{data}', [CategoryController::class, 'RestoreCategory'])->name('restorecategory');
+Route::get('/Permanent-delete-categories/{data}', [CategoryController::class, 'PermanentDeleteCategory'])->name('permanentdeletecategory');
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

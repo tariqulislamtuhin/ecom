@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -241,9 +242,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                <a href="{{ url('trashed-categories') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Trash Category  </p>
+                  <p>Trashed</p>
                 </a>
               </li>              
             </ul>
@@ -913,5 +914,7 @@
 <script src="{{ asset('assets/dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('assets/dist/js/pages/dashboard.js')}}"></script>
+<script src="{{ asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+@yield("toastr_js");
 </body>
 </html>

@@ -5,13 +5,13 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Simple Tables</h1>
+          <div class="col-sm-6 block red">
+            <h1>Trash Table</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{'dashboard'}}">Dashboard</a></li>
-              <li class="breadcrumb-item active">Simple Tables</li>
+              <li class="breadcrumb-item"><a href="{{ 'categories' }}">Categories</a></li>
+              <li class="breadcrumb-item active">Trashed Data</li>
             </ol>
           </div>
         </div>
@@ -25,9 +25,9 @@
           <div class="col-md">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><strong>Bordered Table</strong></h3>
-                <a class="float-right" href="{{ url('add-categories') }}">
-                  <i class="fa fa-plus"> Add Category</i>
+                <h3 class="card-title"><strong>Trash</strong></h3>
+                <a class="float-right" href="{{ url('categories') }}">
+                  <i class="fa fa-list"> All Categories</i>
                 </a>
               </div>
              
@@ -53,15 +53,15 @@
                       <td>{{ $data->slug }}</td>
                       <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
                       <td class="text-center">
-                            <a class="btn btn-warning" href="{{ url('edit-category')}}/{{ $data->id }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ url('delete-category')}}/{{ $data->id }}">Delete</a>
+                            <a class="btn btn-Success" href="{{ url('restore-categories')}}/{{ $data->id }}">Restore</a>
+                            <a class="btn btn-danger" href="{{ url('Permanent-delete-categories/')}}/{{ $data->id }}">Delete</a>
                       </td>
                     </tr>
                     @empty
                     <tr>
-                      <td colspan="10" class="text-center">No Data Avilable</td>
+                        <td colspan="10" class="text-center">No Data Avaibable</td>
                     </tr>
-                    @endforelse                 
+                    @endforelse        
                   </tbody>
                 </table>
               </div>
