@@ -43,8 +43,8 @@ Route::get('/restore-categories/{data}', [CategoryController::class, 'RestoreCat
 Route::get('/Permanent-delete-categories/{data}', [CategoryController::class, 'PermanentDeleteCategory'])->name('permanentdeletecategory');
 
 Route::get('/subcategories', [SubCategoryController::class, 'Subcategories'])->name('Subcategories');
-Route::get('/add-subcategories', [SubCategoryController::class, 'AddSubcategories'])->name('addSubcategories');
-Route::post('/post-subcategories', [SubCategoryController::class, 'PostSubcategories'])->name('postSubcategories');
+Route::get('/add-subcategory', [SubCategoryController::class, 'AddSubcategories'])->name('addSubcategory');
+Route::post('/post-subcategory', [SubCategoryController::class, 'PostSubcategories'])->name('postSubcategory');
 
 
 require __DIR__ . '/auth.php';

@@ -26,8 +26,8 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"><strong>Bordered Table</strong></h3>
-                <a class="float-right" href="#">
-                  <i class="fa fa-plus"> Add Category</i>
+                <a class="float-right" href="{{ url('add-subcategory') }}">
+                  <i class="fa fa-plus"> Add SubCategory</i>
                 </a>
               </div>
              
@@ -38,7 +38,8 @@
                   <thead>
                     <tr>
                       <th style="width: 10px">SL</th>
-                      <th>Name</th>
+                      <th>Sub Category</th>
+                      <th>Category</th>
                       <th>Slug</th>
                       <th>Created At</th>
                       <th class="text-center">Action</th>
@@ -49,7 +50,8 @@
                     <tr>
                        
                       <td>{{ $subcats->firstItem() + $key }}</td>
-                      <td>{{ $data->category_name }}</td>
+                      <td>{{ $data->subcategory_name }}</td>
+                      <td>{{ $data->category->category_name }}</td>
                       <td>{{ $data->slug }}</td>
                       <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
                       <td class="text-center">
