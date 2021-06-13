@@ -10,7 +10,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ url('categories') }}">Sell All Categories</a></li>
+              <li class="breadcrumb-item"><a href="{{ url('categories') }}">Categories</a></li>
               <li class="breadcrumb-item active">Add a Category</li>
             </ol>
           </div><!-- /.col -->
@@ -26,25 +26,21 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ url('post-category') }}">
+              <form method="POST" action="{{ url('update-category') }}">
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
                     <label for="name">Category Name</label>
-                    <input type="text" class="form-control @error('category_name') is-invalid @enderror" id="category_name" placeholder="Category name" name="category_name">
+                    <input type="text" class="form-control" id="name" value="{{ $data->category_name }}" placeholder="Category name" name="category_name">
+                    <input type="hidden" class="form-control" id="id" value="{{ $data->id }}" placeholder="Category name" name="cat_id">
+                    
                   </div>
-                  @error('category_name')
-                      <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label for="slug"> Slug </label>
-                    <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" placeholder="Slug"name="slug">
-                  </div>
-                  @error('slug')
-                      <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
+                    <input type="text" class="form-control" id="slug" placeholder="Slug"name="slug">
+                  </div> --}}
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Update</button>
                 </div>
               </form>
             </div>
@@ -54,7 +50,6 @@
     </section>
 </div>
 @endsection
-
 @section("toastr_js")
 <script>
   @if (session('success'))
@@ -78,8 +73,5 @@
       "hideMethod": "fadeOut"
     }
     @endif
-    $('#category_name').keyup(function() {
-      $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
-    });
 </script>
 @endsection

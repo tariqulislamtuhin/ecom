@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\SubCategoryController;
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,10 @@ Route::post('/update-category', [CategoryController::class, 'UpdateCategory'])->
 Route::get('/trashed-categories', [CategoryController::class, 'TrashCategory'])->name('trashcategory');
 Route::get('/restore-categories/{data}', [CategoryController::class, 'RestoreCategory'])->name('restorecategory');
 Route::get('/Permanent-delete-categories/{data}', [CategoryController::class, 'PermanentDeleteCategory'])->name('permanentdeletecategory');
+
+Route::get('/subcategories', [SubCategoryController::class, 'Subcategories'])->name('Subcategories');
+Route::get('/add-subcategories', [SubCategoryController::class, 'AddSubcategories'])->name('addSubcategories');
+Route::post('/post-subcategories', [SubCategoryController::class, 'PostSubcategories'])->name('postSubcategories');
 
 
 require __DIR__ . '/auth.php';

@@ -25,7 +25,8 @@ class CategoryController extends Controller
 
         // return $request->all();
         $request->validate([
-            'category_name' => 'required| min:3 | unique',
+            'category_name' => 'required| min:3 | unique:categories',
+            'slug' => 'required|unique:categories',
         ]);
 
         $category = new Category;

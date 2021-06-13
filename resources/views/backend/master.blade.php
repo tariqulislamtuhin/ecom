@@ -249,6 +249,36 @@
               </li>              
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="{{ url('subcategories') }}" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                SubCategory
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url('add-subcategories') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add SubCategory</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url("subcategories") }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Views SubCategory</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url('trashed-subcategories') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Trashed SubCategory</p>
+                </a>
+              </li>              
+            </ul>
+          </li>
           {{-- <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
