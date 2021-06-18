@@ -1,15 +1,18 @@
 @extends('backend.master');
-@section('categoryactive')
+
+@section('scategoryactive')
 active
 @endsection
 
-@section('catopen')
+@section('scatopen')
 menu-is-opening menu-open active
 @endsection
 
-@section('trashcatactive')
+@section('strashcatactive')
 active
 @endsection
+
+
 @section("content")
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
@@ -37,47 +40,58 @@ active
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"><strong>Trash</strong></h3>
-                <a class="float-right" href="{{ url('categories') }}">
+                <a class="float-right" href="{{ route('Subcategories') }}">
                   <i class="fa fa-list"> All Categories</i>
                 </a>
               </div>
              
               <!-- /.card-header -->
               <div class="card-body">
+                <form  action="{{ route('PosstDeleteAllSubcategories') }}"  method="POST">
+                  @csrf
                 <table class="table table-bordered">
                   
                   <thead>
                     <tr>
+                      <th> <input  type="checkbox"  id="checkall"><span class="ml-2">All</span></th>
                       <th style="width: 10px">SL</th>
-                      <th>Name</th>
+                      <th>Sub Category</th>
+                      <th>Category</th>
                       <th>Slug</th>
                       <th>Created At</th>
                       <th class="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @forelse ($datas as $key => $data)
+                    
+                    @forelse ($deletedsubcategory as $key => $data)
                     <tr>
-                       
-                      <td>{{ $datas->firstItem() + $key }}</td>
-                      <td>{{ $data->category_name }}</td>
+                       <td> <input type="checkbox" id="checkbox" class="control-input" name="delete[]" value="{{ $data->id }}"></td>
+                      <td>{{ $deletedsubcategory->firstItem() + $key }}</td>
+                      <td>{{ $data->subcategory_name }}</td>
+                      <td>{{ $data->Category->category_name }}</td>
                       <td>{{ $data->slug }}</td>
                       <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
                       <td class="text-center">
-                            <a class="btn btn-Success" href="{{ url('restore-categories')}}/{{ $data->id }}">Restore</a>
-                            <a class="btn btn-danger" href="{{ url('Permanent-delete-categories/')}}/{{ $data->id }}">Delete</a>
+                            <a class="btn btn-warning" href="{{ route('editsubcategories',$data->slug) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ route('editsubcategories',$data->slug)}}">Delete</a>
                       </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="10" class="text-center">No Data Avaibable</td>
+                      <td colspan="10" class="text-center">No Data Avilable</td>
                     </tr>
-                    @endforelse        
-                  </tbody>
+                    @endforelse
+                                 
+                  </tbody> 
                 </table>
+
+                  <input type="submit" name="button" value="delete" class="btn btn-primary" id="submit">
+                  <input type="submit" name="button" value="restore" class="btn btn-primary" id="submit">
+              </form> 
               </div>
               <!-- /.card-body -->
-              {{ $datas->links() }}
+              {{ $deletedsubcategory->links() }}
               {{-- <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
                   <li class="page-item"><a class="page-link" href="#">«</a></li>
@@ -129,5 +143,11 @@ active
         "hideMethod": "fadeOut"
       }
       @endif
+
+      $('#checkall').click(function(){
+        $('input:checkbox').not(this).prop('checked',this.checked);
+        $("#submit").show();
+      });
+
   </script>
   @endsection

@@ -45,6 +45,15 @@ Route::get('/Permanent-delete-categories/{data}', [CategoryController::class, 'P
 Route::get('/subcategories', [SubCategoryController::class, 'Subcategories'])->name('Subcategories');
 Route::get('/add-subcategory', [SubCategoryController::class, 'AddSubcategories'])->name('addSubcategory');
 Route::post('/post-subcategory', [SubCategoryController::class, 'PostSubcategories'])->name('postSubcategory');
+Route::post('/post-delete-subcategory', [SubCategoryController::class, 'PosstDeleteAllSubcategories'])->name('PosstDeleteAllSubcategories');
+Route::get('/trashed-subcategories', [SubCategoryController::class, 'TrashSubCategory'])->name('trashSubcategory');
+Route::get('/edit-subcategories/{slug}', [SubCategoryController::class, 'editsubcategories'])->name('editsubcategories');
+
+Route::post('/update-subcategories', [SubCategoryController::class, 'updatesubcategories'])->name('updatesubcategories');
+Route::get('/delete-subcategories/{slug}', [SubCategoryController::class, 'deleteSubCategory'])->name('deleteSubCategory');
+Route::get('/restore-subcategories/{slug}', [SubCategoryController::class, 'restoreSubCategory'])->name('restoreSubCategory');
+
+
 
 
 require __DIR__ . '/auth.php';

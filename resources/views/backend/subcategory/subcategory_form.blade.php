@@ -1,5 +1,19 @@
 @extends('backend.master');
+
+@section('scategoryactive')
+active
+@endsection
+
+@section('scatopen')
+menu-is-opening menu-open active
+@endsection
+@section('saddcatactive')
+active
+@endsection
+
+
 @section('content')
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">

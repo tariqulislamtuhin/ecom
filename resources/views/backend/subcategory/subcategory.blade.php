@@ -1,4 +1,17 @@
 @extends('backend.master');
+
+@section('scategoryactive')
+active
+@endsection
+
+@section('scatopen')
+menu-is-opening menu-open active
+@endsection
+
+@section('sviewcatactive')
+active
+@endsection
+
 @section("content")
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
@@ -33,10 +46,12 @@
              
               <!-- /.card-header -->
               <div class="card-body">
+                
                 <table class="table table-bordered">
                   
                   <thead>
                     <tr>
+                      <th ><input type="checkbox" id="checkall"> All</th>
                       <th style="width: 10px">SL</th>
                       <th>Sub Category</th>
                       <th>Category</th>
@@ -46,26 +61,30 @@
                     </tr>
                   </thead>
                   <tbody>
+                    
                     @forelse ($subcats as $key => $data)
                     <tr>
-                       
+                       <td> <input type="checkbox" id="checkbox" name="delete[]" value="{{ $data->id }}"></td>
                       <td>{{ $subcats->firstItem() + $key }}</td>
                       <td>{{ $data->subcategory_name }}</td>
-                      <td>{{ $data->category->category_name }}</td>
+                      <td>{{ $data->Category->category_name }}</td>
                       <td>{{ $data->slug }}</td>
                       <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
                       <td class="text-center">
-                            <a class="btn btn-warning" href="{{ url('edit-category')}}/{{ $data->id }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ url('delete-category')}}/{{ $data->id }}">Delete</a>
+                            <a class="btn btn-warning" href="{{ route('editsubcategories',$data->slug) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ route('editsubcategories',$data->slug)}}">Delete</a>
                       </td>
                     </tr>
                     @empty
                     <tr>
                       <td colspan="10" class="text-center">No Data Avilable</td>
                     </tr>
-                    @endforelse                 
-                  </tbody>
+                    @endforelse
+                                 
+                  </tbody> 
                 </table>
+
+                
               </div>
               <!-- /.card-body -->
               {{ $subcats->links() }}
@@ -112,5 +131,10 @@
         "hideMethod": "fadeOut"
       }
       @endif
+
+      
+      
+      
+      
   </script>
   @endsection
