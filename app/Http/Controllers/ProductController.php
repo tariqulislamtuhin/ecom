@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
+use function PHPUnit\Framework\fileExists;
+
 class ProductController extends Controller
 {
     //
@@ -68,6 +70,13 @@ class ProductController extends Controller
         Product::where('slug', $slug)->first()->delete();
         return redirect()->action([ProductController::class, "ViewProducts"])->with('success', 'Product deleted.');
     }
+
+    # This code for force delete
+    // $old_image = \public_path("thumb/") . $product->thumbnail;
+    // if (fileExists($old_image)) {
+    //     unlink($old_image);
+    // }
+
     public function EditProduct($slug)
     {
         $product = Product::where('slug', $slug)->first();
@@ -95,7 +104,6 @@ class ProductController extends Controller
 
             if (file_exists($old_img)) {
                 unlink($old_img);
-                return 'done';
             }
             $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
             # $location = public_path() . '/nefolder/image' . $name;          #New Folder Create korte Dey na#
@@ -105,7 +113,7 @@ class ProductController extends Controller
         }
         $product->save();
 
-        return redirect()->action([ProductController::class, 'products'])->with('success', 'Product succesfully Updated');
+        return redirect()->action([ProductController::class, 'ViewProducts'])->with('success', 'Product succesfully Updated');
     }
     public function TrashedProduct()
     {

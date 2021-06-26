@@ -220,6 +220,7 @@
               </p>
             </a>            
           </li>
+
           <li class="nav-item @yield('catopen')">
             <a href="#" class="nav-link @yield('categoryactive')">
               <i class="nav-icon fas fa-list"></i>
@@ -250,6 +251,7 @@
               </li>              
             </ul>
           </li>
+
           <li class="nav-item @yield('scatopen')">
             <a href="#" class="nav-link @yield('scategoryactive')">
               <i class="nav-icon fas fa-list-alt"></i>
@@ -310,6 +312,33 @@
               </li>              
             </ul>
           </li>
+
+          <li class="nav-item @yield('sizeopen')">
+            <a href="#" class="nav-link @yield('sizeactive')">
+              <i class="nav-icon fas fa-shopping-cart"></i>
+              <p>
+                Sizes and Color
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">              
+              <li class="nav-item">
+                <a href="{{ route('CreateSize') }}" class="nav-link @yield('sizeviewactive')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sizes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('CreateColor') }}" class="nav-link @yield('colorviewactive')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Colors</p>
+                </a>
+              </li>             
+            </ul>
+          </li>
+
+          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

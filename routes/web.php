@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SizeAndColorController;
 use App\Http\Controllers\SubCategoryController;
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,15 @@ Route::get('/edit-product/{slug}', [ProductController::class, 'EditProduct'])->n
 Route::post('/update-product', [ProductController::class, 'UpdateProduct'])->name('UpdateProduct');
 Route::get('/delete-product/{slug}', [ProductController::class, 'DeleteProduct'])->name('DeleteProduct');
 Route::get('/deleted-product', [ProductController::class, 'TrashedProduct'])->name('TrashedProduct');
+
+
+#Size And Color Route
+Route::get('create-size', [SizeAndColorController::class, 'CreateSize'])->name('CreateSize');
+Route::post('post-size', [SizeAndColorController::class, 'PostSize'])->name('PostSize');
+Route::get('create-color', [SizeAndColorController::class, 'CreateColor'])->name('CreateColor');
+Route::post('post-color', [SizeAndColorController::class, 'PostColor'])->name('PostColor');
+
+
 
 
 

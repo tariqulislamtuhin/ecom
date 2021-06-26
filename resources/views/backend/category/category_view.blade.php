@@ -14,6 +14,7 @@ menu-is-opening menu-open active
 @section('viewcatactive')
 bg-success
 @endsection
+
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">

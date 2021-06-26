@@ -52,8 +52,9 @@ bg-success
                     <tr>
                       <th style="width: 10px">SL</th>
                       <th>Name</th>
-                      <th>Slug</th>
-                      <th>Created At</th>
+                      <th>Summery</th>
+                      <th>Thumbnail</th>
+                      <th>Deleted At</th>
                       <th class="text-center">Action</th>
                     </tr>
                   </thead>
@@ -62,9 +63,10 @@ bg-success
                     <tr>
                        
                       <td>{{ $products->firstItem() + $key }}</td>
-                      <td>{{ $product->category_name }}</td>
-                      <td>{{ $product->slug }}</td>
-                      <td>{{ $product->created_at->format('d-M-Y h:i:s a') }} ({{ $product->created_at->diffForHumans() }})</td>
+                      <td>{{ $product->title }}</td>
+                      <td>{{ $product->summery }}</td>
+                      <td><img src="{{ asset('asset/thumb/'.$product->thumbnail)}}" width="50" alt=""></td>
+                      <td>{{ $product->deleted_at->diffForHumans() }}</td>
                       <td class="text-center">
                             <a class="btn btn-Success" href="{{ url('restore-categories')}}/{{ $product->id }}">Restore</a>
                             <a class="btn btn-danger" href="{{ url('Permanent-delete-categories/')}}/{{ $product->id }}">Delete</a>
