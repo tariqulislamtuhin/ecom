@@ -1,28 +1,30 @@
 @extends('backend.master');
-@section('categoryactive')
+@section("content")
+
+@section('productactive')
 active
 @endsection
 
-@section('catopen')
+@section('productopen')
 menu-is-opening menu-open active
 @endsection
 
-@section('trashcatactive')
+@section('productviewcatactive')
 bg-success
 @endsection
-@section("content")
+
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6 block red">
-            <h1>Trash Table</h1>
+          <div class="col-sm-6">
+            <h1>Simple Tables</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ 'categories' }}">Categories</a></li>
-              <li class="breadcrumb-item active">Trashed Data</li>
+              <li class="breadcrumb-item"><a href="{{'dashboard'}}">Dashboard</a></li>
+              <li class="breadcrumb-item active">All Products</li>
             </ol>
           </div>
         </div>
@@ -36,9 +38,9 @@ bg-success
           <div class="col-md">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><strong>Trash</strong></h3>
-                <a class="float-right" href="{{ url('categories') }}">
-                  <i class="fa fa-list"> All Categories</i>
+                <h3 class="card-title"><strong>Product Table</strong></h3>
+                <a class="float-right" href="#">
+                  <i class="fa fa-plus"> Product</i>
                 </a>
               </div>
              
@@ -51,33 +53,37 @@ bg-success
                       <th style="width: 10px">SL</th>
                       <th>Name</th>
                       <th>Slug</th>
+                      <th>Thumbnail</th>
                       <th>Created At</th>
                       <th class="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @forelse ($datas as $key => $data)
+                    @forelse ($products as $key => $product)
                     <tr>
                        
-                      <td>{{ $datas->firstItem() + $key }}</td>
-                      <td>{{ $data->category_name }}</td>
-                      <td>{{ $data->slug }}</td>
-                      <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
+                      <td>{{ $products->firstItem() + $key }}</td>
+                      <td>{{ $product->title }}</td>
+                      <td>{{ $product->slug}}</td>
+                      <td>
+                        <img src="{{ asset('thumb/'.$product->thumbnail) }}" width="100" alt="">
+                      </td>
+                      <td>{{ $product->created_at->diffForHumans() }}</td>
                       <td class="text-center">
-                            <a class="btn btn-Success" href="{{ url('restore-categories')}}/{{ $data->id }}">Restore</a>
-                            <a class="btn btn-danger" href="{{ url('Permanent-delete-categories/')}}/{{ $data->id }}">Delete</a>
+                            <a class="btn btn-warning" href="{{ route('EditProduct', $product->slug) }}">Edit</a>
+                            <a class="btn btn-danger" href="{{ route('DeleteProduct',$product->slug )}}">Delete</a>
                       </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="10" class="text-center">No Data Avaibable</td>
+                      <td colspan="10" class="text-center">No Data Avilable</td>
                     </tr>
-                    @endforelse        
+                    @endforelse                 
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
-              {{ $datas->links() }}
+              {{ $products->links() }}
               {{-- <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
                   <li class="page-item"><a class="page-link" href="#">«</a></li>

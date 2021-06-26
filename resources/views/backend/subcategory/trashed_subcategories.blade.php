@@ -9,7 +9,7 @@ menu-is-opening menu-open active
 @endsection
 
 @section('strashcatactive')
-active
+bg-success
 @endsection
 
 
@@ -73,8 +73,8 @@ active
                       <td>{{ $data->slug }}</td>
                       <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
                       <td class="text-center">
-                            <a class="btn btn-warning" href="{{ route('editsubcategories',$data->slug) }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ route('editsubcategories',$data->slug)}}">Delete</a>
+                            <a class="btn btn-warning" href="{{ route('PermanentdeleteSubCategory',$data->slug) }}">Delete</a>
+                            <a class="btn btn-success" href="{{ route('PermanentrestoreSubCategory',$data->slug)}}">Restore</a>
                       </td>
                     </tr>
                     @empty

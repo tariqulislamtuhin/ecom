@@ -1,5 +1,8 @@
 @extends('backend.master');
 
+@section('title')
+Edit-Category
+@endsection
 
 @section('content')
 <div class="content-wrapper">

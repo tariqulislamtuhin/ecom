@@ -1,4 +1,7 @@
 @extends('backend.master');
+@section('title')
+Category
+@endsection
 @section("content")
 @section('categoryactive')
 active
@@ -9,7 +12,7 @@ menu-is-opening menu-open active
 @endsection
 
 @section('viewcatactive')
-active
+bg-success
 @endsection
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
@@ -17,12 +20,12 @@ active
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Simple Tables</h1>
+            <h1>Category Tables</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{'dashboard'}}">Dashboard</a></li>
-              <li class="breadcrumb-item active">Simple Tables</li>
+              <li class="breadcrumb-item"><a href="route('categories')">Categories</a></li>
+              <li class="breadcrumb-item active">All Category</li>
             </ol>
           </div>
         </div>
@@ -36,9 +39,9 @@ active
           <div class="col-md">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><strong>Bordered Table</strong></h3>
+                <h3 class="card-title"><strong>Category Table</strong></h3>
                 <a class="float-right" href="{{ url('add-categories') }}">
-                  <i class="fa fa-plus"> Add Category</i>
+                  <i class="fa fa-plus"> Category</i>
                 </a>
               </div>
              

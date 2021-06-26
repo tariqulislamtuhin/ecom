@@ -1,15 +1,17 @@
 @extends('backend.master');
-@section('categoryactive')
+
+@section('productactive')
 active
 @endsection
 
-@section('catopen')
+@section('productopen')
 menu-is-opening menu-open active
 @endsection
 
-@section('trashcatactive')
+@section('producttrashcatactive')
 bg-success
 @endsection
+
 @section("content")
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
@@ -36,7 +38,7 @@ bg-success
           <div class="col-md">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><strong>Trash</strong></h3>
+                <h3 class="card-title"><strong>Trashed Products</strong></h3>
                 <a class="float-right" href="{{ url('categories') }}">
                   <i class="fa fa-list"> All Categories</i>
                 </a>
@@ -56,16 +58,16 @@ bg-success
                     </tr>
                   </thead>
                   <tbody>
-                    @forelse ($datas as $key => $data)
+                    @forelse ($products as $key => $product)
                     <tr>
                        
-                      <td>{{ $datas->firstItem() + $key }}</td>
-                      <td>{{ $data->category_name }}</td>
-                      <td>{{ $data->slug }}</td>
-                      <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
+                      <td>{{ $products->firstItem() + $key }}</td>
+                      <td>{{ $product->category_name }}</td>
+                      <td>{{ $product->slug }}</td>
+                      <td>{{ $product->created_at->format('d-M-Y h:i:s a') }} ({{ $product->created_at->diffForHumans() }})</td>
                       <td class="text-center">
-                            <a class="btn btn-Success" href="{{ url('restore-categories')}}/{{ $data->id }}">Restore</a>
-                            <a class="btn btn-danger" href="{{ url('Permanent-delete-categories/')}}/{{ $data->id }}">Delete</a>
+                            <a class="btn btn-Success" href="{{ url('restore-categories')}}/{{ $product->id }}">Restore</a>
+                            <a class="btn btn-danger" href="{{ url('Permanent-delete-categories/')}}/{{ $product->id }}">Delete</a>
                       </td>
                     </tr>
                     @empty
@@ -77,7 +79,7 @@ bg-success
                 </table>
               </div>
               <!-- /.card-body -->
-              {{ $datas->links() }}
+              {{ $products->links() }}
               {{-- <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
                   <li class="page-item"><a class="page-link" href="#">«</a></li>

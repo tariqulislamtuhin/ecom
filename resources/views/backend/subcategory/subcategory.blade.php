@@ -9,7 +9,7 @@ menu-is-opening menu-open active
 @endsection
 
 @section('sviewcatactive')
-active
+bg-success
 @endsection
 
 @section("content")
@@ -23,8 +23,8 @@ active
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{'dashboard'}}">Dashboard</a></li>
-              <li class="breadcrumb-item active">Simple Tables</li>
+              <li class="breadcrumb-item"><a href="{{route('Subcategories')}}">Subcategories</a></li>
+              <li class="breadcrumb-item active">All Sub-category</li>
             </ol>
           </div>
         </div>
@@ -38,9 +38,9 @@ active
           <div class="col-md">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><strong>Bordered Table</strong></h3>
+                <h3 class="card-title">Sub-Category Table</h3>
                 <a class="float-right" href="{{ url('add-subcategory') }}">
-                  <i class="fa fa-plus"> Add SubCategory</i>
+                  <i class="fa fa-plus"> SubCategory</i>
                 </a>
               </div>
              
@@ -50,8 +50,7 @@ active
                 <table class="table table-bordered">
                   
                   <thead>
-                    <tr>
-                      <th ><input type="checkbox" id="checkall"> All</th>
+                    <tr>                     
                       <th style="width: 10px">SL</th>
                       <th>Sub Category</th>
                       <th>Category</th>
@@ -64,7 +63,6 @@ active
                     
                     @forelse ($subcats as $key => $data)
                     <tr>
-                       <td> <input type="checkbox" id="checkbox" name="delete[]" value="{{ $data->id }}"></td>
                       <td>{{ $subcats->firstItem() + $key }}</td>
                       <td>{{ $data->subcategory_name }}</td>
                       <td>{{ $data->Category->category_name }}</td>
@@ -72,7 +70,7 @@ active
                       <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
                       <td class="text-center">
                             <a class="btn btn-warning" href="{{ route('editsubcategories',$data->slug) }}">Edit</a>
-                            <a class="btn btn-danger" href="{{ route('editsubcategories',$data->slug)}}">Delete</a>
+                            <a class="btn btn-danger" href="{{ route('deletesubcategory',$data->slug)}}">Delete</a>
                       </td>
                     </tr>
                     @empty

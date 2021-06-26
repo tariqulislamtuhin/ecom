@@ -1,5 +1,9 @@
 @extends('backend.master');
 
+@section('title')
+Add-Category
+@endsection
+
 @section('categoryactive')
 active
 @endsection
@@ -9,7 +13,7 @@ menu-is-opening menu-open active
 @endsection
 
 @section('adcatactive')
-active
+bg-success
 @endsection
 
 @section('content')
@@ -23,8 +27,8 @@ active
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ url('categories') }}">Sell All Categories</a></li>
-              <li class="breadcrumb-item active">Add a Category</li>
+              <li class="breadcrumb-item"><a href="{{ route('categories') }}">Categories</a></li>
+              <li class="breadcrumb-item active"> Create Category</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->

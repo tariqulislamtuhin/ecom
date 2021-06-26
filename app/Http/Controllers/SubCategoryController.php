@@ -69,13 +69,13 @@ class SubCategoryController extends Controller
         return view('backend.subcategory.trashed_subcategories', compact('deletedsubcategory'));
     }
 
-    public function deleteSubCategory($slug)
+    public function Deletesubcategories($slug)
     {
         # code...
-        SubCategory::find($slug)->first()->delete();
+        SubCategory::where('slug', $slug)->first()->delete();
         // SubCategory::find($slug)->first();
         // return 'OK';
-        return back();
+        return redirect()->action([SubCategoryController::class, 'Subcategories'])->with('success', 'Deletation Successful.');
     }
 
 
@@ -101,5 +101,18 @@ class SubCategoryController extends Controller
         } else {
             return back();
         }
+    }
+
+    public function PermanentdeleteSubCategory($slug)
+    {
+        SubCategory::onlyTrashed()->where('slug', $slug)->first()->forceDelete();
+        return redirect()->action([SubCategoryController::class, 'TrashSubCategory'])->with('success', 'delted sunccesful.');
+    }
+
+    public function PermanentrestoreSubCategory($slug)
+    {
+        # code...
+        SubCategory::onlyTrashed()->where('slug', $slug)->restore();
+        return redirect()->action([SubCategoryController::class, 'TrashSubCategory'])->with('success', 'Restore sunccesful.');
     }
 }
