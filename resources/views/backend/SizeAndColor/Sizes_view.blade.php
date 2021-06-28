@@ -1,134 +1,139 @@
 @extends('backend.master');
 @section('title')
-Category
+    Category
 @endsection
-@section("content")
+@section('content')
 @section('sizeactive')
-active
+    active
 @endsection
 
 @section('sizeopen')
-menu-is-opening menu-open active
+    menu-is-opening menu-open active
 @endsection
 
 @section('sizeviewactive')
-bg-danger
+    bg-success
 @endsection
 
 <div class="content-wrapper" style="min-height: 1299.69px;">
-    
+
     <div class="content-header">
         <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1 class="m-0">New Size</h1>
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">New Size</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ route('categories') }}">Categories</a></li>
+                        <li class="breadcrumb-item active"> Create Category</li>
+                    </ol>
+                </div>
             </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ route('categories') }}">Categories</a></li>
-                <li class="breadcrumb-item active"> Create Category</li>
-              </ol>
-            </div>
-          </div>
         </div>
-      </div>
-      <section class="content md-6">
+    </div>
+    <section class="content md-6">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col-md">
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title"><strong>Category Table</strong></h3>
-                  <a class="float-right" href="{{ url('add-categories') }}">
-                    <i class="fa fa-plus"> Category</i>
-                  </a>
-                </div>
+            <div class="row">
+                <div class="col-md">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><strong>Category Table</strong></h3>
+                            <a class="float-right" href="{{ url('add-categories') }}">
+                                <i class="fa fa-plus"> Category</i>
+                            </a>
+                        </div>
 
-                <div class="card-body">
-                  <table class="table table-bordered">
-                    
-                    <thead>
-                      <tr>
-                        <th style="width: 10px">SL</th>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th>Created At</th>
-                        <th class="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @forelse ($datas as $key => $data)
-                      <tr>
-                         
-                        <td>{{ $datas->firstItem() + $key }}</td>
-                        <td>{{ $data->size_name }}</td>
-                        <td>{{ $data->slug }}</td>
-                        <td>{{ $data->created_at->format('d-M-Y h:i:s a') }} ({{ $data->created_at->diffForHumans() }})</td>
-                        <td class="text-center">
-                              <a class="btn btn-warning" href="{{ url('edit-category')}}/{{ $data->id }}">Edit</a>
-                              <a class="btn btn-danger" href="{{ url('delete-category')}}/{{ $data->id }}">Delete</a>
-                        </td>
-                      </tr>
-                      @empty
-                      <tr>
-                        <td colspan="10" class="text-center">No Data Avilable</td>
-                      </tr>
-                      @endforelse                 
-                    </tbody>
-                  </table>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px">SL</th>
+                                        <th>Name</th>
+                                        <th>Slug</th>
+                                        <th>Created At</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($datas as $key => $data)
+                                        <tr>
+
+                                            <td>{{ $datas->firstItem() + $key }}</td>
+                                            <td>{{ $data->size_name }}</td>
+                                            <td>{{ $data->slug }}</td>
+                                            <td>{{ $data->created_at->format('d-M-Y h:i:s a') }}
+                                                ({{ $data->created_at->diffForHumans() }})</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-warning"
+                                                    href="{{ url('edit-category') }}/{{ $data->id }}">Edit</a>
+                                                <a class="btn btn-danger"
+                                                    href="{{ url('delete-category') }}/{{ $data->id }}">Delete</a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="10" class="text-center">No Data Avilable</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                        {{ $datas->links() }}
+                    </div>
                 </div>
-                {{ $datas->links() }}
-              </div>  
             </div>
-          </div>
         </div>
-      </section>
+    </section>
 
 
-      <section class="content mt-5">
-          <div class="col-md mx-auto">
-              <!-- general form elements -->
-              <div class="card card-primary">
+    <section class="content mt-5">
+        <div class="col-md mx-auto">
+            <!-- general form elements -->
+            <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">New Category</h3>
+                    <h3 class="card-title">New Category</h3>
                 </div>
 
                 <form method="POST" action="{{ route('PostSize') }}">
-                  @csrf
-                  <div class="card-body">
-                    <div class="form-group">
-                      <label for="name">Size Name</label>
-                      <input type="text" class="form-control @error('size_name') is-invalid @enderror" id="size_name" placeholder="Size name" name="size_name">
-                    </div>
-                    @error('size_name')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    <div class="form-group">
-                      <label for="slug"> Slug </label>
-                      <input type="readonly" class="form-control @error('slug') is-invalid @enderror" id="slug" placeholder="Slug"name="slug">
-                    </div>
-                    @error('slug')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </div>
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="name">Size Name</label>
+                            <input type="text" class="form-control @error('size_name') is-invalid @enderror"
+                                id="size_name" placeholder="Size name" name="size_name">
+                        </div>
+                        @error('size_name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        <div class="form-group">
+                            <label for="slug"> Slug </label>
+                            <input type="readonly" class="form-control @error('slug') is-invalid @enderror" id="slug"
+                                placeholder="Slug" name="slug">
+                        </div>
+                        @error('slug')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
                 </form>
-              </div>
-  
             </div>
-      </section>
 
-  </div>
-  
+        </div>
+    </section>
+
+</div>
+
 @endsection
 
-  @section("toastr_js")
-  <script>
+@section('toastr_js')
+<script>
     @if (session('success'))
-    Command: toastr["success"]("{{ session('success') }}")
-
-      toastr.options = {
+        Command: toastr["success"]("{{ session('success') }}")
+    
+        toastr.options = {
         "closeButton": true,
         "debug": false,
         "newestOnTop": false,
@@ -144,15 +149,13 @@ bg-danger
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
-      }
-      @endif
+        }
+    @endif
 
 
 
-      $('#size_name').keyup(function() {
-      $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
+    $('#size_name').keyup(function() {
+        $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g, "-"));
     });
-
-
-  </script>
-  @endsection
+</script>
+@endsection
