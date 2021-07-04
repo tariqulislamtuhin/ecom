@@ -10,8 +10,10 @@ class CategoryController extends Controller
 {
     function Category()
     {
-        $datas = Category::OrderBY('created_at', 'desc')->paginate(10);
-        return view('backend.category.category_view', compact('datas'));
+        // $datas = Category::paginate(10);
+        return view('backend.category.category_view', [
+            'datas' => Category::orderBY('created_at')->paginate(10),
+        ]);
     }
 
     function CategoryForm()
@@ -60,8 +62,10 @@ class CategoryController extends Controller
 
     function TrashCategory()
     {
-        $datas = Category::onlyTrashed('deleted_at', 'desc')->paginate(10);
-        return view("backend.category.trashed_categories", compact('datas'));
+        // $datas = Category::onlyTrashed('deleted_at', 'desc')->paginate(10);
+        return view("backend.category.trashed_categories", [
+            'datas' => Category::onlyTrashed('deleted_at', 'desc')->paginate(10),
+        ]);
     }
 
 

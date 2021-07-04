@@ -72,6 +72,8 @@ Route::get('create-size', [SizeAndColorController::class, 'CreateSize'])->name('
 Route::post('post-size', [SizeAndColorController::class, 'PostSize'])->name('PostSize');
 Route::get('create-color', [SizeAndColorController::class, 'CreateColor'])->name('CreateColor');
 Route::post('post-color', [SizeAndColorController::class, 'PostColor'])->name('PostColor');
+Route::get('delete-color/{id}', [SizeAndColorController::class, 'DeleteColor'])->name('DeleteColor');
+Route::get('delete-size/{id}', [SizeAndColorController::class, 'DeleteSize'])->name('DeleteSize');
 
 
 

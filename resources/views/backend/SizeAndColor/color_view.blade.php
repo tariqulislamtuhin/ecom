@@ -1,18 +1,18 @@
 @extends('backend.master');
 @section('title')
-    Category
+Category
 @endsection
 @section('content')
 @section('sizeactive')
-    active
+active
 @endsection
 
 @section('sizeopen')
-    menu-is-opening menu-open active
+menu-is-opening menu-open active
 @endsection
 
 @section('colorviewactive')
-    bg-success
+bg-success
 @endsection
 
 <div class="content-wrapper" style="min-height: 1299.69px;">
@@ -58,24 +58,22 @@
                                 </thead>
                                 <tbody>
                                     @forelse ($datas as $key => $data)
-                                        <tr>
+                                    <tr>
 
-                                            <td>{{ $datas->firstItem() + $key }}</td>
-                                            <td>{{ $data->color_name }}</td>
-                                            <td>{{ $data->slug }}</td>
-                                            <td>{{ $data->created_at->format('d-M-Y h:i:s a') }}
-                                                ({{ $data->created_at->diffForHumans() }})</td>
-                                            <td class="text-center">
-                                                <a class="btn btn-warning"
-                                                    href="{{ url('edit-category') }}/{{ $data->id }}">Edit</a>
-                                                <a class="btn btn-danger"
-                                                    href="{{ url('delete-category') }}/{{ $data->id }}">Delete</a>
-                                            </td>
-                                        </tr>
+                                        <td>{{ $datas->firstItem() + $key }}</td>
+                                        <td>{{ $data->color_name }}</td>
+                                        <td>{{ $data->slug }}</td>
+                                        <td>{{ $data->created_at->format('d-M-Y h:i:s a') }}
+                                            ({{ $data->created_at->diffForHumans() }})</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-danger colorDelete" data-id="{{$data->id}}"
+                                                {{-- href="{{ route('DeleteColor',$data->id) }}" --}}>Delete</a>
+                                        </td>
+                                    </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="10" class="text-center">No Data Avilable</td>
-                                        </tr>
+                                    <tr>
+                                        <td colspan="10" class="text-center">No Data Avilable</td>
+                                    </tr>
                                     @endforelse
                                 </tbody>
                             </table>
@@ -102,10 +100,11 @@
                         <div class="form-group">
                             <label for="name">Color Name</label>
                             <input type="text" class="form-control @error('color_name') is-invalid @enderror"
-                                id="color_name" placeholder="Color name" name="color_name">
+                                id="color_name" placeholder="Color name" name="color_name"
+                                value="{{old('color_name')}}">
                         </div>
                         @error('color_name')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
                             <label for="slug"> Slug </label>
@@ -113,7 +112,7 @@
                                 placeholder="Color Slug" name="slug">
                         </div>
                         @error('slug')
-                            <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -132,7 +131,7 @@
 <script>
     @if (session('success'))
         Command: toastr["success"]("{{ session('success') }}")
-    
+
         toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -153,6 +152,32 @@
     @endif
     $('#color_name').keyup(function() {
         $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g, "-"));
+    });
+
+    $('.colorDelete').click(function(){
+        let id = $(this).attr("data-id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        if (result.isConfirmed) {
+
+            window.location.href = "/delete-color/"+id;
+            Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            )
+
+        }
+
+        });
     });
 </script>
 @endsection

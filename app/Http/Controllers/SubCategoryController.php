@@ -12,9 +12,11 @@ class SubCategoryController extends Controller
 {
     public function Subcategories()
     {
-        $subcats = SubCategory::paginate(10);
+        // $subcats = SubCategory::with('category')->paginate(10);
         // $cats = Category::all();
-        return view('backend.subcategory.subcategory', compact('subcats'));
+        return view('backend.subcategory.subcategory', [
+            'subcats' => SubCategory::with("category")->paginate(10),
+        ]);
     }
     public function AddSubcategories()
     {
@@ -54,7 +56,7 @@ class SubCategoryController extends Controller
 
                     SubCategory::onlyTrashed()->findOrFail($restoreId)->restore($restoreId);
                 }
-                return back()->with('success', 'Deletation successfull.');
+                return back()->with('success', 'Restore successfull.');
             }
         } else {
             return back();
@@ -92,8 +94,10 @@ class SubCategoryController extends Controller
     {
         $updateSub = SubCategory::findorFail($req->id);
 
-        // $count = SubCategory::where('slug', $req->slug)->count();
-        if (SubCategory::where('slug', $req->slug)->count() <= 1) {
+        # $count = SubCategory::where('slug', $req->slug)->count();
+        // if (SubCategory::where('slug', $req->slug)->count() <= 1) {
+
+        if (SubCategory::where('slug', $req->slug)->where('id', '!=', $req->id)) {
             $updateSub->subcategory_name = $req->subcategory_name;
             $updateSub->slug = Str::slug($req->slug);
             $updateSub->save();

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\color;
 use App\Models\product;
+use App\Models\Size;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -23,17 +25,28 @@ class ProductController extends Controller
 
     public function AddProduct()
     {
-        $cats = Category::all();
-        return view('backend.Product.product_form', compact('cats'));
+
+        return view('backend.Product.product_form', [
+            'cats' => Category::all(),
+            'colors' => color::all(),
+            'sizes' => Size::all(),
+
+        ]);
     }
     public function PostProduct(Request $request)
     {
+        // return $request->all();
         $request->validate([
             'thumbnail' => 'required|mimes:jpeg,jpg,png',
             'title' => 'max:255|required|unique:products',
             'category_id' => 'required',
             'subcategory_id' => 'required',
             'summery' => 'required|min:10|max:255',
+            'quantity[]' => 'required|numeric',
+            'regular_price[]' => 'required|numeric',
+            'sale_price[]' => 'required|numeric',
+        ], [
+            'numeric' => 'please! enter number'
         ]);
 
         $slug = str::slug($request->title);
@@ -58,7 +71,7 @@ class ProductController extends Controller
     }
 
 
-    public function GetSubCat($id)                  // Here API 
+    public function GetSubCat($id)                  // Here API
     {
         $scat = SubCategory::where('category_id', $id)->get();
         return response()->json($scat);
