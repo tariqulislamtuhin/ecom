@@ -23,8 +23,8 @@ bg-success
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Sell All Categories</a></li>
-                        <li class="breadcrumb-item active">New Product Form</li>
+                        <li class="breadcrumb-item"><a href="{{route('products.view')}}">Products</a></li>
+                        <li class="breadcrumb-item active">Add Product</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -62,8 +62,8 @@ bg-success
 
                     <div class="form-group">
                         <label for="thumbnail">Product Thumbnail </label>
-                        <input type="file" class="form-control @error('thumbnail') is-invalid @enderror"
-                            id="thumbnailid" placeholder="thumbnail" name="thumbnail">
+                        <input type="file" class="form-control-file @error('thumbnail') is-invalid @enderror"
+                            id="thumbnailid" placeholder="thumbnail" name="thumbnail" value="{{old('thumbnail')}}">
                     </div>
                     @error('thumbnail')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -98,7 +98,7 @@ bg-success
                     <div class="form-group">
                         <label for="summery"> Summery </label>
                         <input type="text" class="form-control @error('summery') is-invalid @enderror" id="summery"
-                            placeholder="Summery" name="summery">
+                            placeholder="Summery" name="summery" value="{{old('summery')}}">
                     </div>
                     @error('summery')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -107,7 +107,7 @@ bg-success
                     <div class="form-group">
                         <label for="slug"> Description </label>
                         <textarea name="description" class="form-control @error('description') is-invalid @enderror"
-                            id="description" placeholder="Description"></textarea>
+                            id="description" placeholder="Description">{{old('description')}}</textarea>
                     </div>
                     @error('description')
                     <div class="alert alert-danger">{{ $message }}</div>
@@ -116,8 +116,16 @@ bg-success
                     <div id="dynamic-field-1" class="form-group dynamic-field">
                         {{-- <label for="field" class="font-weight-bold">Field 1</label>
                         <input type="text" id="field" class="form-control" name="field[]" /> --}}
+
                         <div class="row">
-                            <div class="col-3 form-group">
+                            <div class="col-2 form-group">
+                                <label for="">Image</label>
+                                <input type="file" name="image[]" class="form-control-file" value="">
+                                @error('image[]')
+                                <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-2 form-group">
                                 <label for="color_id">Color</label>
                                 <select name="color_id[]" id="color_id" class="form-control">
                                     <option value>Select</option>
@@ -125,11 +133,8 @@ bg-success
                                     <option value="{{$color->id}}">{{$color->color_name}}</option>
                                     @endforeach
                                 </select>
-
-
-
                             </div>
-                            <div class="col-3 form-group">
+                            <div class="col-2 form-group">
                                 <label for="size_id">Size</label>
                                 <select name="size_id[]" id="size_id" class="form-control">
                                     <option value>Select</option>
@@ -163,15 +168,16 @@ bg-success
                                 <div class="alert alert-danger font-size-sm">{{ $message }}</div>
                                 @enderror
                             </div>
+
                         </div>
                     </div>
                     <div class="clearfix mt-4">
                         <button type="button" id="add-button"
                             class="btn btn-secondary float-left text-uppercase shadow-sm"><i
-                                class="fas fa-plus fa-fw"></i> Add</button>
+                                class="fas fa-plus fa-fw"></i> Add </button>
                         <button type="button" id="remove-button"
                             class="btn btn-secondary float-left text-uppercase ml-1" disabled="disabled"><i
-                                class="fas fa-minus fa-fw"></i> Remove</button>
+                                class="fas fa-minus fa-fw"></i> Remove </button>
                     </div>
 
                     <div class="card-footer">
@@ -183,6 +189,7 @@ bg-success
 
 
                 </form>
+
             </div>
             <!-- /.card -->
 

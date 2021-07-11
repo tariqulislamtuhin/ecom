@@ -15,7 +15,7 @@ class SubCategoryController extends Controller
         // $subcats = SubCategory::with('category')->paginate(10);
         // $cats = Category::all();
         return view('backend.subcategory.subcategory', [
-            'subcats' => SubCategory::with("category")->paginate(10),
+            'subcats' => SubCategory::with(["Category", 'Product'])->paginate(10),
         ]);
     }
     public function AddSubcategories()

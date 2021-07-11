@@ -48,7 +48,7 @@ class SizeAndColorController extends Controller
         ]);
 
         $color = new color();
-        $color->color_name = Str::lower($request->color_name);
+        $color->color_name = Str::ucfirst($request->color_name);
         $color->slug = Str::slug($request->color_name . ' size');
         $color->save();
         return back();

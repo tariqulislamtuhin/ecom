@@ -12,20 +12,17 @@ class CategoryController extends Controller
     {
         // $datas = Category::paginate(10);
         return view('backend.category.category_view', [
-            'datas' => Category::orderBY('created_at')->paginate(10),
+            'datas' => Category::with('getSubcategories', 'getProducts')->orderBY('created_at', 'desc')->paginate(10),
         ]);
     }
 
     function CategoryForm()
     {
-
         return view('backend.category.category_form');
     }
 
     function PostCategory(Request $request)
     {
-
-        // return $request->all();
         $request->validate([
             'category_name' => 'required| min:3 | unique:categories',
             'slug' => 'required|unique:categories',

@@ -16,11 +16,12 @@ class CreateAtrributesTable extends Migration
         Schema::create('atrributes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
-            $table->foreignId('color_id');
-            $table->foreignId('size_id');
+            $table->foreignId('color_id')->nullable();
+            $table->foreignId('size_id')->nullable();
             $table->string('quantity');
-            $table->string('regular_price');
-            $table->string('sale_price');
+            $table->string('regular_price')->nullable();
+            $table->string('sale_price')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

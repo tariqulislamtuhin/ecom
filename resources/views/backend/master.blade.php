@@ -225,6 +225,7 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
                         <li class="nav-item ">
                             <a href="{{ route('dashboard') }}" class="nav-link @yield('dashboardactive')">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -354,6 +355,29 @@
                                 </li>
                             </ul>
                         </li>
+
+
+
+
+
+
+
+
+                        {{-- logout --}}
+                        <form id="form-logout" action="{{route('logout')}}" method="POST">
+                            <li class="nav-item ">
+                                <a href="{{ route('logout') }}" class="nav-link"
+                                    onclick="event.preventDefault();document.getElementById('form-logout').submit()">
+                                    <i class="nav-icon  fas fa-sign-out-alt"></i>
+                                    <p class="btn btn-outline-danger">
+                                        Logout
+                                        {{-- <i class="right fas fa-angle-left"></i> --}}
+                                    </p>
+                                </a>
+                            </li>
+
+                            @csrf
+                        </form>
 
 
                     </ul>
