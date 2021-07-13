@@ -71,13 +71,15 @@ class SubCategoryController extends Controller
         return view('backend.subcategory.trashed_subcategories', compact('deletedsubcategory'));
     }
 
-    public function Deletesubcategories($slug)
+    public function Deletesubcategories($id)
     {
-        # code...
-        SubCategory::where('slug', $slug)->first()->delete();
-        // SubCategory::find($slug)->first();
-        // return 'OK';
-        return redirect()->action([SubCategoryController::class, 'Subcategories'])->with('success', 'Deletation Successful.');
+        $scat = SubCategory::with('Product')->findOrFail($id);
+
+        if ($scat->Product->count() < 1) {
+            SubCategory::findOrFail($id)->delete();
+            return redirect()->action([SubCategoryController::class, 'Subcategories'])->with('success', 'Deletation Successful.');
+        }
+        return redirect()->action([SubCategoryController::class, 'Subcategories'])->with("error", "Can't Delete.");
     }
 
 

@@ -9,9 +9,11 @@ use App\Models\product;
 use App\Models\Size;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
+use Throwable;
 
 use function PHPUnit\Framework\fileExists;
 use function PHPUnit\Framework\isEmpty;
@@ -119,10 +121,14 @@ class ProductController extends Controller
         return view('backend.Product.edit_product_form', compact('product', 'cats', 'scat', 'colors', 'sizes'));
     }
 
+    ############## Product Update ##############
+
     public function UpdateProduct(Request $request)
     {
         // $attr = Atrribute::findorFail($request->att_id[0]);
+
         // return $request->all();
+
         $slug = str::slug($request->title);
         $product = Product::with('getCategory', 'getSubCategory', 'Atrribute')->findorFail($request->product_id);
         $product->title = $request->title;
@@ -131,7 +137,6 @@ class ProductController extends Controller
         $product->subcategory_id = $request->subcategory_id;
         $product->summery = $request->summery;
         $product->description = $request->description;
-        // $product->thumbnail = $request->thumbnail;
 
         if ($request->hasFile('thumbnail')) {
 
@@ -142,13 +147,16 @@ class ProductController extends Controller
                 unlink($old_img);
             }
             $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
-            # $location = public_path() . '/nefolder/image' . $name;
-            # File::makeDirectory($location, 0777, true, true);
+
+            ############## $location = public_path() . '/nefolder/image' . $name; ##############
+            ############## File::makeDirectory($location, 0777, true, true); ##############
+
             Image::make($image)->save(\public_path('thumb/' . $name), 70);
             $product->thumbnail  = $name;
         }
         $product->save();
 
+        ############## Edit Image Attribute Section ##############
 
         if ($request->hasFile('image')) {
             $images = $request->file('image');
@@ -166,6 +174,9 @@ class ProductController extends Controller
             }
         }
 
+
+        ############## New Attribute Section ##############
+
         foreach ($request->color_id as $key => $color) {
 
             $attr = Atrribute::findorFail($request->att_id[$key]);
@@ -177,10 +188,37 @@ class ProductController extends Controller
             $attr->sale_price = $request->sale_price[$key];
             $attr->save();
         }
+        ############## Edit New Attribute Section ##############
 
+        if ($request->hasFile('update_image')) {
 
+            $images = $request->file('update_image');
+            foreach ($request->update_color_id as $key => $val) {
+                // try {
+
+                if (!$val == null) {
+                    $attr = new Atrribute();
+                    $attr->product_id = $product->id;
+                    $attr->color_id = $val;
+                    $attr->size_id = $request->update_size_id[$key];
+                    $attr->quantity = $request->update_quantity[$key];
+                    $attr->regular_price = $request->update_regular_price[$key];
+                    $attr->sale_price = $request->update_sale_price[$key];
+                    $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . $images[$key]->getClientOriginalExtension();
+                    Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
+                    $attr->save();
+                }
+                // } catch (Throwable $e) {
+
+                //     return redirect()->action([ProductController::class, 'ViewProducts'])->with('error', $e);
+                // }
+            }
+        }
         return redirect()->action([ProductController::class, 'ViewProducts'])->with('success', 'Product succesfully Updated');
     }
+
+
+
 
     public function TrashedProduct()
     {

@@ -12,7 +12,7 @@ class CategoryController extends Controller
     {
         // $datas = Category::paginate(10);
         return view('backend.category.category_view', [
-            'datas' => Category::with('getSubcategories', 'getProducts')->orderBY('created_at', 'desc')->paginate(10),
+            'datas' => Category::with('getProducts')->orderBY('created_at', 'desc')->paginate(10),
         ]);
     }
 
@@ -38,8 +38,13 @@ class CategoryController extends Controller
 
     function DeleteCategory($id)
     {
-        Category::findorFail($id)->delete();
-        return back()->with("success", "Category deleted succesfully");
+        $cat =  Category::with('getSubcategories')->find($id);
+        if ($cat->getSubcategories->count() < 1) {
+            Category::findorFail($id)->delete();
+            return back()->with("success", "Category deleted succesfully");
+        } else {
+            return back()->with("error", "Cant delete Category");
+        }
     }
 
     function EditCategory($id)

@@ -21,7 +21,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    return view('frontend.main', [
+        "go" => "go",
+    ]);
 });
 
 // Route::get('/dashboard', function () {

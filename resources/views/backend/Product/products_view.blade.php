@@ -61,7 +61,6 @@ bg-success
                                 </thead>
                                 <tbody>
                                     @forelse ($products as $key => $product)
-
                                     <tr>
 
                                         <td>{{ $products->firstItem() + $key }}</td>
@@ -71,20 +70,21 @@ bg-success
                                             @php
                                             $unique = $product->Atrribute->unique('color_id');
                                             @endphp
+
                                             @foreach ($unique as $item)
                                             <div class="row">
                                                 <div class="col">
-                                                    <ul style="color: {{$item->getColor->color_name}};border-style:dotted; background-color:black;
-                                                border-color:{{$item->getColor->color_name}};">
+                                                    <ul>
                                                         {{$item->getColor->color_name}}
                                                     </ul>
                                                 </div>
+
                                                 <div class="col">
-                                                    <img src="{{asset('images/'.$item->image)}}" width="75" height="75"
+                                                    <img src="{{asset('images/'.$item->image)}}" width="25"
                                                         alt="{{$item->image}}">
                                                 </div>
-
                                             </div>
+
 
                                             @endforeach
 
@@ -162,5 +162,98 @@ bg-success
         "hideMethod": "fadeOut"
       }
       @endif
+
+    @if (session('error'))
+    Command: toastr["error"]("{{ session('error') }}")
+
+    toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+    }
+    @endif
+
+
+
+
+    $(document).ready(function() {
+    var buttonAdd = $("#add-button");
+    var buttonRemove = $("#remove-button");
+    var className = ".dynamic-field";
+    var count = 0;
+    var field = "";
+    var maxFields = 5;
+
+    function totalFields() {
+    return $(className).length;
+    }
+
+    function addNewField() {
+    count = totalFields() + 1;
+    field = $("#dynamic-field-1").clone();
+    field.attr("id", "dynamic-field-" + count);
+    field.children("label").text("Field " + count);
+    field.find("input").val("");
+    $(className + ":last").after($(field));
+    }
+
+    function removeLastField() {
+    if (totalFields() > 1) {
+    $(className + ":last").remove();
+    }
+    }
+
+    function enableButtonRemove() {
+    if (totalFields() === 2) {
+    buttonRemove.removeAttr("disabled");
+    buttonRemove.addClass("shadow-sm");
+    }
+    }
+
+    function disableButtonRemove() {
+    if (totalFields() === 1) {
+    buttonRemove.attr("disabled", "disabled");
+    buttonRemove.removeClass("shadow-sm");
+    }
+    }
+
+    function disableButtonAdd() {
+    if (totalFields() === maxFields) {
+    buttonAdd.attr("disabled", "disabled");
+    buttonAdd.removeClass("shadow-sm");
+    }
+    }
+
+    function enableButtonAdd() {
+    if (totalFields() === (maxFields - 1)) {
+    buttonAdd.removeAttr("disabled");
+    buttonAdd.addClass("shadow-sm");
+    }
+    }
+
+    buttonAdd.click(function() {
+    addNewField();
+    enableButtonRemove();
+    disableButtonAdd();
+    });
+
+    buttonRemove.click(function() {
+    removeLastField();
+    disableButtonRemove();
+    enableButtonAdd();
+    });
+    });
 </script>
 @endsection

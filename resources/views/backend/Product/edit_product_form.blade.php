@@ -33,6 +33,8 @@ active
                 <form method="POST" action="{{ route('UpdateProduct') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
+                        {{-- product field Start --}}
+
                         <div class="form-group">
                             <label for="name">Product Name</label>
                             <input type="hidden" value="{{ $product->id }}" name="product_id">
@@ -110,17 +112,13 @@ active
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- <div class="form-group">
-                    <label for="slug"> Slug </label>
-                    <input type="text" class="form-control" id="slug" placeholder="Slug"name="slug">
-                  </div> --}}
-                        @php
-                        $count= 0;
-                        @endphp
+                        {{-- product field end --}}
+
+                        {{-- attribute field start here --}}
+
                         @foreach ($product->Atrribute as $key=> $attribute)
-                        <div id="dynamic-field-1" class="form-group dynamic-field">
-                            {{-- <label for="field" class="font-weight-bold">Field 1</label>
-                                        <input type="text" id="field" class="form-control" name="field[]" /> --}}
+                        <div class="form-group">
+
                             <div class="row">
                                 <input type="hidden" name="att_id[]" class="form-control" value="{{$attribute->id}}">
                                 <div class="col form-group">
@@ -134,10 +132,6 @@ active
                                     <label for="color_id">Color</label>
                                     <select name="color_id[]" id="color_id" class="form-control">
                                         <option value>Select</option>
-                                        {{-- @foreach ($scat as $scat)
-                                        <option @if ($product->subcategory_id == $scat->id) selected @endif
-                                            value="{{ $scat->id }}">{{ $scat->subcategory_name }}</option>
-                                        @endforeach --}}
                                         @foreach ($colors as $color)
                                         <option @if ($attribute->color_id == $color->id) selected @endif
                                             value="{{$color->id}}">{{$color->color_name}}
@@ -185,21 +179,91 @@ active
                                 </div>
                                 <div class="col form-group">
                                     <label for="">Image Preview</label>
-                                    <img class="form-control" src="{{asset('images/'.$attribute->image)}}"
-                                        alt="{{$product->title}}" width="50">
+                                    <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}"
+                                        width="50">
                                 </div>
 
                             </div>
                         </div>
                         @endforeach
-                        {{-- <div class="clearfix mt-4">
+
+                        {{-- attribute field start here --}}
+
+
+                        <div class="row">
+                            <h5 class=" col text-center">New Attributes</h5>
+                        </div>
+
+                        {{-- new attribute start here dynamically--}}
+
+
+                        <div id="dynamic-field-1" class="form-group dynamic-field">
+                            <div class="row">
+                                <div class="col-2 form-group">
+                                    <label for="">Image</label>
+                                    <input type="file" name="update_image[]" class="form-control-file" value="">
+                                    @error("update_image[]")
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="update_color_id">Color</label>
+                                    <select name="update_color_id[]" id="color_id" class="form-control">
+                                        <option value>Select</option>
+                                        @foreach ($colors as $color)
+                                        <option value="{{$color->id}}">{{$color->color_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="update_size_id">Size</label>
+                                    <select name="update_size_id[]" id="size_id" class="form-control">
+                                        <option value>Select</option>
+                                        @foreach ($sizes as $size)
+                                        <option value="{{$size->id}}">{{$size->size_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error("update_size_id[]")
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="">Quantity</label>
+                                    <input type="text" name="update_quantity[]" class="form-control" value="">
+                                    @error("update_quantity[]")
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-2 form-group">
+                                    <label for="">Price</label>
+                                    <input type="text" name="update_regular_price[]" class="form-control" value="">
+                                    @error("regular_price[]")
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="">Sale</label>
+                                    <input type="text" name="update_sale_price[]" class="form-control update_sale_price"
+                                        value="">
+                                    @error("update_sale_price[]")
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {{-- new attribute End here dynamically--}}
+
+                        <div class="clearfix mt-4">
                             <button type="button" id="add-button"
                                 class="btn btn-secondary float-left text-uppercase shadow-sm"><i
                                     class="fas fa-plus fa-fw"></i> Add </button>
                             <button type="button" id="remove-button"
                                 class="btn btn-secondary float-left text-uppercase ml-1" disabled="disabled"><i
                                     class="fas fa-minus fa-fw"></i> Remove </button>
-                        </div> --}}
+                        </div>
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -238,73 +302,75 @@ active
 
 
 
+$(document).ready(function() {
+var buttonAdd = $("#add-button");
+var buttonRemove = $("#remove-button");
+var className = ".dynamic-field";
+var count = 0;
+var field = "";
+var maxFields = 5;
 
-    $(document).ready(function() {
-    var buttonAdd = $("#add-button");
-    var buttonRemove = $("#remove-button");
-    var className = ".dynamic-field";
-    var count = {{$count}};
-    var field = "";
-    var maxFields = {{$count+5}};
+function totalFields() {
+return $(className).length;
+}
 
-    function totalFields() {
-    return $(className).length;
-    }
+function addNewField() {
+count = totalFields() + 1;
+field = $("#dynamic-field-1").clone();
+field.attr("id", "dynamic-field-" + count);
+field.children("label").text("Field " + count);
+field.find("input").val("");
+$(className + ":last").after($(field));
+}
 
-    function addNewField() {
-    count = totalFields() + 1;
-    field = $("#dynamic-field-1").clone();
-    field.attr("id", "dynamic-field-" + count);
-    field.children("label").text("Field " + count);
-    field.find("input").val("");
-    $(className + ":last").after($(field));
-    }
+function removeLastField() {
+if (totalFields() > 1) {
+$(className + ":last").remove();
+}
+}
 
-    function removeLastField() {
-    if (totalFields() > 1) {
-    $(className + ":last").remove();
-    }
-    }
+function enableButtonRemove() {
+if (totalFields() === 2) {
+buttonRemove.removeAttr("disabled");
+buttonRemove.addClass("shadow-sm");
+}
+}
 
-    function enableButtonRemove() {
-    if (totalFields() === 2) {
-    buttonRemove.removeAttr("disabled");
-    buttonRemove.addClass("shadow-sm");
-    }
-    }
+function disableButtonRemove() {
+if (totalFields() === 1) {
+buttonRemove.attr("disabled", "disabled");
+buttonRemove.removeClass("shadow-sm");
+}
+}
 
-    function disableButtonRemove() {
-    if (totalFields() === 1) {
-    buttonRemove.attr("disabled", "disabled");
-    buttonRemove.removeClass("shadow-sm");
-    }
-    }
+function disableButtonAdd() {
+if (totalFields() === maxFields) {
+buttonAdd.attr("disabled", "disabled");
+buttonAdd.removeClass("shadow-sm");
+}
+}
 
-    function disableButtonAdd() {
-    if (totalFields() === maxFields) {
-    buttonAdd.attr("disabled", "disabled");
-    buttonAdd.removeClass("shadow-sm");
-    }
-    }
+function enableButtonAdd() {
+if (totalFields() === (maxFields - 1)) {
+buttonAdd.removeAttr("disabled");
+buttonAdd.addClass("shadow-sm");
+}
+}
 
-    function enableButtonAdd() {
-    if (totalFields() === (maxFields - 1)) {
-    buttonAdd.removeAttr("disabled");
-    buttonAdd.addClass("shadow-sm");
-    }
-    }
+buttonAdd.click(function() {
+addNewField();
+enableButtonRemove();
+disableButtonAdd();
+});
 
-    buttonAdd.click(function() {
-    addNewField();
-    enableButtonRemove();
-    disableButtonAdd();
-    });
+buttonRemove.click(function() {
+removeLastField();
+disableButtonRemove();
+enableButtonAdd();
+});
+});
 
-    buttonRemove.click(function() {
-    removeLastField();
-    disableButtonRemove();
-    enableButtonAdd();
-    });
-    });
+
+
 </script>
 @endsection

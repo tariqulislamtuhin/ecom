@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
-    function about(){
+    // public function Frontend()
+    // {
+    //     return view('frontend.master');
+    // }
 
-        return view('pages.about',[
+    function about()
+    {
+
+        return view('pages.about', [
             'var' => 'About pages',
         ]);
     }
-    function contact(){
-        
-        return view('pages.contact',[
-            'var'=> 'Contact pages',
+    function contact()
+    {
+
+        return view('pages.contact', [
+            'var' => 'Contact pages',
         ]);
     }
 }
