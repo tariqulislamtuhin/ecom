@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Throwable;
-
 use function PHPUnit\Framework\fileExists;
 use function PHPUnit\Framework\isEmpty;
 
@@ -27,7 +26,7 @@ class ProductController extends Controller
         return view('backend.Product.products_view', compact('products'));
     }
 
-    public function AddProduct()
+    public function ProductForm()
     {
         return view('backend.Product.product_form', [
             'cats' => Category::all(),
@@ -36,7 +35,7 @@ class ProductController extends Controller
 
         ]);
     }
-    public function PostProduct(Request $request)
+    public function AddProduct(Request $request)
     {
 
         $request->validate([
@@ -73,7 +72,6 @@ class ProductController extends Controller
             $images = $request->file('image');
 
             foreach ($request->color_id as $key => $color) {
-
                 $attr = new Atrribute();
                 $attr->product_id = $products->id;
                 $attr->color_id = $color;
@@ -87,15 +85,18 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->action([ProductController::class, "AddProduct"])->with('success', 'Product Added Succesfully');
+        return redirect()->action([ProductController::class, "ProductForm"])->with('success', 'Product Added Succesfully');
     }
 
+    ############ Here API ############
 
-    public function GetSubCat($id)                  // Here API
+    public function GetSubCat($id)
     {
+
         $scat = SubCategory::where('category_id', $id)->get();
         return response()->json($scat);
     }
+
 
     public function DeleteProduct($slug)
     {
@@ -146,10 +147,11 @@ class ProductController extends Controller
             if (file_exists($old_img)) {
                 unlink($old_img);
             }
+
             $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
 
-            ############## $location = public_path() . '/nefolder/image' . $name; ##############
-            ############## File::makeDirectory($location, 0777, true, true); ##############
+            ##############   $location = public_path() . '/nefolder/image' . $name; ##############
+            ##############  File::makeDirectory($location, 0777, true, true);      ##############
 
             Image::make($image)->save(\public_path('thumb/' . $name), 70);
             $product->thumbnail  = $name;
@@ -159,17 +161,22 @@ class ProductController extends Controller
         ############## Edit Image Attribute Section ##############
 
         if ($request->hasFile('image')) {
+
             $images = $request->file('image');
+
             foreach ($images as $key => $image) {
                 $attr = Atrribute::findorFail($request->att_id[$key]);
                 $old_path = public_path('images/' . $attr->image);
                 if (!empty($request->image[$key])) {
+
                     if (file_exists($old_path)) {
+
                         unlink($old_path);
                     }
-                    $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . $images[$key]->getClientOriginalExtension();
+                    $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
                     Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
                 }
+
                 $attr->save();
             }
         }
@@ -194,9 +201,11 @@ class ProductController extends Controller
 
             $images = $request->file('update_image');
             foreach ($request->update_color_id as $key => $val) {
+
                 // try {
 
-                if (!$val == null) {
+                if ($val != null && $request->update_quantity[$key] != null) {
+
                     $attr = new Atrribute();
                     $attr->product_id = $product->id;
                     $attr->color_id = $val;
@@ -213,8 +222,32 @@ class ProductController extends Controller
                 //     return redirect()->action([ProductController::class, 'ViewProducts'])->with('error', $e);
                 // }
             }
+        } else {
+            foreach ($request->update_color_id as $key => $val) {
+
+                // try {
+
+                if ($val != null && $request->update_quantity[$key] != null) {
+
+                    $attr = new Atrribute();
+                    $attr->product_id = $product->id;
+                    $attr->color_id = $val;
+                    $attr->size_id = $request->update_size_id[$key];
+                    $attr->quantity = $request->update_quantity[$key];
+                    $attr->regular_price = $request->update_regular_price[$key];
+                    $attr->sale_price = $request->update_sale_price[$key];
+                    $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . 'png';
+                    // Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
+                    $attr->save();
+                }
+                // } catch (Throwable $e) {
+
+                //     return redirect()->action([ProductController::class, 'ViewProducts'])->with('error', $e);
+                // }
+            }
         }
-        return redirect()->action([ProductController::class, 'ViewProducts'])->with('success', 'Product succesfully Updated');
+        return back()->with('success', 'Product succesfully Updated');
+        // return redirect()->action([ProductController::class, 'ViewProducts'])->with('success', 'Product succesfully Updated');
     }
 
 
@@ -224,5 +257,12 @@ class ProductController extends Controller
     {
         $products = product::onlyTrashed('deleted_at', 'desc')->paginate(10);
         return view('backend.Product.trashed_products', compact('products'));
+    }
+
+
+    public function DeleteProductAttribute($id)
+    {
+        Atrribute::findorFail($id)->delete();
+        return back();
     }
 }

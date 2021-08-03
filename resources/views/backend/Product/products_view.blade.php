@@ -1,6 +1,10 @@
 @extends('backend.master');
-@section("content")
 
+@section('title')
+View-Product
+@endsection
+
+@section("content")
 @section('productactive')
 active
 @endsection
@@ -75,13 +79,13 @@ bg-success
                                             <div class="row">
                                                 <div class="col">
                                                     <ul>
-                                                        {{$item->getColor->color_name}}
+                                                        {{ $item->getColor->color_name ?? 'N/A' }}
                                                     </ul>
                                                 </div>
 
                                                 <div class="col">
-                                                    <img src="{{asset('images/'.$item->image)}}" width="25"
-                                                        alt="{{$item->image}}">
+                                                    <img src="{{asset('images/'.$item->image ?? $item->image)}}"
+                                                        width="25" alt="{{$item->image}}">
                                                 </div>
                                             </div>
 
@@ -96,9 +100,9 @@ bg-success
                                         <td>{{ $product->created_at->diffForHumans() }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-warning"
-                                                href="{{ route('EditProduct', $product->slug) }}">Edit</a>
+                                                href="{{ route('EditProduct', [$product->slug,$product->id]) }}">Edit</a>
                                             <a class="btn btn-danger"
-                                                href="{{ route('DeleteProduct',$product->slug )}}">Delete</a>
+                                                href="{{ route('DeleteProduct',[$product->slug,$product->id])}}">Delete</a>
                                         </td>
                                     </tr>
                                     @empty

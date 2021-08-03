@@ -1,5 +1,7 @@
 @extends('backend.master');
-
+@section('title')
+Add-Product
+@endsection
 @section('productactive')
 active
 @endsection
@@ -39,7 +41,7 @@ bg-success
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="POST" action="{{ route('product.post') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('AddProduct') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -228,9 +230,10 @@ bg-success
     $('#category_id').change(function(){
       var category_id = $(this).val();
       if (category_id) {
+
         $.ajax({
           type:"Get",
-          url:"{{ ('api/get-subcat-list') }}/"+category_id,
+          url:"{{ ('/api/get-subcat-list') }}/"+category_id,
           success:function(res){
             if (res) {
               $("#subcategory_id").empty();

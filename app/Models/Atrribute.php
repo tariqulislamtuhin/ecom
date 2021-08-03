@@ -19,4 +19,8 @@ class Atrribute extends Model
     {
         return $this->belongsTo(color::class, 'color_id');
     }
+    public function getSize()
+    {
+        return $this->belongsTo(Size::class, 'size_id', 'id');
+    }
 }

@@ -13,12 +13,12 @@ class Product extends Model
 
     public function getCategory()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function getSubCategory()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'subcategory_id', 'id');
     }
 
     public function Atrribute()

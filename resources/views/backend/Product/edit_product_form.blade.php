@@ -1,4 +1,7 @@
 @extends('backend.master');
+@section('title')
+Edit-product
+@endsection
 @section('productactive')
 active
 @endsection
@@ -15,7 +18,7 @@ active
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('products.view') }}">Products</a></li>
-                        <li class="breadcrumb-item active"> <a href="{{route('product.add')}}">Add a Product</a></li>
+                        <li class="breadcrumb-item active"> <a href="{{route('AddProduct')}}">Add a Product</a></li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -52,9 +55,13 @@ active
                                     placeholder="thumbnail" name="thumbnail">
                             </div>
                             <div class="col form-group">
-                                <label for="">Thumbnail Preview</label>
+                                <label for="">Thumbnail Preview: <strong class="text-danger">**</strong></label><br>
+                                @if (file_exists(public_path('thumb/'.$product->thumbnail)))
                                 <img src="{{asset('thumb/'.$product->thumbnail)}}" alt="{{$product->title}}"
                                     width="100">
+                                @else
+                                <strong class="text-danger">Not Available</strong>
+                                @endif
                             </div>
                         </div>
                         @error('thumbnail')
@@ -103,13 +110,13 @@ active
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        <div class="form-group">
+                        <div class="form-group mb-4">
                             <label for="slug"> Description </label>
                             <textarea name="description" class="form-control @error('description') is-invalid @enderror"
                                 id="description" placeholder="Description">{{ $product->description }}</textarea>
                         </div>
                         @error('description')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                        <div class="alert alert-danger mb-4">{{ $message }}</div><br>
                         @enderror
 
                         {{-- product field end --}}
@@ -127,6 +134,15 @@ active
                                     @error('image[]')
                                     <div class="alert alert-danger font-size-sm">{{ $message }}</div>
                                     @enderror
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Image<strong class="text-danger">**</strong></label><br>
+                                    @if (file_exists(public_path('images/' .$attribute->image)))
+                                    <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}"
+                                        width="50">
+                                    @else
+                                    <strong class="text-danger">Not Available</strong>
+                                    @endif
                                 </div>
                                 <div class="col form-group">
                                     <label for="color_id">Color</label>
@@ -177,10 +193,13 @@ active
                                     <div class="alert alert-danger font-size-sm">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col form-group">
-                                    <label for="">Image Preview</label>
-                                    <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}"
-                                        width="50">
+                                <div class="form-group">
+                                    <label for="">Delete</label>
+                                    <span>
+                                        <a class="form-control"
+                                            href="{{route('DeleteProductAttribute',$attribute->id)}}"><i
+                                                class="text-danger fas fa-trash-alt"></i></a>
+                                    </span>
                                 </div>
 
                             </div>
@@ -190,14 +209,14 @@ active
                         {{-- attribute field start here --}}
 
 
-                        <div class="row">
-                            <h5 class=" col text-center">New Attributes</h5>
-                        </div>
+                        <h3 class="mt-4 mb-4 text-center bg-blue"> <label class="text-white"> Add Attributes</label>
+                        </h3>
+
 
                         {{-- new attribute start here dynamically--}}
 
 
-                        <div id="dynamic-field-1" class="form-group dynamic-field">
+                        <div id="dynamic-field-1" class="form-group dynamic-field hiding">
                             <div class="row">
                                 <div class="col-2 form-group">
                                     <label for="">Image</label>
@@ -250,6 +269,7 @@ active
                                     <div class="alert alert-danger font-size-sm">{{ $message }}</div>
                                     @enderror
                                 </div>
+
 
                             </div>
                         </div>
@@ -307,20 +327,27 @@ var buttonAdd = $("#add-button");
 var buttonRemove = $("#remove-button");
 var className = ".dynamic-field";
 var count = 0;
-var field = "";
+var field = '';
 var maxFields = 5;
+var first = 1;
+$('.hiding').hide();
 
 function totalFields() {
 return $(className).length;
 }
 
 function addNewField() {
+$('.hiding').show();
 count = totalFields() + 1;
 field = $("#dynamic-field-1").clone();
 field.attr("id", "dynamic-field-" + count);
 field.children("label").text("Field " + count);
 field.find("input").val("");
 $(className + ":last").after($(field));
+if(first==1){
+    $("#dynamic-field-2").remove();
+    first = first+1;
+}
 }
 
 function removeLastField() {
@@ -358,18 +385,45 @@ buttonAdd.addClass("shadow-sm");
 }
 
 buttonAdd.click(function() {
-addNewField();
-enableButtonRemove();
-disableButtonAdd();
+    addNewField();
+    enableButtonRemove();
+    disableButtonAdd();
 });
 
 buttonRemove.click(function() {
-removeLastField();
-disableButtonRemove();
-enableButtonAdd();
-});
+    removeLastField();
+    disableButtonRemove();
+    enableButtonAdd();
+    });
 });
 
+    $('#category_id').change(function(){
+        var category_id = $(this).val();
+        if (category_id) {
+        $.ajax({
+            type:"Get",
+            url:"{{ ('/api/get-subcat-list') }}/"+ category_id,
+            success:function(res){
+                if (res) {
+                $("#subcategory_id").empty();
+                $("#subcategory_id").append('<option>Select</option>');
+                $.each(res,function(key,value){
+                $("#subcategory_id").append('<option value="'+value.id+'">'+value.subcategory_name+'</option>');
+
+                });
+
+
+                }else{
+                $("#subcategory_id").empty();
+                }
+
+            }
+        });
+
+    }else{
+
+    }
+    });
 
 
 </script>

@@ -20,21 +20,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
 
-    return view('frontend.main', [
-        "go" => "go",
-    ]);
-});
+// Route::get('contact', [FrontendController::class, 'contact'])->name('contact');
+// Route::get('about',[FrontendController::class,'about'])->name('about');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-Route::get('contact', [FrontendController::class, 'contact'])->name('contact');
-// Route::get('about',[FrontendController::class,'about'])->name('about');
+############################ Frontend Route ############################
+Route::get('/', [FrontendController::class, 'Frontend'])->name('Frontend');
+Route::get('cart/', [FrontendController::class, 'CartView'])->name('CartView');
+Route::get('product-details/{slug}/{id}', [FrontendController::class, 'ProductDetails'])->name('ProductDetails');
+Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class, 'GetProduct'])->name('GetProduct');
 
-#Category Routes
+
+############################ Category Routes ############################
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('/categories', [CategoryController::class, 'Category'])->name('categories');
 Route::get('/add-categories', [CategoryController::class, 'CategoryForm'])->name('categoryform');
@@ -47,7 +48,7 @@ Route::get('/restore-categories/{data}', [CategoryController::class, 'RestoreCat
 Route::get('/Permanent-delete-categories/{data}', [CategoryController::class, 'PermanentDeleteCategory'])->name('permanentdeletecategory');
 
 
-# Sub-Category Routes
+############################ Sub-Category Routes ############################
 Route::get('/subcategories', [SubCategoryController::class, 'Subcategories'])->name('Subcategories');
 Route::get('/add-subcategory', [SubCategoryController::class, 'AddSubcategories'])->name('addSubcategory');
 Route::post('/post-subcategory', [SubCategoryController::class, 'PostSubcategories'])->name('postSubcategory');
@@ -59,18 +60,19 @@ Route::post('/update-subcategories', [SubCategoryController::class, 'updatesubca
 Route::get('/delete-subcategories/{slug}', [SubCategoryController::class, 'PermanentdeleteSubCategory'])->name('PermanentdeleteSubCategory');
 Route::get('/restore-subcategories/{slug}', [SubCategoryController::class, 'PermanentrestoreSubCategory'])->name('PermanentrestoreSubCategory');
 
-# Product Routes
+############################ Product Routes ############################
 Route::get('/products', [ProductController::class, 'ViewProducts'])->name('products.view');
 Route::get('api/get-subcat-list/{cat_id}', [ProductController::class, 'GetSubCat'])->name('GetSubCat');
-Route::get('/add-products', [ProductController::class, 'AddProduct'])->name('product.add');
-Route::post('/post-products', [ProductController::class, 'PostProduct'])->name('product.post');
-Route::get('/edit-product/{slug}', [ProductController::class, 'EditProduct'])->name('EditProduct');
+Route::post('/add-products', [ProductController::class, 'AddProduct'])->name('AddProduct');
+Route::get('/post-products', [ProductController::class, 'ProductForm'])->name('ProductForm');
+Route::get('/edit-product/{slug}/{id}', [ProductController::class, 'EditProduct'])->name('EditProduct');
 Route::post('/update-product', [ProductController::class, 'UpdateProduct'])->name('UpdateProduct');
-Route::get('/delete-product/{slug}', [ProductController::class, 'DeleteProduct'])->name('DeleteProduct');
+Route::get('/delete-product/{slug}/{id}', [ProductController::class, 'DeleteProduct'])->name('DeleteProduct');
 Route::get('/deleted-product', [ProductController::class, 'TrashedProduct'])->name('TrashedProduct');
+Route::get('delete-product-attribute-id/{id}', [ProductController::class, 'DeleteProductAttribute'])->name('DeleteProductAttribute');
 
 
-#Size And Color Route
+############################ Size And Color Route ############################
 Route::get('create-size', [SizeAndColorController::class, 'CreateSize'])->name('CreateSize');
 Route::post('post-size', [SizeAndColorController::class, 'PostSize'])->name('PostSize');
 Route::get('create-color', [SizeAndColorController::class, 'CreateColor'])->name('CreateColor');

@@ -1,5 +1,7 @@
 @extends('backend.master');
-
+@section('title')
+Edit-SubCategory
+@endsection
 @section('scategoryactive')
 active
 @endsection

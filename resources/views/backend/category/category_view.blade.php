@@ -1,8 +1,9 @@
-@extends('backend.master');
+@extends('backend.master')
+
 @section('title')
 Category
 @endsection
-@section("content")
+
 @section('categoryactive')
 active
 @endsection
@@ -11,10 +12,11 @@ active
 menu-is-opening menu-open active
 @endsection
 
-@section('viewcatactive')
+@section(' cviewatactive')
 bg-success
 @endsection
 
+@section("content")
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">

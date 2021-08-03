@@ -71,14 +71,22 @@
                                 <a href="javascript:void(0);"><i class="fa fa-user"></i> My Account <i
                                         class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown_style">
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Register</a></li>
+
+                                    @auth
                                     <li><a href="cart.html">Cart</a></li>
                                     <li><a href="checkout.html">Checkout</a></li>
                                     <li><a href="wishlist.html">wishlist</a></li>
+                                    @else
+                                    <li><a href="{{route('login')}}">Login</a></li>
+                                    <li><a href="{{route('register')}}">Register</a></li>
+                                    @endauth
                                 </ul>
                             </li>
-                            <li><a href="register.html"> Login/Register </a></li>
+                            @auth
+                            <li><a href="{{route('dashboard')}}"> dashboard </a></li>
+                            @else
+                            <li><a href="{{route('login')}}"> Login/Register </a></li>
+                            @endauth
                         </ul>
                     </div>
                 </div>
@@ -89,7 +97,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-7 col-sm-6 col-6">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="{{route('Frontend')}}">
                                 <img src="{{asset("front/images/logo.png")}}" alt="">
                             </a>
                         </div>
@@ -97,29 +105,24 @@
                     <div class="col-lg-7 d-none d-lg-block">
                         <nav class="mainmenu">
                             <ul class="d-flex">
-                                <li class="active"><a href="index.html">Home</a></li>
+                                <li class="{{Route::is('Frontend') ? 'active' : ''}}"><a
+                                        href="{{route('Frontend')}}">Home</a>
+                                </li>
                                 <li><a href="about.html">About</a></li>
                                 <li>
-                                    <a href="javascript:void(0);">Shop <i class="fa fa-angle-down"></i></a>
+                                    <a href="javascript:void(0);"> Cart <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown_style">
                                         <li><a href="shop.html">Shop Page</a></li>
                                         <li><a href="single-product.html">Product Details</a></li>
-                                        <li><a href="cart.html">Shopping cart</a></li>
+                                        <li><a href="{{route('CartView')}}"> Shopping cart</a></li>
                                         <li><a href="checkout.html">Checkout</a></li>
                                         <li><a href="wishlist.html">Wishlist</a></li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Pages <i class="fa fa-angle-down"></i></a>
-                                    <ul class="dropdown_style">
-                                        <li><a href="about.html">About Page</a></li>
-                                        <li><a href="single-product.html">Product Details</a></li>
-                                        <li><a href="cart.html">Shopping cart</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                        <li><a href="faq.html">FAQ</a></li>
-                                    </ul>
-                                </li>
+                                <li class="{{Route::is('CartView') ? 'active' : ''}}"><a href="{{route('CartView')}}"><i
+                                            class="fa fa-shopping-cart"></i>
+                                        Cart</a></li>
+
                                 <li>
                                     <a href="javascript:void(0);">Blog <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown_style">
@@ -351,58 +354,7 @@
         </div>
     </div>
     <!-- .footer-area end -->
-    <!-- Modal area start -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="modal-body d-flex">
-                    <div class="product-single-img w-50">
-                        <img src="assets/images/product/product-details.jpg" alt="">
-                    </div>
-                    <div class="product-single-content w-50">
-                        <h3>Pure Nature Hohey</h3>
-                        <div class="rating-wrap fix">
-                            <span class="pull-left">$219.56</span>
-                            <ul class="rating pull-right">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li>(05 Customar Review)</li>
-                            </ul>
-                        </div>
-                        <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled
-                            and demoralized by the charms of pleasure of the moment, so blinded by desire denounce with
-                            righteous indignation</p>
-                        <ul class="input-style">
-                            <li class="quantity cart-plus-minus">
-                                <input type="text" value="1" />
-                            </li>
-                            <li><a href="cart.html">Add to Cart</a></li>
-                        </ul>
-                        <ul class="cetagory">
-                            <li>Categories:</li>
-                            <li><a href="#">Honey,</a></li>
-                            <li><a href="#">Olive Oil</a></li>
-                        </ul>
-                        <ul class="socil-icon">
-                            <li>Share :</li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal area start -->
+
     <!-- jquery latest version -->
     <script src="{{asset('front/js/vendor/jquery-2.2.4.min.js')}}"></script>
     <!-- bootstrap js -->
@@ -429,6 +381,7 @@
     <script src="{{asset('front/js/jquery-ui.min.js')}}"></script>
     <!-- main js -->
     <script src="{{asset('front/js/scripts.js')}}"></script>
+    @yield('footer_js')
 </body>
 
 

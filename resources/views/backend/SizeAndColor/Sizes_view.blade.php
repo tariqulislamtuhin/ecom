@@ -1,6 +1,6 @@
 @extends('backend.master');
 @section('title')
-Category
+Size Page
 @endsection
 @section('content')
 @section('sizeactive')

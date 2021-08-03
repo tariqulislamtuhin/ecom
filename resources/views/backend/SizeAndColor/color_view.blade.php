@@ -1,6 +1,6 @@
 @extends('backend.master');
 @section('title')
-Category
+Color Page
 @endsection
 @section('content')
 @section('sizeactive')

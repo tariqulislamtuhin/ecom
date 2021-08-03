@@ -81,6 +81,9 @@
                     </div>
                 </li>
 
+
+
+
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -247,13 +250,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url("categories") }}" class="nav-link  @yield(" viewcatactive")">
+                                    <a href="{{ url("categories") }}" class="nav-link @yield(' cviewatactive')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Views Category</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('add-categories') }}" class="nav-link @yield(" adcatactive")">
+                                    <a href="{{ url('add-categories') }}" class="nav-link @yield('adcatactive')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Category</p>
                                     </a>
@@ -316,7 +319,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('product.add') }}" class="nav-link @yield('productaddcatactive')">
+                                    <a href="{{ route('ProductForm') }}" class="nav-link @yield('productaddcatactive')">
                                         <i class="nav-icon fas fa-plus "></i>
                                         <p>Add Product</p>
                                     </a>
@@ -356,9 +359,12 @@
                             </ul>
                         </li>
 
-
-
-
+                        <li class="nav-item ">
+                            <a href="{{ route('Frontend') }}" class="nav-link" target="blank">
+                                <i class="nav-icon  fas fa-home"></i>
+                                <p> Frontend </p>
+                            </a>
+                        </li>
 
 
 
