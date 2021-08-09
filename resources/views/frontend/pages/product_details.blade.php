@@ -71,31 +71,45 @@
                         </ul>
                     </div>
                     <p>{{$products->summery}}</p>
-                    <ul class="input-style">
-                        <li class="quantity cart-plus-minus">
-                            <input id="quantityofProduct" type="text" name="quantity" value="1" />
-                        </li>
-                        <li><a id="gotoCart" href="cart.html">Add to Cart</a></li>
-                    </ul>
-                    <ul class="cetagory">
-                        <li>Categories:</li>
-                        <li><a href="#">{{$products->getCategory->category_name}}</a></li>
-                    </ul>
-                    <ul class="cetagory">
-                        <li>Color:</li>
-                        @forelse ($grouped as $group)
-                        <input type="radio" id="cid{{$group[0]->id}}" data-product="{{$products->id}}" class="color_id"
-                            name="color_id" value="{{$group[0]->color_id}}">
-                        <label for="cid{{$group[0]->id}}">{{$group[0]->getColor->color_name ?? ''}}</a></label>
-                        @empty
-                        <li><a href="#">Color not available</a></li>
-                        @endforelse
-                    </ul>
-                    <ul class="cetagory">
-                        <li>Size:</li>
-                        <li class="size-add"></li>
-                    </ul>
+                    <form action="{{route('CartPost')}}" id="cartform" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{$products->id}}">
+                        <ul class="input-style">
+                            <li class="quantity cart-plus-minus">
+                                <input id="quantityofProduct" type="text" name="quantity" value="1" />
+                            </li>
+                            <li><button class=" ml-2 btn btn-warning" type="submit">Add to cart</button></li>
+                        </ul>
+                        <ul class="cetagory">
+                            <li>Categories:</li>
+                            <li><a href="{{route('Frontend')}}">{{$products->getCategory->category_name}}</a></li>
+                        </ul>
+                        <ul class="cetagory colorradio">
+                            <li>Color:</li>
+                            @forelse ($grouped as $group)
+                            <input type="radio" id="cid{{$group[0]->id}}" data-product="{{$products->id}}"
+                                class="color_id @error('color_id') is-invalid @enderror" name="color_id"
+                                value="{{$group[0]->color_id}}">
+                            <label for="cid{{$group[0]->id}}">{{$group[0]->getColor->color_name ?? ''}}</a></label>
+                            @empty
+                            <li>
+                                <label> Color not available</label>
+                            </li>
+                            @endforelse
+                            @error('color_id')
+                            <label class="alert alert-danger">{{ $message }}</label>
+                            @enderror
+                        </ul>
+                        <ul class="cetagory sizeradio">
+                            <li>Size:</li>
+                            <li class="size-add"></li>
+                            @error('size_id')
+                            <span class="alert alert-danger">{{ $message }}</label>
+                                @enderror
+                        </ul>
 
+
+                    </form>
 
                     <ul class="socil-icon">
                         <li>Share :</li>
@@ -484,7 +498,38 @@
         });
     });
 
+</script>
 
+<script>
+    function validateform(){
+        var cartform =$('#cartform');
+        if(cartform.length){
+            cartform.validate({
+                rules:{
+                    quantity:{
+                        required:true
+                    },
+                    color_id:{
+                        required:true
+                    },
+                    size_id:{
+                        required:true
+                    }
+                },
+                messages:{
+
+                },
+                errorPlacement:function(error,element){
+                    if(element.is("color_id")){
+                        element.appendTo(element.parents(".colorradio"));
+                    }else if(element.is("size_id")){
+                        element.appendTo(element.parents(".sizeradio"));
+                    }
+                }
+
+            })
+        }
+    }
 </script>
 
 @endsection

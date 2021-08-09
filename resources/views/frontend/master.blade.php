@@ -113,15 +113,15 @@
                                     <a href="javascript:void(0);"> Cart <i class="fa fa-angle-down"></i></a>
                                     <ul class="dropdown_style">
                                         <li><a href="shop.html">Shop Page</a></li>
-                                        <li><a href="single-product.html">Product Details</a></li>
+                                        <li><a class="{{Route::is('ProductDetails') ? 'active':''}}"
+                                                href="single-product.html">Product Details</a></li>
                                         <li><a href="{{route('CartView')}}"> Shopping cart</a></li>
                                         <li><a href="checkout.html">Checkout</a></li>
                                         <li><a href="wishlist.html">Wishlist</a></li>
                                     </ul>
                                 </li>
                                 <li class="{{Route::is('CartView') ? 'active' : ''}}"><a href="{{route('CartView')}}"><i
-                                            class="fa fa-shopping-cart"></i>
-                                        Cart</a></li>
+                                            class="fa fa-shopping-cart"></i>Cart</a></li>
 
                                 <li>
                                     <a href="javascript:void(0);">Blog <i class="fa fa-angle-down"></i></a>
@@ -170,47 +170,49 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0);"><i class="flaticon-shop"></i> <span>3</span></a>
+
+                                <a href="javascript:void(0);"><i class="flaticon-shop"></i>
+                                    <span> {{cart_total_count()}}</span>
+                                </a>
                                 <ul class="cart-wrap dropdown_style">
+                                    @php $total = 0; @endphp
+                                    @forelse (cart_Get() as $cart)
                                     <li class="cart-items">
                                         <div class="cart-img">
-                                            <img src="{{asset('front/images/cart/1.jpg')}}" alt="">
+                                            <img src="{{asset('thumb/'.$cart->getProduct->thumbnail)}}"
+                                                alt="{{$cart->GetProduct->title}}" width="100" height="150">
                                         </div>
                                         <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
+                                            <a
+                                                href="{{route('ProductDetails',[$cart->GetProduct->slug,$cart->product_id])}}">
+                                                {{$cart->Getproduct->title}}
+                                            </a>
+                                            <span>QTY : {{$cart->quantity}}</span>
+                                            <p>{{getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity}}
+                                            </p>
+                                            @php
+                                            $total +=
+                                            getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price*$cart->quantity;
+                                            @endphp
+                                            <a href="{{route('DeleteCart',$cart->id)}}"><i class="fa fa-times"></i></a>
                                         </div>
                                     </li>
+
+                                    @empty
                                     <li class="cart-items">
-                                        <div class="cart-img">
-                                            <img src="{{asset('front/images/cart/3.jpg')}}" alt="">
-                                        </div>
-                                        <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
-                                        </div>
+                                        <span><strong>No carts! Start Shopping NOW!</strong></span>
                                     </li>
-                                    <li class="cart-items">
-                                        <div class="cart-img">
-                                            <img src="{{asset('front/images/cart/2.jpg')}}" alt="">
-                                        </div>
-                                        <div class="cart-content">
-                                            <a href="cart.html">Pure Nature Product</a>
-                                            <span>QTY : 1</span>
-                                            <p>$35.00</p>
-                                            <i class="fa fa-times"></i>
-                                        </div>
-                                    </li>
-                                    <li>Subtotol: <span class="pull-right">$70.00</span></li>
+                                    {{-- <li>Subtotol: <span class="pull-right">0</span></li> --}}
+                                    @endforelse
+                                    @if (cart_total_count() !=0 )
+                                    <li>Subtotol: <span class="pull-right">{{$total}}</span></li>
                                     <li>
                                         <button>Check Out</button>
                                     </li>
+                                    @endif
                                 </ul>
                             </li>
+
                         </ul>
                     </div>
                     <div class="col-md-1 col-sm-1 col-2 d-block d-lg-none">
@@ -381,6 +383,8 @@
     <script src="{{asset('front/js/jquery-ui.min.js')}}"></script>
     <!-- main js -->
     <script src="{{asset('front/js/scripts.js')}}"></script>
+    <script src="{{asset('front/js/jquery.form-validator.min.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
     @yield('footer_js')
 </body>
 

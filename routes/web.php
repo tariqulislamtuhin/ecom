@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
@@ -30,9 +31,12 @@ use Illuminate\Support\Facades\Route;
 
 ############################ Frontend Route ############################
 Route::get('/', [FrontendController::class, 'Frontend'])->name('Frontend');
-Route::get('cart/', [FrontendController::class, 'CartView'])->name('CartView');
 Route::get('product-details/{slug}/{id}', [FrontendController::class, 'ProductDetails'])->name('ProductDetails');
 Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class, 'GetProduct'])->name('GetProduct');
+Route::get('carts/', [CartController::class, 'CartView'])->name('CartView');
+Route::post('cart/', [CartController::class, 'CartPost'])->name('CartPost');
+Route::get('delete-cart/{id}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
+
 
 
 ############################ Category Routes ############################

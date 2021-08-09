@@ -26,7 +26,7 @@
             <div class="col-12">
                 <form action="http://themepresss.com/tf/html/tohoney/cart">
                     <table class="table-responsive cart-wrap">
-                        <thead>
+                        <thead class="bg-danger">
                             <tr>
                                 <th class="images">Image</th>
                                 <th class="product">Product</th>
@@ -37,36 +37,39 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php $total = 0; @endphp
+                            @forelse ($carts as $cart)
                             <tr>
-                                <td class="images"><img src="assets/images/cart/1.jpg" alt=""></td>
-                                <td class="product"><a href="single-product.html">Neture Honey</a></td>
-                                <td class="ptice">$139.00</td>
-                                <td class="quantity cart-plus-minus">
-                                    <input type="text" value="1" />
+                                <td class="images"><img src="{{asset('/thumb/'.$cart->GetProduct->thumbnail)}}"
+                                        alt="{{$cart->Getproduct->title}}">
                                 </td>
-                                <td class="total">$139.00</td>
-                                <td class="remove"><i class="fa fa-times"></i></td>
+                                <td class="product"><a
+                                        href="{{route('ProductDetails',[$cart->GetProduct->slug,$cart->product_id])}}">{{$cart->Getproduct->title}}</a>
+                                    <br><span>({{'Color: '.$cart->GetColor->color_name.', Size: '.$cart->GetSize->size_name}})</span>
+                                </td>
+                                <td class="price">
+                                    {{getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price}}
+                                </td>
+                                <td class="quantity cart-plus-minus">
+                                    <input type="text" value="{{$cart->quantity}}" />
+                                </td>
+                                <td class="total">
+                                    {{ getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity}}
+                                </td>
+                                @php
+                                $total += getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price
+                                * $cart->quantity; @endphp
+                                <td class="remove">
+                                    <a href="{{route('DeleteCart',$cart->id)}}"> <i class="fa fa-trash text-danger"></i>
+                                    </a>
+                                </td>
                             </tr>
+                            @empty
                             <tr>
-                                <td class="images"><img src="assets/images/cart/2.jpg" alt=""></td>
-                                <td class="product"><a href="single-product.html">Pure Olive Oil</a></td>
-                                <td class="ptice">$684.47</td>
-                                <td class="quantity cart-plus-minus">
-                                    <input type="text" value="1" />
-                                </td>
-                                <td class="total">$684.47</td>
-                                <td class="remove"><i class="fa fa-times"></i></td>
+                                <td colspan="6" class="text-center">No Data Avilable</td>
                             </tr>
-                            <tr>
-                                <td class="images"><img src="assets/images/cart/3.jpg" alt=""></td>
-                                <td class="product"><a href="single-product.html">Pure Coconut Oil</a></td>
-                                <td class="ptice">$145.80</td>
-                                <td class="quantity cart-plus-minus">
-                                    <input type="text" value="1" />
-                                </td>
-                                <td class="total">$145.80</td>
-                                <td class="remove"><i class="fa fa-times"></i></td>
-                            </tr>
+                            @endforelse
+
                         </tbody>
                     </table>
                     <div class="row mt-60">
@@ -90,8 +93,11 @@
                             <div class="cart-total text-right">
                                 <h3>Cart Totals</h3>
                                 <ul>
-                                    <li><span class="pull-left">Subtotal </span>$380.00</li>
-                                    <li><span class="pull-left"> Total </span> $380.00</li>
+                                    <li><span class="pull-left">Subtotal </span>{{$total}}</li>
+                                    <li><span class="pull-left"> Total </span>
+                                        {{$total+($total * 0.15)}} <small class="small pull-left">Including Vat (15%)
+                                        </small>
+                                    </li>
                                 </ul>
                                 <a href="checkout.html">Proceed to Checkout</a>
                             </div>

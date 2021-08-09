@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Size extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function Size()
+    {
+        return $this->hasMany(Size::class, 'size_id');
+    }
 }

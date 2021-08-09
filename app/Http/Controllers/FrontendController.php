@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Atrribute;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -11,9 +12,9 @@ class FrontendController extends Controller
 {
     public function Frontend()
     {
-        return view('frontend.main', [
-            "latests" => Product::with('Atrribute')->latest()->limit(10)->get(),
-        ]);
+        $latests = Product::with('Atrribute')->latest()->limit(10)->get();
+        // $master_carts = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->get();
+        return view('frontend.main', compact('latests'));
     }
     public function ProductDetails($slug, $id)
     {
@@ -30,15 +31,12 @@ class FrontendController extends Controller
         $output = '';
         $sizes = Atrribute::with(['Products', 'getColor', 'getSize'])->where('product_id', $product_id)->where('color_id', $color_id)->get();
         foreach ($sizes as $key => $size) {
-            $output = $output . '<input type="radio" data-quantity="' . $size->quantity . '" id="size" data-price="' . $size->sale_price . '" class="sizeCheck m-1" name="size_id" value="' . $size->id . '"> <label for="size">  ' . $size->getSize->size_name . '  </label>';
+            $output = $output . '<input type="radio" data-quantity="' . $size->quantity . '" id="size" data-price="' . $size->sale_price . '" class="sizeCheck m-1 @error(' . 'size_id' . ') is-invalid @enderror" name="size_id" value="' . $size->size_id . '"> <label for="size">  ' . $size->getSize->size_name . '  </label>';
         }
         // return response()->json($sizes);
         echo $output;
     }
-    public function CartView()
-    {
-        return view('frontend.pages.cart_view');
-    }
+
     // function about()
     // {
 
