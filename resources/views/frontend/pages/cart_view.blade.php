@@ -10,7 +10,7 @@
                 <div class="breadcumb-wrap text-center">
                     <h2>Shopping Cart</h2>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="{{route('Frontend')}}">Home</a></li>
                         <li><span>Shopping Cart</span></li>
                     </ul>
                 </div>
@@ -29,8 +29,8 @@
                         <thead class="bg-danger">
                             <tr>
                                 <th class="images">Image</th>
-                                <th class="product">Product</th>
-                                <th class="ptice">Price</th>
+                                <th class="product">Products</th>
+                                <th class="ptice">Price(Per Unit)</th>
                                 <th class="quantity">Quantity</th>
                                 <th class="total">Total</th>
                                 <th class="remove">Remove</th>
@@ -40,7 +40,8 @@
                             @php $total = 0; @endphp
                             @forelse ($carts as $cart)
                             <tr>
-                                <td class="images"><img src="{{asset('/thumb/'.$cart->GetProduct->thumbnail)}}"
+                                <td class="images">
+                                    <img src="{{asset('thumb/'.$cart->GetProduct->thumbnail)}}"
                                         alt="{{$cart->Getproduct->title}}">
                                 </td>
                                 <td class="product"><a
@@ -66,7 +67,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center">No Data Avilable</td>
+                                <td colspan="50" class="text-center"> No Data Avilable </td>
                             </tr>
                             @endforelse
 
