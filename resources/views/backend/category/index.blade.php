@@ -27,7 +27,7 @@ bg-success
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="route('categories')">Categories</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('category.index')}}">Categories</a></li>
                         <li class="breadcrumb-item active">All Category</li>
                     </ol>
                 </div>
@@ -43,7 +43,7 @@ bg-success
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><strong>Category Table</strong></h3>
-                            <a class="float-right" href="{{ url('add-categories') }}">
+                            <a class="float-right" href="{{ route('category.create') }}">
                                 <i class="fa fa-plus"> Category</i>
                             </a>
                         </div>
@@ -56,7 +56,6 @@ bg-success
                                     <tr>
                                         <th style="width: 10px">SL</th>
                                         <th>Name</th>
-                                        <th>Slug</th>
                                         <th>Created At</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -67,14 +66,16 @@ bg-success
 
                                         <td>{{ $datas->firstItem() + $key }}</td>
                                         <td>{{ $data->category_name }}</td>
-                                        <td>{{ $data->slug }}</td>
-                                        <td>{{ $data->created_at->format('d-M-Y h:i:s a') }}
-                                            ({{ $data->created_at->diffForHumans() }})</td>
+                                        <td>{{ $data->created_at->diffForHumans() }}</td>
                                         <td class="text-center">
-                                            <a class="btn btn-warning"
-                                                href="{{ url('edit-category')}}/{{ $data->id }}">Edit</a>
-                                            <a class="btn btn-danger"
-                                                href="{{ url('delete-category')}}/{{ $data->id }}">Delete</a>
+                                            <a class="btn btn-info" href="{{ route('category.show',$data)}}">Details</a>
+                                            <a class="btn btn-warning" href="{{ route('category.edit',$data)}}">Edit</a>
+                                            <form action="{{route('category.destroy',$data)}}" method="POST"
+                                                style="display: inline-block">
+                                                @csrf @method("DELETE")
+                                                <button type="submit" onclick="return confirm('Are You Sure?')"
+                                                    class="btn btn-danger">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @empty

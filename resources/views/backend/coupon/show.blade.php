@@ -1,7 +1,7 @@
 @extends('backend.master');
 
 @section('title')
-Coupon Create
+Coupon Details
 @endsection
 @section('couponActive')
 active
@@ -27,7 +27,7 @@ bg-success
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('coupon.index') }}"></a>Coupons</li>
+                        <li class="breadcrumb-item"><a href="{{ route('coupon.index') }}">Coupons</a></li>
                         <li class="breadcrumb-item active">Coupon Details</li>
                     </ol>
                 </div><!-- /.col -->

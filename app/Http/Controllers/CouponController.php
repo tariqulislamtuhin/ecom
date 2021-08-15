@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
@@ -37,7 +38,6 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([]);
         $coupon = new Coupon();
         $coupon->coupon_name = $request->coupon_name;
         $coupon->coupon_amount = $request->coupon_amount;
@@ -95,6 +95,24 @@ class CouponController extends Controller
     public function destroy(Coupon $coupon)
     {
         $coupon->delete();
+        return back();
+    }
+    public function trash()
+    {
+        $trashcoupons = Coupon::onlyTrashed()->paginate(10);
+        return view('backend.coupon.trash', compact('trashcoupons'));
+    }
+
+    public function restore($id)
+    {
+        Coupon::onlyTrashed()->findorFail($id)->restore($id);
+        return back();
+    }
+
+    public function clean($id)
+    {
+        return "Ok";
+        Coupon::withTrashed()->findOrFail($id)->forceDelete($id);
         return back();
     }
 }

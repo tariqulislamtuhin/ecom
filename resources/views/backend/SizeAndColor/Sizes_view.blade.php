@@ -25,7 +25,7 @@ bg-success
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('categories') }}">Categories</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categories</a></li>
                         <li class="breadcrumb-item active"> Create Category</li>
                     </ol>
                 </div>
@@ -149,7 +149,27 @@ bg-success
         }
     @endif
 
+    @if (session('error'))
+    Command: toastr["error"]("{{ session('error') }}")
 
+    toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+    }
+    @endif
 
     $('#size_name').keyup(function() {
         $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g, "-"));

@@ -8,20 +8,18 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    function Category()
+    public function index()
     {
-        // $datas = Category::paginate(10);
-        return view('backend.category.category_view', [
-            'datas' => Category::with('getProducts')->orderBY('created_at', 'desc')->paginate(10),
-        ]);
+        $datas = Category::with('getProducts')->orderBY('created_at', 'desc')->paginate(10);
+        return view('backend.category.index', compact('datas'));
     }
 
-    function CategoryForm()
+    public function create()
     {
-        return view('backend.category.category_form');
+        return view('backend.category.create');
     }
 
-    function PostCategory(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'category_name' => 'required| min:3 | unique:categories',
@@ -32,40 +30,41 @@ class CategoryController extends Controller
         $category->category_name = $request->category_name;
         $category->slug = str::slug($request->category_name);
         $category->save();
-        // return back();
-        return redirect()->action([CategoryController::class, 'CategoryForm'])->with("success", "Added Successfully.");
+        return redirect()->action([CategoryController::class, 'index'])->with("success", "Added Successfully.");
     }
 
-    function DeleteCategory($id)
+    public function show(Category $category)
     {
-        $cat =  Category::with('getSubcategories')->find($id);
-        if ($cat->getSubcategories->count() < 1) {
-            Category::findorFail($id)->delete();
+        return view('backend.category.show', compact('category'));
+    }
+    public function destroy(Category $category)
+    {
+        // $cat =  Category::with('getSubcategories')->find($id);
+        if ($category->getSubcategories->count() < 1) {
+            $category->delete();
             return back()->with("success", "Category deleted succesfully");
         } else {
             return back()->with("error", "Cant delete Category");
         }
     }
 
-    function EditCategory($id)
+    public function edit(Category $category)
     {
-        $data = Category::findorFail($id);
-        return view("backend.category.edit_category_form", compact('data'));
+        return view("backend.category.edit", compact('category'));
     }
-    function UpdateCategory(Request $request)
+    public function update(Request $request, Category $category)
     {
-        $updcat = Category::findorFail($request->cat_id);
-        $updcat->category_name = $request->category_name;
-        $updcat->slug = Str::slug($request->category_name);
-        $updcat->save();
-        // return redirect("backend.category.categor")->with();
-        return redirect()->action([CategoryController::class, 'Category'])->with("success", "Category Updated Succesfull");;
+
+        $category->category_name = $request->category_name;
+        $category->slug = Str::slug($request->category_name);
+        $category->save();
+        return redirect()->action([CategoryController::class, 'index'])->with("success", "Category Updated Succesfull");;
     }
 
-    function TrashCategory()
+    public function trash()
     {
         // $datas = Category::onlyTrashed('deleted_at', 'desc')->paginate(10);
-        return view("backend.category.trashed_categories", [
+        return view("backend.category.trash", [
             'datas' => Category::onlyTrashed('deleted_at', 'desc')->paginate(10),
         ]);
     }
@@ -73,13 +72,13 @@ class CategoryController extends Controller
 
     function RestoreCategory($id)
     {
-        Category::onlyTrashed()->findorFail($id)->restore($id);
-        return redirect("trashed-categories")->with("success", "restored completed");
+        Category::onlyTrashed()->findorfail($id)->restore($id);
+        return back();
     }
 
     function PermanentDeleteCategory($id)
     {
         Category::onlyTrashed()->findorFail($id)->forceDelete();
-        return redirect("/trashed-categories")->with("success", "Delete completed");
+        return back()->with("success", "Delete completed");
     }
 }

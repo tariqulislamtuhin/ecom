@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Atrribute;
 use App\Models\color;
 use App\Models\Size;
 use Illuminate\Http\Request;
@@ -56,12 +57,20 @@ class SizeAndColorController extends Controller
 
     public function DeleteColor($id)
     {
-        color::findorFail($id)->forceDelete();
-        return redirect()->action([SizeAndColorController::class, 'CreateColor'])->with('success', 'Color Deleted succesfully');
+        if (Atrribute::where('color_id', $id)->count() < 1) {
+            color::findorFail($id)->forceDelete();
+            return redirect()->action([SizeAndColorController::class, 'CreateColor'])->with('success', 'Color Deleted succesfully');
+        } else {
+            return redirect()->action([SizeAndColorController::class, 'CreateColor'])->with('error', 'This color is in use.');
+        }
     }
     public function DeleteSize($id)
     {
-        Size::findorFail($id)->forceDelete();
-        return redirect()->action([SizeAndColorController::class, "CreateSize"])->with('success', 'Size Deleted Succesfully');
+        if (Atrribute::where('size_id', $id)->count() < 1) {
+            Size::findorFail($id)->forceDelete();
+            return redirect()->action([SizeAndColorController::class, "CreateSize"])->with('success', 'Size Deleted Succesfully');
+        } else {
+            return redirect()->action([SizeAndColorController::class, "CreateSize"])->with('error', 'This Size is in Use.');
+        }
     }
 }

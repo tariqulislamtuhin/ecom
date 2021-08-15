@@ -251,19 +251,19 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url("categories") }}" class="nav-link @yield(' cviewatactive')">
+                                    <a href="{{ route('category.index') }}" class="nav-link @yield(' cviewatactive')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Views Category</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('add-categories') }}" class="nav-link @yield('adcatactive')">
+                                    <a href="{{ route('category.create') }}" class="nav-link @yield('adcatactive')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Category</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('trashed-categories') }}" class="nav-link @yield('trashcatactive')">
+                                    <a href="{{ route('category.trash') }}" class="nav-link @yield('trashcatactive')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Trashed</p>
                                     </a>
@@ -387,9 +387,9 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="" class="nav-link @yield('couponDestroyactive')">
+                                    <a href="{{route('coupon.trash')}}" class="nav-link @yield('couponDestroyactive')">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Trashed Products</p>
+                                        <p>Trash Coupon</p>
                                     </a>
                                 </li>
                             </ul>

@@ -1,34 +1,31 @@
-@extends('backend.master')
-
-@section('coupon')
-Coupons
-@endsection
+@extends('backend.master');
 
 @section('couponActive')
 active
 @endsection
-
+@section('title')
+Trash Coupon
+@endsection
 @section('couponOpen')
 menu-is-opening menu-open active
 @endsection
 
-@section('couponIndexactive')
+@section('couponDestroyactive')
 bg-success
 @endsection
-
 @section("content")
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Simple Tables</h1>
+                <div class="col-sm-6 block red">
+                    <h1>Trash Table</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('coupon.index')}}">Coupons</a></li>
-                        <li class="breadcrumb-item active">Coupons</li>
+                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categories</a></li>
+                        <li class="breadcrumb-item active">Trashed Data</li>
                     </ol>
                 </div>
             </div>
@@ -42,15 +39,14 @@ bg-success
                 <div class="col-md">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Coupon Table</h3>
-                            <a class="float-right" href="{{ route('coupon.create') }}">
-                                <i class="fa fa-plus"> Coupon</i>
+                            <h3 class="card-title"><strong>Trash</strong></h3>
+                            <a class="float-right" href="{{ route('category.index') }}">
+                                <i class="fa fa-list"> All Categories</i>
                             </a>
                         </div>
 
                         <!-- /.card-header -->
                         <div class="card-body">
-
                             <table class="table table-bordered">
 
                                 <thead>
@@ -65,43 +61,32 @@ bg-success
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    @forelse ($Coupons as $Coupon)
+                                    @forelse ($trashcoupons as $key => $tcoupon)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $Coupon->coupon_name}}</td>
-                                        <td>{{ $Coupon->coupon_amount }}%</td>
-                                        <td>{{ $Coupon->coupon_validity }}</td>
-                                        <td>{{ $Coupon->coupon_limit }}</td>
-                                        <td>{{ $Coupon->created_at->diffForHumans() }}</td>
+
+                                        <td>{{ $trashcoupons->firstItem() + $key }}</td>
+                                        <td>{{ $tcoupon->coupon_name }}</td>
+                                        <td>{{ $tcoupon->coupon_amount }}%</td>
+                                        <td>{{ $tcoupon->coupon_validity }}</td>
+                                        <td>{{ $tcoupon->coupon_limit }}</td>
+                                        <td>{{ $tcoupon->created_at->diffForHumans() }}</td>
                                         <td class="text-center">
-                                            <a class="btn btn-info" href="{{ route('coupon.show',$Coupon)}}">Details</a>
-                                            <a class="btn btn-danger" href="{{route('coupon.edit',$Coupon)}}">Edit</a>
-
-                                            <form method="POST" action="{{ route('coupon.destroy',$Coupon) }}"
-                                                style="display: inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('Are you sure?')"
-                                                    class="btn btn-warning">Delete</button>
-                                            </form>
-
+                                            <a class="btn btn-Success"
+                                                href="{{ route('coupon.restore',$tcoupon)}}">Restore</a>
+                                            <a class="btn btn-danger"
+                                                href="{{ route('coupon.clean',$tcoupon->id)}}">Delete</a>
                                         </td>
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="50" class="text-center">No Data Avilable</td>
+                                        <td colspan="10" class="text-center">No Data Avaibable</td>
                                     </tr>
                                     @endforelse
-
                                 </tbody>
                             </table>
-
-
                         </div>
                         <!-- /.card-body -->
-                        {{-- {{ $coupons->links() }} --}}
-
+                        {{ $trashcoupons->links() }}
                     </div>
                     <!-- /.card -->
 
@@ -143,33 +128,6 @@ bg-success
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
       }
-    @endif
-
-    @if (session('error'))
-    Command: toastr["error"]("{{ session('error') }}")
-
-        toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-        }
-    @endif
-
-
-
-
-
+      @endif
 </script>
 @endsection

@@ -1,85 +1,67 @@
 @extends('backend.master');
 
 @section('title')
-Coupon Create
+Add-Category
 @endsection
-@section('couponActive')
+
+@section('categoryactive')
 active
 @endsection
 
-@section('couponOpen')
+@section('catopen')
 menu-is-opening menu-open active
 @endsection
-@section('couponCreateActive')
+
+@section('adcatactive')
 bg-success
 @endsection
 
-
 @section('content')
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">New Coupon</h1>
+                    <h1 class="m-0">New Category</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('subcategories') }}">Coupons</a></li>
-                        <li class="breadcrumb-item active">Add Coupon</li>
+                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categories</a></li>
+                        <li class="breadcrumb-item active"> Create Category</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
     <section class="content">
-        <div class="col-md mx-auto">
+        <div class="col-md-6 mx-auto">
             <!-- general form elements -->
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Create New Coupon</h3>
+                    <h3 class="card-title">New Category</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="POST" action="{{ route('coupon.store') }}">
+                <form method="POST" action="{{ route('category.store') }}">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="coupon_name">Coupon Name</label>
-                            <input type="text" class="form-control @error('coupon_name') is-invalid @enderror"
-                                id="coupon_name" placeholder="Coupon Name" name="coupon_name">
+                            <label for="name">Category Name</label>
+                            <input type="text" class="form-control @error('category_name') is-invalid @enderror"
+                                id="category_name" placeholder="Category name" name="category_name">
                         </div>
-                        @error('coupon_name')
+                        @error('category_name')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <div class="form-group">
-                            <label for="coupon_amount">Coupon Ammount %</label>
-                            <input type="number" class="form-control @error('coupon_amount') is-invalid @enderror"
-                                id="coupon_amount" placeholder="Enter Coupon Amount %" name="coupon_amount">
+                            <label for="slug"> Slug </label>
+                            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug"
+                                placeholder="Slug" name="slug">
                         </div>
-                        @error('coupon_amount')
+                        @error('slug')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                        <div class="form-group">
-                            <label for="coupon_validity">Coupon Validity </label>
-                            <input type="date" class="form-control @error('coupon_validity') is-invalid @enderror"
-                                id="coupon_validity" placeholder="Enter Coupon Amount %" name="coupon_validity">
-                        </div>
-                        @error('coupon_validity')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-
-                        <div class="form-group">
-                            <label for="coupon_limit"> Coupon Limit </label>
-                            <input type="number" class="form-control" @error('coupon_limit') is-invalid @enderror"
-                                id="coupon_limit" placeholder="Coupon Limit" name="coupon_limit">
-                        </div>
-                        @error('coupon_limit')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -115,7 +97,7 @@ bg-success
       "hideMethod": "fadeOut"
     }
     @endif
-    $('#subcategory_name').keyup(function() {
+    $('#category_name').keyup(function() {
       $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
     });
 </script>

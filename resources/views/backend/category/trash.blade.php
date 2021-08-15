@@ -23,7 +23,7 @@ bg-success
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ 'categories' }}">Categories</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categories</a></li>
                         <li class="breadcrumb-item active">Trashed Data</li>
                     </ol>
                 </div>
@@ -39,7 +39,7 @@ bg-success
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><strong>Trash</strong></h3>
-                            <a class="float-right" href="{{ url('categories') }}">
+                            <a class="float-right" href="{{ route('category.index') }}">
                                 <i class="fa fa-list"> All Categories</i>
                             </a>
                         </div>
@@ -68,9 +68,9 @@ bg-success
                                             ({{ $data->created_at->diffForHumans() }})</td>
                                         <td class="text-center">
                                             <a class="btn btn-Success"
-                                                href="{{ url('restore-categories')}}/{{ $data->id }}">Restore</a>
+                                                href="{{ route('restorecategory',$data)}}">Restore</a>
                                             <a class="btn btn-danger"
-                                                href="{{ url('Permanent-delete-categories/')}}/{{ $data->id }}">Delete</a>
+                                                href="{{ route('permanentdeletecategory',$data)}}">Delete</a>
                                         </td>
                                     </tr>
                                     @empty

@@ -1,58 +1,68 @@
 @extends('backend.master');
 
 @section('title')
-Edit-Category
+Coupon Create
 @endsection
-@section('categoryactive')
+@section('couponActive')
 active
 @endsection
 
+@section('couponOpen')
+menu-is-opening menu-open active
+@endsection
+@section('couponCreateActive')
+bg-success
+@endsection
+
+
 @section('content')
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">New Category</h1>
+                    <h1 class="m-0">Coupon Details</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('categories') }}">Categories</a></li>
-                        <li class="breadcrumb-item active">Add a Category</li>
+                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Category</a></li>
+                        <li class="breadcrumb-item active">Caregory Details</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
     <section class="content">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md mx-auto">
             <!-- general form elements -->
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">New Category</h3>
+                    <h3 class="card-title">Caregory Details</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="POST" action="{{ url('update-category') }}">
-                    @csrf
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="name">Category Name</label>
-                            <input type="text" class="form-control" id="name" value="{{ $data->category_name }}"
-                                placeholder="Category name" name="category_name">
-                            <input type="hidden" class="form-control" id="id" value="{{ $data->id }}"
-                                placeholder="Category name" name="cat_id">
+                <table class=" table border">
+                    <thead>
 
-                        </div>
-                        {{-- <div class="form-group">
-                    <label for="slug"> Slug </label>
-                    <input type="text" class="form-control" id="slug" placeholder="Slug"name="slug">
-                  </div> --}}
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                </form>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row">Category Name:</td>
+                            <td>{{$category->category_name}}</td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Slug:</td>
+                            <td>{{$category->slug}}</td>
+                        </tr>
+
+                        <tr>
+                            <td scope="row">Created At:</td>
+                            <td>{{$category->created_at->diffForHumans()}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <!-- /.card -->
 
@@ -60,6 +70,7 @@ active
     </section>
 </div>
 @endsection
+
 @section("toastr_js")
 <script>
     @if (session('success'))
@@ -83,5 +94,8 @@ active
       "hideMethod": "fadeOut"
     }
     @endif
+    $('#subcategory_name').keyup(function() {
+      $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
+    });
 </script>
 @endsection
