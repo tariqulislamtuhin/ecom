@@ -19,7 +19,7 @@ class SizeAndColorController extends Controller
     {
         $request->validate([
 
-            'size_name' => 'required|max:3|unique:sizes',
+            'size_name' => 'required|max:4|unique:sizes',
         ], [
             'max' => 'Please! enter Short term of sizes.',
             'unique' => 'This size already added. '

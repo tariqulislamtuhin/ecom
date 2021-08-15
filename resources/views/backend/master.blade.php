@@ -239,6 +239,7 @@
                             </a>
                         </li>
 
+
                         <li class="nav-item @yield('catopen')">
                             <a href="#" class="nav-link @yield('categoryactive')">
                                 <i class="nav-icon fas fa-list"></i>
@@ -281,7 +282,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url("subcategories") }}" class="nav-link @yield('sviewcatactive')">
+                                    <a href="{{ route("Subcategories") }}" class="nav-link @yield('sviewcatactive')">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Views SubCategory</p>
                                     </a>
@@ -358,6 +359,43 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item @yield('couponOpen')">
+                            <a href="#" class="nav-link @yield('couponActive')">
+                                <i class="nav-icon fas fa-gift"></i>
+                                <p>
+                                    Coupon
+                                    <i class="fas fa-angle-left right"></i>
+                                    <span class="badge badge-info right"></span>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item ">
+                                    <a href="{{ route('coupon.index') }}" class="nav-link @yield('couponIndexactive')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Coupon List
+                                            {{-- <i class="right fas fa-angle-left"></i> --}}
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('coupon.create') }}"
+                                        class="nav-link @yield('couponCreateActive')">
+                                        <i class="nav-icon fas fa-plus "></i>
+                                        <p>Add Coupon</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="" class="nav-link @yield('couponDestroyactive')">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Trashed Products</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
 
                         <li class="nav-item ">
                             <a href="{{ route('Frontend') }}" class="nav-link" target="blank">
@@ -371,7 +409,7 @@
 
                         {{-- logout --}}
                         <form id="form-logout" action="{{route('logout')}}" method="POST">
-                            <li class="nav-item ">
+                            <li class="nav-item pull-bottom ">
                                 <a href="{{ route('logout') }}" class="nav-link"
                                     onclick="event.preventDefault();document.getElementById('form-logout').submit()">
                                     <i class="nav-icon  fas fa-sign-out-alt"></i>

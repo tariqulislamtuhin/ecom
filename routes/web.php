@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeAndColorController;
 use App\Http\Controllers\SubCategoryController;
+use App\Models\Coupon;
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 
@@ -29,14 +31,17 @@ use Illuminate\Support\Facades\Route;
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
+
 ############################ Frontend Route ############################
 Route::get('/', [FrontendController::class, 'Frontend'])->name('Frontend');
 Route::get('product-details/{slug}/{id}', [FrontendController::class, 'ProductDetails'])->name('ProductDetails');
 Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class, 'GetProduct'])->name('GetProduct');
+
+
+############################ Cart Route ############################
 Route::get('carts/', [CartController::class, 'CartView'])->name('CartView');
 Route::post('cart/', [CartController::class, 'CartPost'])->name('CartPost');
 Route::get('delete-cart/{id}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
-
 
 
 ############################ Category Routes ############################
@@ -53,8 +58,8 @@ Route::get('/Permanent-delete-categories/{data}', [CategoryController::class, 'P
 
 
 ############################ Sub-Category Routes ############################
-Route::get('/subcategories', [SubCategoryController::class, 'Subcategories'])->name('Subcategories');
-Route::get('/add-subcategory', [SubCategoryController::class, 'AddSubcategories'])->name('addSubcategory');
+Route::get('/Subcategories', [SubCategoryController::class, 'Subcategories'])->name('Subcategories');
+Route::get('/Subcategory/create', [SubCategoryController::class, 'AddSubcategories'])->name('addSubcategory');
 Route::post('/post-subcategory', [SubCategoryController::class, 'PostSubcategories'])->name('postSubcategory');
 Route::post('/post-delete-subcategory', [SubCategoryController::class, 'PosstDeleteAllSubcategories'])->name('PosstDeleteAllSubcategories');
 Route::get('/trashed-subcategories', [SubCategoryController::class, 'TrashSubCategory'])->name('trashSubcategory');
@@ -84,7 +89,8 @@ Route::post('post-color', [SizeAndColorController::class, 'PostColor'])->name('P
 Route::get('delete-color/{id}', [SizeAndColorController::class, 'DeleteColor'])->name('DeleteColor');
 Route::get('delete-size/{id}', [SizeAndColorController::class, 'DeleteSize'])->name('DeleteSize');
 
-
+############################ Coupon Route ############################
+Route::resource('coupon', CouponController::class);
 
 
 

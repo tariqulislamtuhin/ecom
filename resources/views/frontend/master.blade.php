@@ -121,7 +121,7 @@
                                     </ul>
                                 </li>
                                 <li class="{{Route::is('CartView') ? 'active' : ''}}"><a href="{{route('CartView')}}"><i
-                                            class="fa fa-shopping-cart"></i>Cart</a></li>
+                                            class="fa fa-shopping-cart"></i> Cart</a></li>
 
                                 <li>
                                     <a href="javascript:void(0);">Blog <i class="fa fa-angle-down"></i></a>
