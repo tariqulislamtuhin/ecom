@@ -264,7 +264,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('category.trash') }}" class="nav-link @yield('trashcatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-trash-alt nav-icon"></i>
                                         <p>Trashed</p>
                                     </a>
                                 </li>
@@ -296,7 +296,7 @@
                                 <li class="nav-item">
                                     <a href="{{ route('trashSubcategory') }}"
                                         class="nav-link @yield('strashcatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-trash-alt nav-icon"></i>
                                         <p>Trashed SubCategory</p>
                                     </a>
                                 </li>
@@ -328,7 +328,7 @@
                                 <li class="nav-item">
                                     <a href="{{ route('TrashedProduct') }}"
                                         class="nav-link @yield('producttrashcatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-trash-alt nav-icon"></i>
                                         <p>Trashed Products</p>
                                     </a>
                                 </li>
@@ -388,7 +388,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{route('coupon.trash')}}" class="nav-link @yield('couponDestroyactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fas fa-trash-alt nav-icon"></i>
                                         <p>Trash Coupon</p>
                                     </a>
                                 </li>

@@ -37,18 +37,22 @@ Route::get('/', [FrontendController::class, 'Frontend'])->name('Frontend');
 Route::get('product-details/{slug}/{id}', [FrontendController::class, 'ProductDetails'])->name('ProductDetails');
 Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class, 'GetProduct'])->name('GetProduct');
 
-############################ Dashboard Routes ############################
-Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-
 ############################ Cart Route ############################
 Route::get('carts/', [CartController::class, 'CartView'])->name('CartView');
 Route::post('cart/', [CartController::class, 'CartPost'])->name('CartPost');
 Route::get('delete-cart/{id}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
 
+/*
+########################################### Backend Start #############################################
+*/
+
+############################ Dashboard Routes ############################
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
 ############################ Category Routes ############################
 Route::get('/category/trash', [CategoryController::class, 'trash'])->name('category.trash');
 Route::get('/restore/categories/{id}', [CategoryController::class, 'RestoreCategory'])->name('restorecategory');
-Route::get('/Permanent-delete-categories/{category}', [CategoryController::class, 'PermanentDeleteCategory'])->name('permanentdeletecategory');
+Route::get('/Permanent-delete-categories/{id}', [CategoryController::class, 'PermanentDeleteCategory'])->name('permanentdeletecategory');
 Route::resource('category', CategoryController::class);
 
 ############################ Sub-Category Routes ############################

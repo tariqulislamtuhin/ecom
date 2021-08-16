@@ -347,7 +347,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-12">
                         <div class="footer-reserved">
                             <ul>
-                                <li>Copyright © 2019 Tohoney All rights reserved.</li>
+                                <li>Copyright © {{now()->year}} Tohoney All rights reserved.</li>
                             </ul>
                         </div>
                     </div>

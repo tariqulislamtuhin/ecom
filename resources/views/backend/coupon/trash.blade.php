@@ -20,12 +20,12 @@ bg-success
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 block red">
-                    <h1>Trash Table</h1>
+                    <h1>Trash Coupon</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categories</a></li>
-                        <li class="breadcrumb-item active">Trashed Data</li>
+                        <li class="breadcrumb-item"><a href="{{ route('coupon.index') }}">Coupons</a></li>
+                        <li class="breadcrumb-item active">Trashed Coupon</li>
                     </ol>
                 </div>
             </div>
@@ -41,7 +41,7 @@ bg-success
                         <div class="card-header">
                             <h3 class="card-title"><strong>Trash</strong></h3>
                             <a class="float-right" href="{{ route('category.index') }}">
-                                <i class="fa fa-list"> All Categories</i>
+                                <i class="fa fa-list"> All Coupons</i>
                             </a>
                         </div>
 
@@ -53,7 +53,8 @@ bg-success
                                     <tr>
                                         <th style="width: 10px">SL</th>
                                         <th>Coupon Name</th>
-                                        <th>Coupon Amount %</th>
+                                        <th>Coupon Amount<strong>( % )</strong>
+                                        </th>
                                         <th>Coupon Validity</th>
                                         <th>Coupon Limit</th>
                                         <th>Created At</th>

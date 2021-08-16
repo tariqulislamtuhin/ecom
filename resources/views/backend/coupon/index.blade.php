@@ -23,7 +23,7 @@ bg-success
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Simple Tables</h1>
+                    <h1>Coupon Tables</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -51,7 +51,7 @@ bg-success
                         <!-- /.card-header -->
                         <div class="card-body">
 
-                            <table class="table table-bordered">
+                            <table class="table table-striped table-bordered">
 
                                 <thead>
                                     <tr>

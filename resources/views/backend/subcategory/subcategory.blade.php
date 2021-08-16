@@ -56,9 +56,8 @@ bg-success
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">SL</th>
-                                        <th>Sub Category</th>
-                                        <th>Category</th>
-                                        <th>Slug</th>
+                                        <th>SubCategory Name</th>
+                                        <th>Category Name </th>
                                         <th>Created At</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -70,9 +69,7 @@ bg-success
                                         <td>{{ $subcats->firstItem() + $key }}</td>
                                         <td>{{ $data->subcategory_name }}</td>
                                         <td>{{ $data->Category->category_name }}</td>
-                                        <td>{{ $data->slug }}</td>
-                                        <td>{{ $data->created_at->format('d-M-Y h:i:s a') }}
-                                            ({{ $data->created_at->diffForHumans() }})</td>
+                                        <td>{{ $data->created_at->diffForHumans() }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-warning"
                                                 href="{{ route('editsubcategories',$data->slug) }}">Edit</a>

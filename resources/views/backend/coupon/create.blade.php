@@ -62,24 +62,25 @@ bg-success
                         @error('coupon_amount')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                        <div class="form-group">
-                            <label for="coupon_validity">Coupon Validity </label>
-                            <input type="date" class="form-control @error('coupon_validity') is-invalid @enderror"
-                                id="coupon_validity" placeholder="Enter Coupon Amount %" name="coupon_validity">
-                        </div>
-                        @error('coupon_validity')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="coupon_validity">Coupon Validity </label>
+                                <input type="date" class="form-control @error('coupon_validity') is-invalid @enderror"
+                                    id="coupon_validity" placeholder="Enter Coupon Amount %" name="coupon_validity">
+                            </div>
+                            @error('coupon_validity')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
 
-                        <div class="form-group">
-                            <label for="coupon_limit"> Coupon Limit </label>
-                            <input type="number" class="form-control" @error('coupon_limit') is-invalid @enderror"
-                                id="coupon_limit" placeholder="Coupon Limit" name="coupon_limit">
+                            <div class=" col form-group">
+                                <label for="coupon_limit"> Coupon Limit </label>
+                                <input type="number" class="form-control" @error('coupon_limit') is-invalid @enderror"
+                                    id="coupon_limit" placeholder="Coupon Limit" name="coupon_limit">
+                            </div>
+                            @error('coupon_limit')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @error('coupon_limit')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -118,5 +119,8 @@ bg-success
     $('#subcategory_name').keyup(function() {
       $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
     });
+</script>
+<script>
+    $('.Coupon_validity').datepicker();
 </script>
 @endsection

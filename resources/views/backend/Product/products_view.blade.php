@@ -56,7 +56,6 @@ bg-success
                                     <tr>
                                         <th style="width: 10px">SL</th>
                                         <th>Name</th>
-                                        <th>Slug</th>
                                         <th>Color</th>
                                         <th>Thumbnail</th>
                                         <th>Created At</th>
@@ -66,10 +65,8 @@ bg-success
                                 <tbody>
                                     @forelse ($products as $key => $product)
                                     <tr>
-
                                         <td>{{ $products->firstItem() + $key }}</td>
                                         <td>{{ $product->title }}</td>
-                                        <td>{{ $product->slug }}</td>
                                         <td>
                                             @php
                                             $unique = $product->Atrribute->unique('color_id');

@@ -38,6 +38,12 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'coupon_name' => 'required | unique:coupons,coupon_name',
+            'coupon_amount' => 'required|numeric|between:0,99',
+            'coupon_validity' => 'required|date',
+            'coupon_limit' => 'required|numeric',
+        ]);
         $coupon = new Coupon();
         $coupon->coupon_name = $request->coupon_name;
         $coupon->coupon_amount = $request->coupon_amount;
@@ -78,6 +84,9 @@ class CouponController extends Controller
      */
     public function update(Request $request, Coupon $coupon)
     {
+        $request->validate([
+            'coupon_name' => 'required|unique:coupons,coupon_name,' . $coupon->id,
+        ]);
         $coupon->coupon_name = $request->coupon_name;
         $coupon->coupon_amount = $request->coupon_amount;
         $coupon->coupon_validity = $request->coupon_validity;
@@ -111,7 +120,6 @@ class CouponController extends Controller
 
     public function clean($id)
     {
-        return "Ok";
         Coupon::withTrashed()->findOrFail($id)->forceDelete($id);
         return back();
     }

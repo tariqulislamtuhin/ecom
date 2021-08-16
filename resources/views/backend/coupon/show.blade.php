@@ -38,34 +38,34 @@ bg-success
         <div class="col-md mx-auto">
             <!-- general form elements -->
             <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Coupon Details</h3>
+                <div class="card-header text-center">
+                    <h3 class="card-title text-center">Coupon Details</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <table class=" table border">
+                <table class="table table-striped table-dark table-bordered">
                     <thead>
 
                     </thead>
                     <tbody>
                         <tr>
-                            <td scope="row">Coupon Name</td>
+                            <th scope="row">Coupon Name</th>
                             <td>{{$coupon->coupon_name}}</td>
                         </tr>
                         <tr>
-                            <td scope="row">Coupon Amount</td>
+                            <th scope="row">Coupon Amount</th>
                             <td>{{$coupon->coupon_amount}}%</td>
                         </tr>
                         <tr>
-                            <td scope="row">Coupon Validity</td>
+                            <th scope="row">Coupon Validity</th>
                             <td>{{$coupon->coupon_validity}}</td>
                         </tr>
                         <tr>
-                            <td scope="row">Coupon limit</td>
+                            <th scope="row">Coupon limit</th>
                             <td>{{$coupon->coupon_limit}}</td>
                         </tr>
                         <tr>
-                            <td scope="row">Created At</td>
+                            <th scope="row">Created At</th>
                             <td>{{$coupon->created_at->diffForHumans()}}</td>
                         </tr>
                     </tbody>

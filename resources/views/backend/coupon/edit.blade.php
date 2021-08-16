@@ -10,7 +10,7 @@ active
 @section('couponOpen')
 menu-is-opening menu-open active
 @endsection
-@section('couponCreateActive')
+@section('couponIndexactive')
 bg-success
 @endsection
 
@@ -23,12 +23,12 @@ bg-success
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">New SubCategory</h1>
+                    <h1 class="m-0">Edit coupon</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('subcategories') }}">Subcategories</a></li>
-                        <li class="breadcrumb-item active">Add SubCategory</li>
+                        <li class="breadcrumb-item"><a href="{{ route('coupon.index') }}">Coupons</a></li>
+                        <li class="breadcrumb-item active">Edit Coupon</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -39,7 +39,7 @@ bg-success
             <!-- general form elements -->
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Sub-category Form</h3>
+                    <h3 class="card-title">Edit Form Coupon</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
