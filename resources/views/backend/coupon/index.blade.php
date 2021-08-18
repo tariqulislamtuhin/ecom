@@ -66,9 +66,9 @@ bg-success
                                 </thead>
                                 <tbody>
 
-                                    @forelse ($Coupons as $Coupon)
+                                    @forelse ($Coupons as $key => $Coupon)
                                     <tr>
-                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $Coupons->firstitem() + $key }}</td>
                                         <td>{{ $Coupon->coupon_name}}</td>
                                         <td>{{ $Coupon->coupon_amount }}%</td>
                                         <td>{{ $Coupon->coupon_validity }}</td>
@@ -93,14 +93,11 @@ bg-success
                                         <td colspan="50" class="text-center">No Data Avilable</td>
                                     </tr>
                                     @endforelse
-
                                 </tbody>
                             </table>
-
-
                         </div>
                         <!-- /.card-body -->
-                        {{-- {{ $coupons->links() }} --}}
+                        {{ $Coupons->links() }}
 
                     </div>
                     <!-- /.card -->

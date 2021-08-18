@@ -82,10 +82,13 @@ class {{ class }} extends Controller
     {
         //
     }
+
+
     public function trash($id)
     {
         //
     }
+
     public function destroyPermanent($id)
     {
         //

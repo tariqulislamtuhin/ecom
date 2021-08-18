@@ -38,7 +38,7 @@ Route::get('product-details/{slug}/{id}', [FrontendController::class, 'ProductDe
 Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class, 'GetProduct'])->name('GetProduct');
 
 ############################ Cart Route ############################
-Route::get('carts/', [CartController::class, 'CartView'])->name('CartView');
+Route::get('carts/{coupon_name?}', [CartController::class, 'CartView'])->name('CartView');
 Route::post('cart/', [CartController::class, 'CartPost'])->name('CartPost');
 Route::get('delete-cart/{id}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
 
@@ -77,6 +77,7 @@ Route::post('/update-product', [ProductController::class, 'UpdateProduct'])->nam
 Route::get('/delete-product/{slug}/{id}', [ProductController::class, 'DeleteProduct'])->name('DeleteProduct');
 Route::get('/deleted-product', [ProductController::class, 'TrashedProduct'])->name('TrashedProduct');
 Route::get('delete-product-attribute-id/{id}', [ProductController::class, 'DeleteProductAttribute'])->name('DeleteProductAttribute');
+Route::get('delete/permanently/{id}', [ProductController::class, 'clean'])->name('product.clean');
 
 ############################ Size And Color Route ############################
 Route::get('create-size', [SizeAndColorController::class, 'CreateSize'])->name('CreateSize');
@@ -87,6 +88,7 @@ Route::get('delete-color/{id}', [SizeAndColorController::class, 'DeleteColor'])-
 Route::get('delete-size/{id}', [SizeAndColorController::class, 'DeleteSize'])->name('DeleteSize');
 
 ############################ Coupon Route ############################
+Route::post('coupon/destroyall', [CouponController::class, 'destroyAll'])->name('coupon.destroyAll');
 Route::get('coupon/trash', [CouponController::class, 'trash'])->name('coupon.trash');
 Route::get('coupon/restore/{id}', [CouponController::class, 'restore'])->name('coupon.restore');
 Route::get('coupon/clean/{id}', [CouponController::class, 'clean'])->name('coupon.clean');

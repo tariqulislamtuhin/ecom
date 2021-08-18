@@ -16,7 +16,7 @@ class CouponController extends Controller
     public function index()
     {
         return view('backend.coupon.index', [
-            "Coupons" => Coupon::orderBy('created_at', 'desc')->get()
+            "Coupons" => Coupon::orderBy('created_at', 'desc')->paginate(5)
         ]);
     }
 
@@ -104,7 +104,7 @@ class CouponController extends Controller
     public function destroy(Coupon $coupon)
     {
         $coupon->delete();
-        return back();
+        return back()->with('success', 'Deletation Succesfull.');
     }
     public function trash()
     {
@@ -115,12 +115,24 @@ class CouponController extends Controller
     public function restore($id)
     {
         Coupon::onlyTrashed()->findorFail($id)->restore($id);
-        return back();
+        return back()->with('success', 'Restore Succesfull.');
     }
 
     public function clean($id)
     {
-        Coupon::withTrashed()->findOrFail($id)->forceDelete($id);
+        // Coupon::withTrashed()->findOrFail($id)->forceDelete($id);
         return back();
+    }
+    public function destroyAll(Request $request)
+    {
+        // return $request->all();
+        if (!empty($request->restore)) {
+            foreach ($request->restore as $coupon) {
+                Coupon::onlyTrashed()->findOrFail($coupon)->restore();
+            }
+            return back()->with('success', 'These Coupons are restored.');
+        } else {
+            return back()->with('error', 'To restore Select One!');
+        }
     }
 }

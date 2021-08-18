@@ -43,30 +43,32 @@ bg-success
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <table class="table table-striped table-dark table-bordered">
+                <table class="table table-striped table-success table-bordered">
                     <thead>
 
                     </thead>
                     <tbody>
                         <tr>
                             <th scope="row">Coupon Name</th>
-                            <td>{{$coupon->coupon_name}}</td>
+                            <th>{{$coupon->coupon_name}}</th>
                         </tr>
                         <tr>
                             <th scope="row">Coupon Amount</th>
-                            <td>{{$coupon->coupon_amount}}%</td>
+                            <th>{{$coupon->coupon_amount}}%</th>
                         </tr>
                         <tr>
                             <th scope="row">Coupon Validity</th>
-                            <td>{{$coupon->coupon_validity}}</td>
+                            <th>{{$coupon->coupon_validity}}</th>
                         </tr>
                         <tr>
                             <th scope="row">Coupon limit</th>
-                            <td>{{$coupon->coupon_limit}}</td>
+                            <th>{{$coupon->coupon_limit}}</th>
                         </tr>
                         <tr>
                             <th scope="row">Created At</th>
-                            <td>{{$coupon->created_at->diffForHumans()}}</td>
+                            <td>
+                                {{$coupon->created_at->diffForHumans()}}&nbsp{{$coupon->created_at->format('<d-M-Y></d-M-Y> ( h: i a)')}}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -99,6 +101,28 @@ bg-success
       "hideEasing": "linear",
       "showMethod": "fadeIn",
       "hideMethod": "fadeOut"
+    }
+    @endif
+
+    @if (session('error'))
+    Command: toastr["error"]("{{ session('error') }}")
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
     }
     @endif
     $('#subcategory_name').keyup(function() {

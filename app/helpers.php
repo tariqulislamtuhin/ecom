@@ -18,3 +18,7 @@ function getproductPrice($p_id, $c_id, $s_id)
 {
     return Atrribute::with(['getColor', 'Products', 'getSize'])->where('product_id', $p_id)->where('color_id', $c_id)->where('size_id', $s_id)->first();
 }
+function discountTotal($total, $discount)
+{
+    return ($total * $discount) / 100;
+}

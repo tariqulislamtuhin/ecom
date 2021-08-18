@@ -25,7 +25,7 @@ bg-success
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ 'categories' }}">Categories</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('products.view') }}">Categories</a></li>
                         <li class="breadcrumb-item active">Trashed Data</li>
                     </ol>
                 </div>
@@ -74,7 +74,7 @@ bg-success
                                             <a class="btn btn-Success"
                                                 href="{{ url('restore-categories')}}/{{ $product->id }}">Restore</a>
                                             <a class="btn btn-danger"
-                                                href="{{ url('Permanent-delete-categories/')}}/{{ $product->id }}">Delete</a>
+                                                href="{{ route('product.clean',$product->id)}}">Delete</a>
                                         </td>
                                     </tr>
                                     @empty

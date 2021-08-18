@@ -8,6 +8,7 @@ use App\Models\color;
 use App\Models\product;
 use App\Models\Size;
 use App\Models\SubCategory;
+use Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -57,11 +58,13 @@ class ProductController extends Controller
         $products->summery  = $request->summery;
         $products->description  = $request->description;
 
+        // $save_location = public_path('thumbnail/') . $products->created_at()->format('Y/M/') . $products->id;
+        // File::makeDirectory($save_location, 0777, true, true);
+
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
             $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
-            // $location = public_path() . '/nefolder/image' . $name;          #New Folder Create korte Dey na
-            // File::makeDirectory($location, 0777, true, true);
+
             Image::make($image)->save(\public_path('thumb/' . $name), 70);
             $products->thumbnail  = $name;
         }
@@ -182,7 +185,7 @@ class ProductController extends Controller
         }
 
 
-        ############## New Attribute Section ##############
+        ############## Edit Attribute Section ##############
 
         foreach ($request->color_id as $key => $color) {
 
@@ -195,7 +198,7 @@ class ProductController extends Controller
             $attr->sale_price = $request->sale_price[$key];
             $attr->save();
         }
-        ############## Edit New Attribute Section ##############
+        ############## New Attribute Section ##############
 
         if ($request->hasFile('update_image')) {
 
@@ -237,7 +240,7 @@ class ProductController extends Controller
                     $attr->regular_price = $request->update_regular_price[$key];
                     $attr->sale_price = $request->update_sale_price[$key];
                     $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . 'png';
-                    // Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
+                    Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
                     $attr->save();
                 }
                 // } catch (Throwable $e) {
@@ -263,6 +266,18 @@ class ProductController extends Controller
     public function DeleteProductAttribute($id)
     {
         Atrribute::findorFail($id)->delete();
+        return back();
+    }
+
+    public function clean($id)
+    {
+        $pro_attri = Atrribute::Where('product_id', $id)->get();
+        if (Atrribute::Where('product_id', $id)->exists())
+            foreach ($pro_attri as $attr) {
+
+                Atrribute::find($attr->id)->forceDelete($attr->id);
+            }
+        product::onlyTrashed()->find($id)->forceDelete($id);
         return back();
     }
 }
