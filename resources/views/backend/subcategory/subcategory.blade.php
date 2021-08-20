@@ -64,17 +64,17 @@ bg-success
                                 </thead>
                                 <tbody>
 
-                                    @forelse ($subcats as $key => $data)
+                                    @forelse ($subcategorys as $key => $subcategory)
                                     <tr>
-                                        <td>{{ $subcats->firstItem() + $key }}</td>
-                                        <td>{{ $data->subcategory_name }}</td>
-                                        <td>{{ $data->Category->category_name }}</td>
-                                        <td>{{ $data->created_at->diffForHumans() }}</td>
+                                        <td>{{ $subcategorys->firstItem() + $key }}</td>
+                                        <td>{{ $subcategory->subcategory_name }}</td>
+                                        <td>{{ $subcategory->Category->category_name }}</td>
+                                        <td>{{ $subcategory->created_at->diffForHumans() }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-warning"
-                                                href="{{ route('editsubcategories',$data->slug) }}">Edit</a>
+                                                href="{{ route('editsubcategories',$subcategory) }}">Edit</a>
                                             <a class="btn btn-danger"
-                                                href="{{ route('deletesubcategory',$data->id)}}">Delete</a>
+                                                href="{{ route('deletesubcategory',$subcategory)}}">Delete</a>
                                         </td>
                                     </tr>
                                     @empty
@@ -89,7 +89,7 @@ bg-success
 
                         </div>
                         <!-- /.card-body -->
-                        {{ $subcats->links() }}
+                        {{ $subcategorys->links() }}
 
                     </div>
                     <!-- /.card -->

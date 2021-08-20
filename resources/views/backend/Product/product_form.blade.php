@@ -53,138 +53,129 @@ bg-success
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- <div class="form-group">
-                    <label for="slug"> Slug </label>
-                    <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" placeholder="Slug"name="slug">
-                  </div>
-                  @error('slug')
-                      <div class="alert alert-danger">{{ $message }}
-                    </div>
-                    @enderror --}}
-
-                    <div class="form-group">
-                        <label for="thumbnail">Product Thumbnail </label>
-                        <input type="file" class="form-control-file @error('thumbnail') is-invalid @enderror"
-                            id="thumbnailid" placeholder="thumbnail" name="thumbnail" value="{{old('thumbnail')}}">
-                    </div>
-                    @error('thumbnail')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                    <div class="row">
-                        <div class="form-group col-6">
-                            <label for="category"> Category</label>
-                            <select class="form-control @error('category_id') is-invalid @enderror" name="category_id"
-                                id="category_id">
-                                <option value="">Select</option>
-                                @foreach ($cats as $cat)
-                                <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-group">
+                            <label for="thumbnail">Product Thumbnail </label>
+                            <input type="file" class="form-control-file @error('thumbnail') is-invalid @enderror"
+                                id="thumbnailid" placeholder="thumbnail" name="thumbnail" value="{{old('thumbnail')}}">
                         </div>
-                        @error('category')
+                        @error('thumbnail')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                        <div class="form-group col-6">
-                            <label for="subcategory_id"> Subcategory</label>
-                            <select class="form-control @error('subcategory_id') is-invalid @enderror"
-                                name="subcategory_id" id="subcategory_id">
-                                <option value="">Select</option>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="category"> Category</label>
+                                <select class="form-control @error('category_id') is-invalid @enderror"
+                                    name="category_id" id="category_id">
+                                    <option value="">Select</option>
+                                    @foreach ($cats as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->category_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('category')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="form-group col-6">
+                                <label for="subcategory_id"> Subcategory</label>
+                                <select class="form-control @error('subcategory_id') is-invalid @enderror"
+                                    name="subcategory_id" id="subcategory_id">
+                                    <option value="">Select</option>
 
-                            </select>
+                                </select>
+                            </div>
+                            @error('subcategory_id')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
-                        @error('subcategory_id')
+
+                        <div class="form-group">
+                            <label for="summery"> Summery </label>
+                            <input type="text" class="form-control @error('summery') is-invalid @enderror" id="summery"
+                                placeholder="Summery" name="summery" value="{{old('summery')}}">
+                        </div>
+                        @error('summery')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                    </div>
 
-                    <div class="form-group">
-                        <label for="summery"> Summery </label>
-                        <input type="text" class="form-control @error('summery') is-invalid @enderror" id="summery"
-                            placeholder="Summery" name="summery" value="{{old('summery')}}">
-                    </div>
-                    @error('summery')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
+                        <div class="form-group">
+                            <label for="slug"> Description </label>
+                            <textarea name="description" class="form-control @error('description') is-invalid @enderror"
+                                id="description" placeholder="Description">{{old('description')}}</textarea>
+                        </div>
+                        @error('description')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 
-                    <div class="form-group">
-                        <label for="slug"> Description </label>
-                        <textarea name="description" class="form-control @error('description') is-invalid @enderror"
-                            id="description" placeholder="Description">{{old('description')}}</textarea>
-                    </div>
-                    @error('description')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-
-                    <div id="dynamic-field-1" class="form-group dynamic-field">
-                        {{-- <label for="field" class="font-weight-bold">Field 1</label>
+                        <div id="dynamic-field-1" class="form-group dynamic-field">
+                            {{-- <label for="field" class="font-weight-bold">Field 1</label>
                         <input type="text" id="field" class="form-control" name="field[]" /> --}}
 
-                        <div class="row">
-                            <div class="col-2 form-group">
-                                <label for="">Image</label>
-                                <input type="file" name="image[]" class="form-control-file" value="">
-                                @error('image[]')
-                                <div class="alert alert-danger font-size-sm">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-2 form-group">
-                                <label for="color_id">Color</label>
-                                <select name="color_id[]" id="color_id" class="form-control">
-                                    <option value>Select</option>
-                                    @foreach ($colors as $color)
-                                    <option value="{{$color->id}}">{{$color->color_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-2 form-group">
-                                <label for="size_id">Size</label>
-                                <select name="size_id[]" id="size_id" class="form-control">
-                                    <option value>Select</option>
-                                    @foreach ($sizes as $size)
-                                    <option value="{{$size->id}}">{{$size->size_name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('size_id[]')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-2 form-group">
-                                <label for="">Quantity</label>
-                                <input type="text" name="quantity[]" class="form-control" value="">
-                                @error('quantity[]')
-                                <div class="alert alert-danger font-size-sm">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            <div class="row">
+                                <div class="col-2 form-group">
+                                    <label for="">Image</label>
+                                    <input type="file" name="image[]" class="form-control-file" value="">
+                                    @error('image[]')
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="color_id">Color</label>
+                                    <select name="color_id[]" id="color_id" class="form-control">
+                                        <option value>Select</option>
+                                        @foreach ($colors as $color)
+                                        <option value="{{$color->id}}">{{$color->color_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="size_id">Size</label>
+                                    <select name="size_id[]" id="size_id" class="form-control">
+                                        <option value>Select</option>
+                                        @foreach ($sizes as $size)
+                                        <option value="{{$size->id}}">{{$size->size_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('size_id[]')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="">Quantity</label>
+                                    <input type="text" name="quantity[]" class="form-control" value="">
+                                    @error('quantity[]')
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                            <div class="col-2 form-group">
-                                <label for="">Price</label>
-                                <input type="text" name="regular_price[]" class="form-control" value="">
-                                @error('regular_price[]')
-                                <div class="alert alert-danger font-size-sm">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-2 form-group">
-                                <label for="">Sale</label>
-                                <input type="text" name="sale_price[]" class="form-control" value="">
-                                @error('sale_price[]')
-                                <div class="alert alert-danger font-size-sm">{{ $message }}</div>
-                                @enderror
-                            </div>
+                                <div class="col-2 form-group">
+                                    <label for="">Price</label>
+                                    <input type="text" name="regular_price[]" class="form-control" value="">
+                                    @error('regular_price[]')
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="">Sale</label>
+                                    <input type="text" name="sale_price[]" class="form-control" value="">
+                                    @error('sale_price[]')
+                                    <div class="alert alert-danger font-size-sm">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="clearfix mt-4">
-                        <button type="button" id="add-button"
-                            class="btn btn-secondary float-left text-uppercase shadow-sm"><i
-                                class="fas fa-plus fa-fw"></i> Add </button>
-                        <button type="button" id="remove-button"
-                            class="btn btn-secondary float-left text-uppercase ml-1" disabled="disabled"><i
-                                class="fas fa-minus fa-fw"></i> Remove </button>
-                    </div>
+                        <div class="clearfix mt-4">
+                            <button type="button" id="add-button"
+                                class="btn btn-secondary float-left text-uppercase shadow-sm"><i
+                                    class="fas fa-plus fa-fw"></i> Add </button>
+                            <button type="button" id="remove-button"
+                                class="btn btn-secondary float-left text-uppercase ml-1" disabled="disabled"><i
+                                    class="fas fa-minus fa-fw"></i> Remove </button>
+                        </div>
 
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
 
 
 

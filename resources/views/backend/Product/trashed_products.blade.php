@@ -74,7 +74,7 @@ bg-success
                                             <a class="btn btn-Success"
                                                 href="{{ url('restore-categories')}}/{{ $product->id }}">Restore</a>
                                             <a class="btn btn-danger"
-                                                href="{{ route('product.clean',$product->id)}}">Delete</a>
+                                                href="{{ route('product.clean',$product)}}">Delete</a>
                                         </td>
                                     </tr>
                                     @empty

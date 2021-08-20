@@ -48,7 +48,6 @@ class ProductController extends Controller
 
         ]);
 
-
         $slug = str::slug($request->title);
         $products = new product();
         $products->title  = $request->title;
@@ -87,7 +86,6 @@ class ProductController extends Controller
                 $attr->save();
             }
         }
-
         return redirect()->action([ProductController::class, "ProductForm"])->with('success', 'Product Added Succesfully');
     }
 
@@ -101,10 +99,10 @@ class ProductController extends Controller
     }
 
 
-    public function DeleteProduct($slug)
+    public function DeleteProduct(product $product)
     {
 
-        Product::where('slug', $slug)->first()->delete();
+        $product->delete();
         return redirect()->action([ProductController::class, "ViewProducts"])->with('success', 'Product deleted.');
     }
 
@@ -114,9 +112,9 @@ class ProductController extends Controller
     //     unlink($old_image);
     // }
 
-    public function EditProduct($slug)
+    public function EditProduct(product $product)
     {
-        $product = Product::with(['getCategory', 'getSubCategory', 'Atrribute'])->where('slug', $slug)->first();
+
         $cats = Category::all();
         $scat = SubCategory::where('id', $product->subcategory_id)->get();
         $colors = color::all();
@@ -127,14 +125,9 @@ class ProductController extends Controller
 
     ############## Product Update ##############
 
-    public function UpdateProduct(Request $request)
+    public function UpdateProduct(Request $request, product $product)
     {
-        // $attr = Atrribute::findorFail($request->att_id[0]);
-
-        // return $request->all();
-
         $slug = str::slug($request->title);
-        $product = Product::with('getCategory', 'getSubCategory', 'Atrribute')->findorFail($request->product_id);
         $product->title = $request->title;
         $product->slug = $slug;
         $product->category_id = $request->category_id;
@@ -263,9 +256,9 @@ class ProductController extends Controller
     }
 
 
-    public function DeleteProductAttribute($id)
+    public function DeleteProductAttribute(Atrribute $atr)
     {
-        Atrribute::findorFail($id)->delete();
+        $atr->delete();
         return back();
     }
 

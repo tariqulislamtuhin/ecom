@@ -61,13 +61,13 @@
                             $total += getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price
                             * $cart->quantity; @endphp
                             <td class="remove">
-                                <a href="{{route('DeleteCart',$cart->id)}}"> <i class="fa fa-trash text-danger"></i>
+                                <a href="{{route('DeleteCart',$cart)}}"> <i class="fa fa-trash text-danger"></i>
                                 </a>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="50" class="text-center"> No Data Avilable </td>
+                            <td colspan="50" class="text-center"><Strong> No Data Avilable</Strong> </td>
                         </tr>
                         @endforelse
 

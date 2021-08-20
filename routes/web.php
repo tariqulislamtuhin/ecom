@@ -40,7 +40,7 @@ Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class,
 ############################ Cart Route ############################
 Route::get('carts/{coupon_name?}', [CartController::class, 'CartView'])->name('CartView');
 Route::post('cart/', [CartController::class, 'CartPost'])->name('CartPost');
-Route::get('delete-cart/{id}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
+Route::get('delete-cart/{cart}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
 
 /*
 ########################################### Backend Start #############################################
@@ -61,9 +61,9 @@ Route::get('/Subcategory/create', [SubCategoryController::class, 'AddSubcategori
 Route::post('/post-subcategory', [SubCategoryController::class, 'PostSubcategories'])->name('postSubcategory');
 Route::post('/post-delete-subcategory', [SubCategoryController::class, 'PosstDeleteAllSubcategories'])->name('PosstDeleteAllSubcategories');
 Route::get('/trashed-subcategories', [SubCategoryController::class, 'TrashSubCategory'])->name('trashSubcategory');
-Route::get('/edit-subcategories/{slug}', [SubCategoryController::class, 'editsubcategories'])->name('editsubcategories');
-Route::get('/delete-subcategory/{slug}', [SubCategoryController::class, 'Deletesubcategories'])->name('deletesubcategory');
-Route::post('/update-subcategories', [SubCategoryController::class, 'updatesubcategories'])->name('updatesubcategories');
+Route::get('/edit-subcategories/{subcategory}', [SubCategoryController::class, 'editsubcategories'])->name('editsubcategories');
+Route::get('/delete-subcategory/{subcategory}', [SubCategoryController::class, 'Deletesubcategories'])->name('deletesubcategory');
+Route::put('/update-subcategories/{subcategory}', [SubCategoryController::class, 'updatesubcategories'])->name('updatesubcategories');
 Route::get('/delete-subcategories/{slug}', [SubCategoryController::class, 'PermanentdeleteSubCategory'])->name('PermanentdeleteSubCategory');
 Route::get('/restore-subcategories/{slug}', [SubCategoryController::class, 'PermanentrestoreSubCategory'])->name('PermanentrestoreSubCategory');
 
@@ -72,20 +72,20 @@ Route::get('/products', [ProductController::class, 'ViewProducts'])->name('produ
 Route::get('api/get-subcat-list/{cat_id}', [ProductController::class, 'GetSubCat'])->name('GetSubCat');
 Route::post('/add-products', [ProductController::class, 'AddProduct'])->name('AddProduct');
 Route::get('/post-products', [ProductController::class, 'ProductForm'])->name('ProductForm');
-Route::get('/edit-product/{slug}/{id}', [ProductController::class, 'EditProduct'])->name('EditProduct');
-Route::post('/update-product', [ProductController::class, 'UpdateProduct'])->name('UpdateProduct');
-Route::get('/delete-product/{slug}/{id}', [ProductController::class, 'DeleteProduct'])->name('DeleteProduct');
+Route::get('/edit-product/{product}', [ProductController::class, 'EditProduct'])->name('EditProduct');
+Route::put('/update-product{product}', [ProductController::class, 'UpdateProduct'])->name('UpdateProduct');
+Route::get('/delete-product/{product}', [ProductController::class, 'DeleteProduct'])->name('DeleteProduct');
 Route::get('/deleted-product', [ProductController::class, 'TrashedProduct'])->name('TrashedProduct');
-Route::get('delete-product-attribute-id/{id}', [ProductController::class, 'DeleteProductAttribute'])->name('DeleteProductAttribute');
+Route::get('delete-product-attribute/{id}', [ProductController::class, 'DeleteProductAttribute'])->name('DeleteProductAttribute');
 Route::get('delete/permanently/{id}', [ProductController::class, 'clean'])->name('product.clean');
 
 ############################ Size And Color Route ############################
-Route::get('create-size', [SizeAndColorController::class, 'CreateSize'])->name('CreateSize');
-Route::post('post-size', [SizeAndColorController::class, 'PostSize'])->name('PostSize');
-Route::get('create-color', [SizeAndColorController::class, 'CreateColor'])->name('CreateColor');
-Route::post('post-color', [SizeAndColorController::class, 'PostColor'])->name('PostColor');
-Route::get('delete-color/{id}', [SizeAndColorController::class, 'DeleteColor'])->name('DeleteColor');
-Route::get('delete-size/{id}', [SizeAndColorController::class, 'DeleteSize'])->name('DeleteSize');
+Route::get('Size/create/', [SizeAndColorController::class, 'CreateSize'])->name('CreateSize');
+Route::post('Size/post/', [SizeAndColorController::class, 'PostSize'])->name('PostSize');
+Route::get('Color/create/', [SizeAndColorController::class, 'CreateColor'])->name('CreateColor');
+Route::post('Color/post/', [SizeAndColorController::class, 'PostColor'])->name('PostColor');
+Route::get('Delete/color/{color}', [SizeAndColorController::class, 'DeleteColor'])->name('DeleteColor');
+Route::get('Delete/size/{size}', [SizeAndColorController::class, 'DeleteSize'])->name('DeleteSize');
 
 ############################ Coupon Route ############################
 Route::post('coupon/destroyall', [CouponController::class, 'destroyAll'])->name('coupon.destroyAll');

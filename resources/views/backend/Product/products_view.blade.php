@@ -97,9 +97,9 @@ bg-success
                                         <td>{{ $product->created_at->diffForHumans() }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-warning"
-                                                href="{{ route('EditProduct', [$product->slug,$product->id]) }}">Edit</a>
+                                                href="{{ route('EditProduct', $product) }}">Edit</a>
                                             <a class="btn btn-danger"
-                                                href="{{ route('DeleteProduct',[$product->slug,$product->id])}}">Delete</a>
+                                                href="{{ route('DeleteProduct',$product)}}">Delete</a>
                                         </td>
                                     </tr>
                                     @empty

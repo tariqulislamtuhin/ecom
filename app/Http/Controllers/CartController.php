@@ -30,9 +30,10 @@ class CartController extends Controller
                 if (Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))->exists()) {
 
                     ############## Coupon Limit Check ##############
-                    if (Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))->where('coupon_limit', '>', 0)->exists()) {
+                    if (Coupon::where('coupon_name', $coupon_name)->where('coupon_limit', '>', 0)->exists()) {
 
-                        $discount = Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))->first()->coupon_amount;
+                        $discount = Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))
+                            ->where('coupon_limit', '>', 0)->first()->coupon_amount;
                         $carts = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', Cookie::get('cookie_id'))->get();
                         return view('frontend.pages.cart_view', compact('carts', 'discount', 'coupon_name'));
                     } else {
@@ -63,7 +64,7 @@ class CartController extends Controller
 
             if ($cart_before) {
                 $cart_before->increment('quantity', $request->quantity);
-                return back();
+                return redirect()->action([CartController::class, 'cartview']);
             } else {
                 $cart = new Cart();
                 $cart->cookie_id = $random_generated_coockie_id;
@@ -73,7 +74,7 @@ class CartController extends Controller
                 $cart->size_id = $request->size_id;
                 $cart->size_id = now();
                 $cart->save();
-                return back();
+                return redirect()->action([CartController::class, 'cartview']);
             }
         } else {
             $random_generated_coockie_id = time() . Str::random(10);
@@ -85,15 +86,13 @@ class CartController extends Controller
             $cart->color_id = $request->color_id;
             $cart->size_id = $request->size_id;
             $cart->save();
-
             return back();
         }
     }
 
-    public function DeleteCart($id)
+    public function DeleteCart(Cart $cart)
     {
-        Cart::findorFail($id)->delete();
+        $cart->delete();
         return back();
     }
-    // return $request->except('_token');
 }

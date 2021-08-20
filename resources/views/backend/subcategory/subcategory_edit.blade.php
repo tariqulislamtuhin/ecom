@@ -34,19 +34,20 @@ active
                 <!-- /.card-header -->
                 <!-- form start -->
 
-                <form method="POST" action="{{ route('updatesubcategories') }}">
-                    @csrf
+                <form method="POST" action="{{ route('updatesubcategories',$subcategory) }}">
+                    @method("PUT") @csrf
                     <div class="card-body">
                         <div class="form-group">
 
-                            <input type="hidden" class="form-control" id="id" value="{{ $scat->id }}"
+                            <input type="hidden" class="form-control" id="id" value="{{ $subcategory->id }}"
                                 placeholder="Category name" name="id">
 
                             <label for="name">Category Name</label>
-                            <input type="text" class="form-control" id="name" value="{{ $scat->subcategory_name }}"
-                                placeholder="Category name" name="subcategory_name">
+                            <input type="text" class="form-control" id="name"
+                                value="{{ $subcategory->subcategory_name }}" placeholder="Category name"
+                                name="subcategory_name">
                             <label for="name">Slug</label>
-                            <input type="text" class="form-control" id="name" value="{{ $scat->slug }}"
+                            <input type="text" class="form-control" id="name" value="{{ $subcategory->slug }}"
                                 placeholder="Category name" name="slug">
 
 

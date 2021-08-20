@@ -16,21 +16,26 @@ class SizeAndColorController extends Controller
         $datas = Size::orderBy('created_at', 'desc')->paginate(3);
         return view('backend.SizeAndColor.Sizes_view', compact('datas'));
     }
+
     public function PostSize(Request $request)
     {
-        $request->validate([
+        $valid = $request->validate([
 
             'size_name' => 'required|max:4|unique:sizes',
         ], [
             'max' => 'Please! enter Short term of sizes.',
             'unique' => 'This size already added. '
         ]);
+        if (!$valid) {
+            return redirect('Size/create/#size_name');
+        } else {
 
-        $size = new Size();
-        $size->size_name = Str::lower($request->size_name);
-        $size->slug = Str::slug($request->size_name . " size ");
-        $size->save();
-        return back();
+            $size = new Size();
+            $size->size_name = Str::lower($request->size_name);
+            $size->slug = Str::slug($request->size_name . " size ");
+            $size->save();
+            return redirect('Size/create/#size_name');
+        }
     }
 
 
@@ -39,6 +44,7 @@ class SizeAndColorController extends Controller
         $datas = color::orderBy('created_at', 'desc')->paginate(3);
         return view('backend.SizeAndColor.color_view', compact('datas'));
     }
+
     public function PostColor(Request $request)
     {
         $request->validate([
@@ -55,22 +61,22 @@ class SizeAndColorController extends Controller
         return back();
     }
 
-    public function DeleteColor($id)
+    public function DeleteColor(color $color)
     {
-        if (Atrribute::where('color_id', $id)->count() < 1) {
-            color::findorFail($id)->forceDelete();
-            return redirect()->action([SizeAndColorController::class, 'CreateColor'])->with('success', 'Color Deleted succesfully');
+        if (!Atrribute::where('color_id', $color->id)->exists()) {
+            $color->delete();
+            return back()->with('success', $color->color_name . ' Color Deleted succesfully');
         } else {
-            return redirect()->action([SizeAndColorController::class, 'CreateColor'])->with('error', 'This color is in use.');
+            return back()->with('error', $color->color_name . ' is in use.');
         }
     }
-    public function DeleteSize($id)
+    public function DeleteSize(Size $size)
     {
-        if (Atrribute::where('size_id', $id)->count() < 1) {
-            Size::findorFail($id)->forceDelete();
-            return redirect()->action([SizeAndColorController::class, "CreateSize"])->with('success', 'Size Deleted Succesfully');
+        if (!Atrribute::where('size_id', $size->id)->exists()) {
+            $size->delete();
+            return back()->with('success', $size->slug . ' Size Deleted Succesfully');
         } else {
-            return redirect()->action([SizeAndColorController::class, "CreateSize"])->with('error', 'This Size is in Use.');
+            return back()->with('error', $size->slug . ' is in use.');
         }
     }
 }

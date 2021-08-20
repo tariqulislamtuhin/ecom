@@ -33,7 +33,8 @@ active
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="POST" action="{{ route('UpdateProduct') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('UpdateProduct',$product) }}" enctype="multipart/form-data">
+                    @method("PUT")
                     @csrf
                     <div class="card-body">
                         {{-- product field Start --}}
@@ -196,8 +197,7 @@ active
                                 <div class="form-group">
                                     <label for="">Delete</label>
                                     <span>
-                                        <a class="form-control"
-                                            href="{{route('DeleteProductAttribute',$attribute->id)}}"><i
+                                        <a class="form-control" href="{{route('DeleteProductAttribute',$attribute)}}"><i
                                                 class="text-danger fas fa-trash-alt"></i></a>
                                     </span>
                                 </div>
