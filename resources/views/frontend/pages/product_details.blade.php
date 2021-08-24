@@ -26,25 +26,25 @@
                 <div class="product-single-img">
                     <div class="product-active owl-carousel">
                         <div class="item">
-                            <img src="{{asset('thumb/'.$products->thumbnail)}}" alt="{{$products->title}}" width="50">
+                            <img src="{{asset('thumb/'.$product->thumbnail)}}" alt="{{$product->title}}" width="50">
                         </div>
-                        @foreach ($products->atrribute as $attribute)
+                        @foreach ($product->atrribute as $attribute)
                         <div class="item">
-                            <img src="{{asset('images/'.$attribute->image)}}" alt="{{$products->title}}">
+                            <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}">
                         </div>
                         @endforeach
                     </div>
 
                     <div class="product-thumbnil-active  owl-carousel">
                         @php
-                        $unique = $products->atrribute->unique('color_id')
+                        $unique = $product->atrribute->unique('color_id')
                         @endphp
                         <div class="item">
-                            <img src="{{asset('thumb/'.$products->thumbnail)}}" alt="{{$products->title}}">
+                            <img src="{{asset('thumb/'.$product->thumbnail)}}" alt="{{$product->title}}">
                         </div>
                         @foreach ($unique as $attribute)
                         <div class="item">
-                            <img src="{{asset('images/'.$attribute->image)}}" alt="{{$products->title}}" width="50"
+                            <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}" width="50"
                                 height="50">
                         </div>
                         @endforeach
@@ -54,11 +54,11 @@
             </div>
             <div class="col-lg-6">
                 <div class="product-single-content">
-                    <h3 class="col">{{$products->title}}</h3>
+                    <h3 class="col">{{$product->title}}</h3>
                     <div class="rating-wrap fix">
-                        <span class="pull-left priceofSize">{{collect($products->Atrribute)->min('sale_price')}}
+                        <span class="pull-left priceofSize">{{collect($product->Atrribute)->min('sale_price')}}
                         </span> ৳ (<span
-                            class="sizeofQuantity">{{ 'Total '.collect($products->Atrribute)->sum('quantity').' pcs'}}
+                            class="sizeofQuantity">{{ 'Total '.collect($product->Atrribute)->sum('quantity').' pcs'}}
                         </span>)
 
                         <ul class="rating pull-right">
@@ -70,10 +70,10 @@
                             <li>(05 Customar Review)</li>
                         </ul>
                     </div>
-                    <p>{{$products->summery}}</p>
+                    <p>{{$product->summery}}</p>
                     <form action="{{route('CartPost')}}" id="cartform" method="POST">
                         @csrf
-                        <input type="hidden" name="product_id" value="{{$products->id}}">
+                        <input type="hidden" name="product_id" value="{{$product->id}}">
                         <ul class="input-style">
                             <li class="quantity cart-plus-minus">
                                 <input id="quantityofProduct" type="text" name="quantity" value="1" />
@@ -82,12 +82,12 @@
                         </ul>
                         <ul class="cetagory">
                             <li>Categories:</li>
-                            <li><a href="{{route('Frontend')}}">{{$products->getCategory->category_name}}</a></li>
+                            <li><a href="{{route('Frontend')}}">{{$product->getCategory->category_name}}</a></li>
                         </ul>
                         <ul class="cetagory colorradio">
                             <li>Color:</li>
                             @forelse ($grouped as $group)
-                            <input type="radio" id="cid{{$group[0]->id}}" data-product="{{$products->id}}"
+                            <input type="radio" id="cid{{$group[0]->id}}" data-product="{{$product->id}}"
                                 class="color_id @error('color_id') is-invalid @enderror" name="color_id"
                                 value="{{$group[0]->color_id}}">
                             <label for="cid{{$group[0]->id}}">{{$group[0]->getColor->color_name ?? ''}}</a></label>
@@ -136,7 +136,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="description">
                         <div class="description-wrap">
-                            <p>{{$products->description}}</p>
+                            <p>{{$product->description}}</p>
                         </div>
                     </div>
                     <div class="tab-pane" id="tag">
@@ -381,23 +381,24 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="featured-product-wrap">
                     <div class="featured-product-img">
-                        <a href="{{route('ProductDetails',[$item->slug,$item->id])}}">
+                        <a href="{{route('ProductDetails',[$product,$product->slug])}}">
                             <img src="{{asset('thumb/'.$item->thumbnail)}}" alt=""></a>
                     </div>
                     <div class="featured-product-content">
                         <div class="row">
                             <div class="col-7">
-                                <h3><a href="{{route('ProductDetails',[$item->slug,$item->id])}}">{{$item->title}}</a>
+                                <h3><a href="{{route('ProductDetails',[$product,$product->slug])}}">{{$item->title}}</a>
                                 </h3>
                                 <p>{{$item->Atrribute->min('sale_price') ?? "Not Available"}} ৳</p>
                             </div>
                             <div class="col-5 text-right">
                                 <ul>
-                                    <li><a href="{{route('ProductDetails',[$item->slug,$item->id])}}"><i
+                                    <li><a href="{{route('ProductDetails',[$product,$product->slug])}}"><i
                                                 class="fa fa-shopping-cart"></i></a>
                                     </li>
-                                    <li><a href="{{route('ProductDetails',[$item->slug,$item->id])}}"><i
-                                                class="fa fa-heart"></i></a></li>
+                                    <li><a href="{{route('ProductDetails',[$product,$product->slug])}}"><i
+                                                class="fa fa-heart"></i></a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -405,69 +406,6 @@
                 </div>
             </div>
             @endforeach
-            {{-- <div class="col-lg-3 col-sm-6 col-12">
-                <div class="featured-product-wrap">
-                    <div class="featured-product-img">
-                        <img src="assets/images/product/2.jpg" alt="">
-                    </div>
-                    <div class="featured-product-content">
-                        <div class="row">
-                            <div class="col-7">
-                                <h3><a href="shop.html">Olive Oil</a></h3>
-                                <p>$354.75</p>
-                            </div>
-                            <div class="col-5 text-right">
-                                <ul>
-                                    <li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
-                                    <li><a href="cart.html"><i class="fa fa-heart"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 col-12">
-                <div class="featured-product-wrap">
-                    <div class="featured-product-img">
-                        <img src="assets/images/product/3.jpg" alt="">
-                    </div>
-                    <div class="featured-product-content">
-                        <div class="row">
-                            <div class="col-7">
-                                <h3><a href="shop.html">Sunrise Oil</a></h3>
-                                <p>$214.80</p>
-                            </div>
-                            <div class="col-5 text-right">
-                                <ul>
-                                    <li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
-                                    <li><a href="cart.html"><i class="fa fa-heart"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 col-12">
-                <div class="featured-product-wrap">
-                    <div class="featured-product-img">
-                        <img src="assets/images/product/4.jpg" alt="">
-                    </div>
-                    <div class="featured-product-content">
-                        <div class="row">
-                            <div class="col-7">
-                                <h3><a href="shop.html">Coconut Oil</a></h3>
-                                <p>$241.00</p>
-                            </div>
-                            <div class="col-5 text-right">
-                                <ul>
-                                    <li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
-                                    <li><a href="cart.html"><i class="fa fa-heart"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
 </div>

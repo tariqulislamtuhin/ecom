@@ -12,18 +12,15 @@ class FrontendController extends Controller
 {
     public function Frontend()
     {
-        $latests = Product::with('Atrribute')->latest()->limit(10)->get();
-        // $master_carts = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->get();
-        return view('frontend.main', compact('latests'));
+        $products = Product::with('Atrribute')->latest()->limit(10)->get();
+        return view('frontend.main', compact('products'));
     }
-    public function ProductDetails($slug, $id)
+    public function ProductDetails(Product $product, $product_slug = null)
     {
-        $products = Product::with(['Atrribute', 'getCategory', 'getSubCategory'])->findOrFail($id)->where('slug', $slug)->first();
-        $reletedProduct = Product::with(['Atrribute', 'getCategory', 'getSubCategory'])->where('id', '!=', $id)->where('category_id', $products->category_id)->get();
-        $attribute = Atrribute::with(['Products', 'getColor', 'getSize'])->where('product_id', $products->id)->get();
+        $reletedProduct = Product::with(['Atrribute', 'getCategory', 'getSubCategory'])->where('id', '!=', $product->id)->where('category_id', $product->category_id)->get();
+        $attribute = Atrribute::with(['Products', 'getColor', 'getSize'])->where('product_id', $product->id)->get();
         $grouped = $attribute->groupBy('color_id');
-        // return $grouped->all();
-        return view('frontend.pages.product_details', compact(['products', 'reletedProduct', 'grouped']));
+        return view('frontend.pages.product_details', compact(['product', 'reletedProduct', 'grouped']));
     }
 
     public function GetProduct($color_id, $product_id)
@@ -33,9 +30,9 @@ class FrontendController extends Controller
         foreach ($sizes as $key => $size) {
             $output = $output . '<input type="radio" data-quantity="' . $size->quantity . '" id="size" data-price="' . $size->sale_price . '" class="sizeCheck m-1 @error(' . 'size_id' . ') is-invalid @enderror" name="size_id" value="' . $size->size_id . '"> <label for="size">  ' . $size->getSize->size_name . '  </label>';
         }
-        // return response()->json($sizes);
-        echo $output;
+        return response()->json($output);
     }
+
 
     // function about()
     // {

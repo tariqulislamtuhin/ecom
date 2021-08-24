@@ -21,31 +21,26 @@ class CartController extends Controller
             $discount = 0;
             $carts = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', Cookie::get('cookie_id'))->get();
             return view('frontend.pages.cart_view', compact('carts', 'discount', 'coupon_name'));
-        } else {
-
-            ############## Coupon Name Check ##############
-            if (Coupon::where('coupon_name', $coupon_name)->exists()) {
-
-                ############## Coupon Date Check ##############
-                if (Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))->exists()) {
-
-                    ############## Coupon Limit Check ##############
-                    if (Coupon::where('coupon_name', $coupon_name)->where('coupon_limit', '>', 0)->exists()) {
-
-                        $discount = Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))
-                            ->where('coupon_limit', '>', 0)->first()->coupon_amount;
-                        $carts = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', Cookie::get('cookie_id'))->get();
-                        return view('frontend.pages.cart_view', compact('carts', 'discount', 'coupon_name'));
-                    } else {
-                        return redirect('/carts/#coupon_section')->with('coupon_error', 'This Coupon exceeded The limit!');
-                    }
-                } else {
-                    return redirect('/carts/#coupon_section')->with('coupon_error', 'Sorry! Coupon is Expired!');
-                }
-            } else {
-                return redirect('/carts/#coupon_section')->with('coupon_error', 'Coupon is invalid.!');
-            }
         }
+        ############## Coupon Name Check ##############
+        if (Coupon::where('coupon_name', $coupon_name)->exists()) {
+
+            ############## Coupon Date Check ##############
+            if (Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))->exists()) {
+
+                ############## Coupon Limit Check ##############
+                if (Coupon::where('coupon_name', $coupon_name)->where('coupon_limit', '>', 0)->exists()) {
+
+                    $discount = Coupon::where('coupon_name', $coupon_name)->whereDate('coupon_validity', '>=', now()->format('Y-m-d'))
+                        ->where('coupon_limit', '>', 0)->first()->coupon_amount;
+                    $carts = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', Cookie::get('cookie_id'))->get();
+                    return view('frontend.pages.cart_view', compact('carts', 'discount', 'coupon_name'));
+                }
+                return redirect('/carts/#coupon_section')->with('coupon_error', 'This Coupon exceeded The limit!');
+            }
+            return redirect('/carts/#coupon_section')->with('coupon_error', 'Sorry! Coupon is Expired!');
+        }
+        return redirect('/carts/#coupon_section')->with('coupon_error', 'Coupon is invalid.!');
     }
     public function CartPost(Request $request)
     {
@@ -60,7 +55,7 @@ class CartController extends Controller
 
         if ($request->hasCookie('cookie_id')) {
             $random_generated_coockie_id = $request->cookie('cookie_id');
-            $cart_before = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', $random_generated_coockie_id)->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->first()->exist();
+            $cart_before = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', $random_generated_coockie_id)->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->first()->exists();
 
             if ($cart_before) {
                 $cart_before->increment('quantity', $request->quantity);

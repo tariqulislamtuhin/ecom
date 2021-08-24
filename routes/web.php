@@ -6,6 +6,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SizeAndColorController;
 use App\Http\Controllers\SubCategoryController;
 use App\Models\Coupon;
@@ -34,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 
 ############################ Frontend Route ############################
 Route::get('/', [FrontendController::class, 'Frontend'])->name('Frontend');
-Route::get('product-details/{slug}/{id}', [FrontendController::class, 'ProductDetails'])->name('ProductDetails');
+Route::get('product-details/{product}/{product_name?}', [FrontendController::class, 'ProductDetails'])->name('ProductDetails');
 Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class, 'GetProduct'])->name('GetProduct');
 
 ############################ Cart Route ############################
@@ -93,6 +94,9 @@ Route::get('coupon/trash', [CouponController::class, 'trash'])->name('coupon.tra
 Route::get('coupon/restore/{id}', [CouponController::class, 'restore'])->name('coupon.restore');
 Route::get('coupon/clean/{id}', [CouponController::class, 'clean'])->name('coupon.clean');
 Route::resource('coupon', CouponController::class);
+
+############################ Role Route ############################
+Route::resource('role', RoleController::class);
 
 
 

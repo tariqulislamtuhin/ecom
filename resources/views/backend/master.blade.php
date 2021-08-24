@@ -205,7 +205,7 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('dashboard') }}" class="d-block">Alexander Pierce</a>
+                        <a href="{{ route('dashboard') }}" class="d-block">{{Auth::user()->name}}</a>
                     </div>
                 </div>
 
@@ -252,13 +252,13 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ route('category.index') }}" class="nav-link @yield(' cviewatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-list-alt nav-icon"></i>
                                         <p>Views Category</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('category.create') }}" class="nav-link @yield('adcatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="nav-icon fas fa-plus"></i>
                                         <p>Add Category</p>
                                     </a>
                                 </li>
@@ -283,13 +283,13 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ route("Subcategories") }}" class="nav-link @yield('sviewcatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-list-alt nav-icon"></i>
                                         <p>Views SubCategory</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('addSubcategory') }}" class="nav-link @yield('saddcatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="nav-icon fas fa-plus"></i>
                                         <p>Add SubCategory</p>
                                     </a>
                                 </li>
@@ -315,13 +315,13 @@
                                 <li class="nav-item">
                                     <a href="{{ route('products.view') }}"
                                         class="nav-link @yield('productviewcatactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-list-alt nav-icon"></i>
                                         <p>Views Products</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('ProductForm') }}" class="nav-link @yield('productaddcatactive')">
-                                        <i class="nav-icon fas fa-plus "></i>
+                                        <i class="nav-icon fas fa-plus"></i>
                                         <p>Add Product</p>
                                     </a>
                                 </li>
@@ -372,10 +372,9 @@
 
                                 <li class="nav-item ">
                                     <a href="{{ route('coupon.index') }}" class="nav-link @yield('couponIndexactive')">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-list-alt nav-icon"></i>
                                         <p>
                                             Coupon List
-                                            {{-- <i class="right fas fa-angle-left"></i> --}}
                                         </p>
                                     </a>
                                 </li>
@@ -390,6 +389,35 @@
                                     <a href="{{route('coupon.trash')}}" class="nav-link @yield('couponDestroyactive')">
                                         <i class="fas fa-trash-alt nav-icon"></i>
                                         <p>Trash Coupon</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item @yield('roleOpen')">
+                            <a href="#" class="nav-link @yield('roleActive')">
+                                <i class="nav-icon fas fa-users-cog"></i>
+                                <p>
+                                    User Role Manager
+                                    <i class="fas fa-angle-left right"></i>
+                                    <span class="badge badge-info right"></span>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item ">
+                                    <a href="{{ route('role.index') }}" class="nav-link @yield('roleIndexactive')">
+                                        <i class="far fa-list-alt nav-icon"></i>
+                                        <p>
+                                            Roles
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a href="{{ route('role.create') }}" class="nav-link @yield('couponCreateactive')">
+                                        <i class="nav-icon fas fa-plus"></i>
+                                        <p>
+                                            Add Role
+                                        </p>
                                     </a>
                                 </li>
                             </ul>

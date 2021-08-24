@@ -45,7 +45,7 @@
                                     alt="{{$cart->Getproduct->title}}">
                             </td>
                             <td class="product"><a
-                                    href="{{route('ProductDetails',[$cart->GetProduct->slug,$cart->product_id])}}">{{$cart->Getproduct->title}}</a>
+                                    href="{{route('ProductDetails',[$cart->GetProduct,$cart->GetProduct->slug])}}">{{$cart->Getproduct->title}}</a>
                                 <br><span>({{'Color: '.$cart->GetColor->color_name.', Size: '.$cart->GetSize->size_name}})</span>
                             </td>
                             <td class="price">

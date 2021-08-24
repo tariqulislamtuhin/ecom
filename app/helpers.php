@@ -2,6 +2,7 @@
 
 use App\Models\Atrribute;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
 
 function cart_total_count()

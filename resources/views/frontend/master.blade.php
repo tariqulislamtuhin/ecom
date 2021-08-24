@@ -184,7 +184,7 @@
                                         </div>
                                         <div class="cart-content">
                                             <a
-                                                href="{{route('ProductDetails',[$cart->GetProduct->slug,$cart->product_id])}}">
+                                                href="{{route('ProductDetails',[$cart->GetProduct,$cart->getProduct->slug])}}">
                                                 {{$cart->Getproduct->title}}
                                             </a>
                                             <span>QTY : {{$cart->quantity}}</span>
