@@ -43,10 +43,10 @@ Route::get('carts/{coupon_name?}', [CartController::class, 'CartView'])->name('C
 Route::post('cart/', [CartController::class, 'CartPost'])->name('CartPost');
 Route::get('delete-cart/{cart}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
 
+
 /*
 ########################################### Backend Start #############################################
 */
-
 ############################ Dashboard Routes ############################
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
@@ -93,7 +93,9 @@ Route::post('coupon/destroyall', [CouponController::class, 'destroyAll'])->name(
 Route::get('coupon/trash', [CouponController::class, 'trash'])->name('coupon.trash');
 Route::get('coupon/restore/{id}', [CouponController::class, 'restore'])->name('coupon.restore');
 Route::get('coupon/clean/{id}', [CouponController::class, 'clean'])->name('coupon.clean');
-Route::resource('coupon', CouponController::class);
+Route::get('assign/user', [RoleController::class, 'assignUser'])->name('assignuser.index');
+Route::post('assign/user', [RoleController::class, 'assignUserStore'])->name('assignuser.store');
+Route::resource('coupon', CouponController::class,);
 
 ############################ Role Route ############################
 Route::resource('role', RoleController::class);

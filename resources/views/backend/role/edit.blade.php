@@ -50,7 +50,7 @@ bg-success
                         <div class="form-group">
                             <label for="role_name">Role Name</label>
                             <input type="text" class="form-control @error('role_name') is-invalid @enderror"
-                                id="role_name" placeholder="Role Name" name="role_name" value="{{$role->name}}">
+                                id="role_name" placeholder="Role Name" name="role_name" readonly value="{{$role->name}}">
                         </div>
                         @error('role_name')
                         <div class="alert alert-danger">{{ $message }}</div>

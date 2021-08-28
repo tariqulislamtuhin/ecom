@@ -205,7 +205,7 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('dashboard') }}" class="d-block">{{Auth::user()->name}}</a>
+                        <a href="{{ route('dashboard') }}" class="d-block">{{Auth::user()->name ?? ''}}</a>
                     </div>
                 </div>
 
@@ -417,6 +417,14 @@
                                         <i class="nav-icon fas fa-plus"></i>
                                         <p>
                                             Add Role
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a href="{{ route('assignuser.index') }}" class="nav-link @yield('assignUseractive')">
+                                        <i class="nav-icon fas fa-plus"></i>
+                                        <p>
+                                            Assign User
                                         </p>
                                     </a>
                                 </li>

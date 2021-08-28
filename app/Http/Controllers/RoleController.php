@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use DebugBar\Storage\FileStorage;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\File;
+use Ramsey\Uuid\Type\Integer;
+
+use function PHPUnit\Framework\fileExists;
 
 class RoleController extends Controller
 {
@@ -19,6 +25,25 @@ class RoleController extends Controller
             'roles' => Role::all()
         ]);
     }
+
+    /** public function folderMaker()
+    {
+        $j = 1;
+        for ($i = 1; $i <= 70; $i++) {
+            $location = public_path('CIT PHP/') . "class " . $i;
+            if ($i > 23) {
+                $location = public_path('CIT PHP/') . "class " . $i . " (Laravel " . $j . ")";
+                $j++;
+                File::makeDirectory($location, 0777, true, true);
+            } else {
+
+                File::makeDirectory($location, 0777, true, true);
+            }
+        }
+        return "Done";
+    }
+     */
+
 
     /**
      * Show the form for creating a new resource.
@@ -38,15 +63,17 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'role_name' => 'required',
-            'permissions' => 'required|array|min:1'
-        ], [
-            'permissions.required' => 'Give at least one Permission'
-        ]);
-        $role = Role::create(['name' => $request->role_name]);
-        $role->givePermissionTo($request->permissions);
-        return back()->with('success', 'Role Added with Permissions');
+
+
+        // $request->validate([
+        //     'role_name' => 'required',
+        //     'permissions' => 'required|array|min:1'
+        // ], [
+        //     'permissions.required' => 'Give at least one Permission'
+        // ]);
+        // $role = Role::create(['name' => $request->role_name]);
+        // $role->givePermissionTo($request->permissions);
+        // return back()->with('success', 'Role Added with Permissions');
     }
 
     /**
@@ -99,5 +126,19 @@ class RoleController extends Controller
     public function destroyPermanent($id)
     {
         //
+    }
+    public function assignUser()
+    {
+        return view('backend.role.assignUser', [
+            'users' => User::all(),
+            'roles' => Role::all()
+        ]);
+    }
+    public function assignUserStore(Request $request)
+    {
+        // return $request;
+        $user = User::find($request->user_name);
+        $user->assignRole($request->role_name);
+        return back();
     }
 }

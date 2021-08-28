@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\File;
 use Throwable;
+use Illuminate\Support\Facades\File;
 use function PHPUnit\Framework\fileExists;
 use function PHPUnit\Framework\isEmpty;
 
@@ -135,6 +135,57 @@ class ProductController extends Controller
         $product->summery = $request->summery;
         $product->description = $request->description;
 
+        if ($request->hasFile('thumbnail')) {
+
+            $image = $request->file('thumbnail');
+            $old_img = \public_path('thumb/') . $product->thumbnail;
+
+            if (file_exists($old_img)) {
+                unlink($old_img);
+            }
+
+            $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
+
+            // $location = public_path() . '/nefolder/image' . $name;
+            // File::makeDirectory($location, 0777, true, true);
+
+            Image::make($image)->save(\public_path('thumb/' . $name), 70);
+            $product->thumbnail  = $name;
+        }
+        if ($request->hasFile('thumbnail')) {
+
+            $image = $request->file('thumbnail');
+            $old_img = \public_path('thumb/') . $product->thumbnail;
+
+            if (file_exists($old_img)) {
+                unlink($old_img);
+            }
+
+            $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
+
+            ##############   $location = public_path() . '/nefolder/image' . $name; ##############
+            ##############  File::makeDirectory($location, 0777, true, true);      ##############
+
+            Image::make($image)->save(\public_path('thumb/' . $name), 70);
+            $product->thumbnail  = $name;
+        }
+        if ($request->hasFile('thumbnail')) {
+
+            $image = $request->file('thumbnail');
+            $old_img = \public_path('thumb/') . $product->thumbnail;
+
+            if (file_exists($old_img)) {
+                unlink($old_img);
+            }
+
+            $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
+
+            ##############   $location = public_path() . '/nefolder/image' . $name; ##############
+            ##############  File::makeDirectory($location, 0777, true, true);      ##############
+
+            Image::make($image)->save(\public_path('thumb/' . $name), 70);
+            $product->thumbnail  = $name;
+        }
         if ($request->hasFile('thumbnail')) {
 
             $image = $request->file('thumbnail');
