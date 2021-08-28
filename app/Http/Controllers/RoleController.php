@@ -65,15 +65,15 @@ class RoleController extends Controller
     {
 
 
-        // $request->validate([
-        //     'role_name' => 'required',
-        //     'permissions' => 'required|array|min:1'
-        // ], [
-        //     'permissions.required' => 'Give at least one Permission'
-        // ]);
-        // $role = Role::create(['name' => $request->role_name]);
-        // $role->givePermissionTo($request->permissions);
-        // return back()->with('success', 'Role Added with Permissions');
+        $request->validate([
+            'role_name' => 'required',
+            'permissions' => 'required|array|min:1'
+        ], [
+            'permissions.required' => 'Give at least one Permission'
+        ]);
+        $role = Role::create(['name' => $request->role_name]);
+        $role->givePermissionTo($request->permissions);
+        return back()->with('success', 'Role Added with Permissions');
     }
 
     /**
@@ -113,7 +113,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        // $role->delete();
+        $role->delete();
         return back()->with('success', 'Deletation Succesfull.');
     }
 

@@ -38,6 +38,9 @@ bg-success
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            {{-- @can()
+
+            @endcan --}}
             <div class="row">
                 <div class="col-md">
                     <div class="card">
@@ -57,7 +60,6 @@ bg-success
                                     <tr>
                                         <th style="width: 10px">SL</th>
                                         <th>Role Name</th>
-                                        <th>Permissions %</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -66,18 +68,9 @@ bg-success
                                     @forelse ($roles as $role)
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $role->name}}</td>
                                         <td>
-                                            <ol>
-                                                @forelse ($role->permissions->pluck('name') as $permission)
-                                                <li>
-                                                    {{$permission}}
-                                                </li>
-                                                @empty
-                                            </ol>
-                                            No Permission
-                                            @endforelse
-
+                                            <a class="text-dark text-bold" href="{{ route('role.show',$role->id)}}">{{ $role->name}}</a>
+                                            (All access)
                                         </td>
                                         <td class="text-center">
                                             <a class="btn btn-info" href="{{ route('role.show',$role->id)}}">Details</a>

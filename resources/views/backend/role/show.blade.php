@@ -35,30 +35,33 @@ bg-success
         </div><!-- /.container-fluid -->
     </div>
     <section class="content">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md mx-auto">
             <!-- general form elements -->
-            <div class="card card-primary">
-                <div class="card-header text-center">
-                    <h3 class="card-title text-center">Role Details</h3>
+            <div class="card card-Warning">
+                <div class="card-header">
+                    <h3 class="card-title">Users Roles</h3>
                 </div>
                 <!-- /.card-header -->
-                <h1 class="alert alert-success alert-dismissible mt-2 text-center">
-                    <span class="bg-warning">Roll Name: {{$role->name}}</span>
-                </h1>
-
-                <div>
-                    @forelse ($role->permissions->pluck('name') as $permission)
-                    <!-- card body Start -->
-                    <div class="card-body">
-                        <div class="callout callout-success">
-                            <h3>{{$permission}}</h3>
+                <!-- form start -->
+                <div class="card-body">
+                    <h3 class="display-4 text-center">{{ $role->name }}</h3>
+                    <h6 class="text-red"><i class="fas fa-lock"> Permissions: </i></h6>
+                    <div class="row text-center">
+                        @forelse ($role->permissions as $permission)
+                        <div class="col-2 m-2 p-2 bg-success text-center">
+                            <span>
+                                {{ $permission->name }}
+                            </span>
                         </div>
+                        @empty
+                        <li>
+                            N/A
+                        </li>
+                        @endforelse
+
+
                     </div>
-                    <!-- card body Start -->
-                    @empty
                 </div>
-                No Permission
-                @endforelse
             </div>
             <!-- /.card -->
 

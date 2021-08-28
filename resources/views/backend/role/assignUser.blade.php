@@ -89,7 +89,7 @@ bg-success
             <!-- general form elements -->
             <div class="card card-Warning">
                 <div class="card-header">
-                    <h3 class="card-title">User Roles</h3>
+                    <h3 class="card-title">Users Roles</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -104,13 +104,18 @@ bg-success
                         <tbody>
                             @forelse ($users as $user)
                             <tr>
-                                <td scope="row">{{$user->name}}</td>
+                                <td scope="row">
+                                    <span class="text-success text-bold">{{$user->name}}</span>
+                                </td>
                                 <td>
                                     @forelse ($user->roles as $role)
                                     @if ($loop->index > 0)
                                     <br>
                                     @endif
-                                    <h4 class="display text-info"><i class="fas fa-user"> {{ $role->name }}</i></h4>
+                                    <a class="text-dark text-bold" href="{{ route('role.show',$role->id)}}">
+                                        <h4 class="display text-info"><i class="fas fa-user"> {{ $role->name }}</i></h4>
+                                    </a>
+
                                     @forelse ($role->permissions as $permission)
                                     @if ($loop->index == 0)
                                     <h6 class="text-red"><i class="fas fa-lock"> Permissions: </i></h6>

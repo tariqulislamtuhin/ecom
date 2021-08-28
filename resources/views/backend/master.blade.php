@@ -205,7 +205,7 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('dashboard') }}" class="d-block">{{Auth::user()->name ?? ''}}</a>
+                        <a href="{{ route('dashboard') }}" class="d-block">{{Auth::user()->name}}</a>
                     </div>
                 </div>
 
@@ -385,6 +385,7 @@
                                         <p>Add Coupon</p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a href="{{route('coupon.trash')}}" class="nav-link @yield('couponDestroyactive')">
                                         <i class="fas fa-trash-alt nav-icon"></i>
@@ -393,6 +394,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @hasrole('Super Admin|Admin')
                         <li class="nav-item @yield('roleOpen')">
                             <a href="#" class="nav-link @yield('roleActive')">
                                 <i class="nav-icon fas fa-users-cog"></i>
@@ -420,6 +422,7 @@
                                         </p>
                                     </a>
                                 </li>
+
                                 <li class="nav-item ">
                                     <a href="{{ route('assignuser.index') }}" class="nav-link @yield('assignUseractive')">
                                         <i class="nav-icon fas fa-plus"></i>
@@ -428,9 +431,10 @@
                                         </p>
                                     </a>
                                 </li>
+
                             </ul>
                         </li>
-
+                        @endhasrole
 
 
                         <li class="nav-item ">
