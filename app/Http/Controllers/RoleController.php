@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminPannelUser;
 use App\Models\User;
 use DebugBar\Storage\FileStorage;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Type\Integer;
-
 use function PHPUnit\Framework\fileExists;
+
 
 class RoleController extends Controller
 {
@@ -21,6 +28,8 @@ class RoleController extends Controller
      */
     public function index()
     {
+        // $user = User::find(Auth::user()->id);
+        // $user->assignrole('Super Admin');
         return view('backend.role.index', [
             'roles' => Role::all()
         ]);
@@ -113,20 +122,13 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $role->delete();
-        return back()->with('success', 'Deletation Succesfull.');
+        if (!DB::table('model_has_roles')->where('role_id', $role->id)->exists()) {
+            $role->delete();
+            return back()->with('success', 'Deletation Succesfull.');
+        }
+        return back()->with('error', "Can't delete! This role in use.");
     }
 
-
-    public function trash($id)
-    {
-        //
-    }
-
-    public function destroyPermanent($id)
-    {
-        //
-    }
     public function assignUser()
     {
         return view('backend.role.assignUser', [
@@ -134,11 +136,48 @@ class RoleController extends Controller
             'roles' => Role::all()
         ]);
     }
+
     public function assignUserStore(Request $request)
     {
         // return $request;
         $user = User::find($request->user_name);
         $user->assignRole($request->role_name);
-        return back();
+        return back()->with('success', 'User assigned successfully.');
+    }
+
+    public function revokeuser(Role $role, User $user)
+    {
+        $user->removeRole($role);
+        return back()->with('success', 'Revoked role Successfully.');
+    }
+
+    public function addUser()
+    {
+        $roles = Role::all();
+
+        return view('backend.role.adduser', compact('roles'));
+    }
+
+    public function UserStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users'
+        ]);
+
+        $password = Str::random();
+        $user = User::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "password" => Hash::make($password),
+        ]);
+
+        $user->assignRole($request->role_name);
+
+        event(new Registered($user));
+
+        Mail::to($request->email)->send(new AdminPannelUser($password));
+
+        return back()->with('success', 'User creation Successfull.');
     }
 }

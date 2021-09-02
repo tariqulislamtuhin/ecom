@@ -15,6 +15,7 @@ active
         <div class="col-sm-6">
           <h1 class="m-0">Dashboard</h1>
         </div><!-- /.col -->
+
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -25,10 +26,14 @@ active
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
-
   <!-- Main content -->
   <section class="content">
-    <div class="container-fluid">
+      <div class="container-fluid">
+        @role('Customer')
+        <div>
+            <h1>It is customer dashboard</h1>
+        </div>
+        @else
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-3 col-6">
@@ -603,9 +608,10 @@ active
       </div>
       <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->
+    @endrole
   </section>
   <!-- /.content -->
 </div>
-    
+
 
 @endsection

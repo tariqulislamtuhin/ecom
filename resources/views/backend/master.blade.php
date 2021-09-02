@@ -1,4 +1,6 @@
+
 <!DOCTYPE html>
+@if (Auth::user())
 <html lang="en">
 
 <head>
@@ -31,6 +33,7 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 </head>
+
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
@@ -205,7 +208,11 @@
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('dashboard') }}" class="d-block">{{Auth::user()->name}}</a>
+                        @php
+                            $name = Auth::user()->name;
+                            $nick_name = explode(' ',$name);
+                        @endphp
+                        <a href="{{ route('dashboard') }}" class="d-block">{{ $nick_name[0]}} ( {{ Auth::user()->roles()->first()->name ?? '' }} )</a>
                     </div>
                 </div>
 
@@ -239,7 +246,7 @@
                             </a>
                         </li>
 
-
+                        @can("category view")
                         <li class="nav-item @yield('catopen')">
                             <a href="#" class="nav-link @yield('categoryactive')">
                                 <i class="nav-icon fas fa-list"></i>
@@ -249,28 +256,37 @@
                                     <span class="badge badge-info right"></span>
                                 </p>
                             </a>
+
                             <ul class="nav nav-treeview">
+                                @can("category view")
                                 <li class="nav-item">
                                     <a href="{{ route('category.index') }}" class="nav-link @yield(' cviewatactive')">
                                         <i class="far fa-list-alt nav-icon"></i>
                                         <p>Views Category</p>
                                     </a>
                                 </li>
+                                @endcan
+                                @can("category add")
                                 <li class="nav-item">
                                     <a href="{{ route('category.create') }}" class="nav-link @yield('adcatactive')">
                                         <i class="nav-icon fas fa-plus"></i>
                                         <p>Add Category</p>
                                     </a>
                                 </li>
+                                @endcan
+                                @can("category delete")
                                 <li class="nav-item">
                                     <a href="{{ route('category.trash') }}" class="nav-link @yield('trashcatactive')">
                                         <i class="fas fa-trash-alt nav-icon"></i>
                                         <p>Trashed</p>
                                     </a>
                                 </li>
+                                @endcan
                             </ul>
                         </li>
+                        @endcan
 
+                        @can("subcategory view")
                         <li class="nav-item @yield('scatopen')">
                             <a href="#" class="nav-link @yield('scategoryactive')">
                                 <i class="nav-icon fas fa-list-alt"></i>
@@ -302,6 +318,8 @@
                                 </li>
                             </ul>
                         </li>
+                        @endcan
+                        @can("product view")
                         <li class="nav-item @yield('productopen')">
                             <a href="#" class="nav-link @yield('productactive')">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
@@ -311,6 +329,7 @@
                                     <span class="badge badge-info right"></span>
                                 </p>
                             </a>
+                            @can("product view")
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ route('products.view') }}"
@@ -319,12 +338,16 @@
                                         <p>Views Products</p>
                                     </a>
                                 </li>
+                            @endcan
+                            @can("product add")
                                 <li class="nav-item">
                                     <a href="{{ route('ProductForm') }}" class="nav-link @yield('productaddcatactive')">
                                         <i class="nav-icon fas fa-plus"></i>
                                         <p>Add Product</p>
                                     </a>
                                 </li>
+                            @endcan
+                            @can("product view")
                                 <li class="nav-item">
                                     <a href="{{ route('TrashedProduct') }}"
                                         class="nav-link @yield('producttrashcatactive')">
@@ -332,9 +355,11 @@
                                         <p>Trashed Products</p>
                                     </a>
                                 </li>
+                            @endcan
                             </ul>
                         </li>
-
+                        @endcan
+                        @can("size view")
                         <li class="nav-item @yield('sizeopen')">
                             <a href="#" class="nav-link @yield('sizeactive')">
                                 <i class="nav-icon fas fa-palette"></i>
@@ -345,20 +370,24 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+                                @can("size view")
                                 <li class="nav-item">
                                     <a href="{{ route('CreateSize') }}" class="nav-link @yield('sizeviewactive')">
                                         <i class="nav-icon fas fa-size"></i>
                                         <p>Sizes</p>
                                     </a>
-                                </li>
+                                </li>@endcan
+                                @can("color view")
                                 <li class="nav-item">
                                     <a href="{{ route('CreateColor') }}" class="nav-link @yield('colorviewactive')">
                                         <i class="nav-icon fas fa-palette "></i>
                                         <p>Colors</p>
                                     </a>
-                                </li>
+                                </li>@endcan
                             </ul>
-                        </li>
+                        </li>@endcan
+
+                        @can("coupon view")
                         <li class="nav-item @yield('couponOpen')">
                             <a href="#" class="nav-link @yield('couponActive')">
                                 <i class="nav-icon fas fa-gift"></i>
@@ -394,7 +423,8 @@
                                 </li>
                             </ul>
                         </li>
-                        @hasrole('Super Admin|Admin')
+                        @endcan
+                        @can('assign user')
                         <li class="nav-item @yield('roleOpen')">
                             <a href="#" class="nav-link @yield('roleActive')">
                                 <i class="nav-icon fas fa-users-cog"></i>
@@ -431,16 +461,29 @@
                                         </p>
                                     </a>
                                 </li>
+                                <li class="nav-item ">
+                                    <a href="{{ route('add.user.index') }}" class="nav-link @yield('adduserseractive')">
+                                        <i class="nav-icon fas fa-plus"></i>
+                                        <p>
+                                            Add User
+                                        </p>
+                                    </a>
+                                </li>
 
                             </ul>
                         </li>
-                        @endhasrole
+                        @endcan
 
 
                         <li class="nav-item ">
                             <a href="{{ route('Frontend') }}" class="nav-link" target="blank">
+                                @role('Customer')
+                                <i class="nav-icon  fas fa-cart-plus"></i>
+                                <p> Shop </p>
+                                @else
                                 <i class="nav-icon  fas fa-home"></i>
                                 <p> Frontend </p>
+                                @endrole
                             </a>
                         </li>
 
@@ -529,7 +572,23 @@
     <script src="{{ asset('assets/dist/js/pages/dashboard.js')}}"></script>
     <script src="{{ asset('assets/plugins/toastr/toastr.min.js')}}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
     @yield("toastr_js");
+
+
 </body>
 
+
 </html>
+
+@else
+
+    <script>
+        window.location = "login";
+    </script>
+
+@endif

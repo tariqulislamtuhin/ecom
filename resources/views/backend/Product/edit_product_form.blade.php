@@ -194,14 +194,18 @@ active
                                     <div class="alert alert-danger font-size-sm">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Delete</label>
-                                    <span>
-                                        <a class="form-control" href="{{route('DeleteProductAttribute',$attribute)}}"><i
-                                                class="text-danger fas fa-trash-alt"></i></a>
-                                    </span>
+
+                                @can("attribute delete")
+                                <div class="form-group text-center">
+                                <span class="row" for="">Delete</span>
+                                <a lass="form-control " href="{{route('DeleteProductAttribute',$attribute)}}">
+                                    <h6>
+                                        <i class="text-danger fas fa-trash-alt"></i>
+                                    </h6>
+                                </a>
                                 </div>
 
+                                @endcan
                             </div>
                         </div>
                         @endforeach

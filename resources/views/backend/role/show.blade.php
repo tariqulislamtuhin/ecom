@@ -18,6 +18,7 @@ bg-success
 @section('content')
 
 <div class="content-wrapper">
+    @can('assign user')
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -44,15 +45,28 @@ bg-success
                 <!-- /.card-header -->
                 <!-- form start -->
                 <div class="card-body">
-                    <h3 class="display-4 text-center">{{ $role->name }}</h3>
-                    <h6 class="text-red"><i class="fas fa-lock"> Permissions: </i></h6>
-                    <div class="row text-center">
+                    <h3 class="text-center">{{ $role->name }} <a href="{{route('role.edit',$role)}}"> <i class=" small fas fa-edit"></i></a> </h3>
+                    <h5 class="alert alert-success text-bold"><i class="fas fa-lock"> Permissions: </i></h5>
+                    <hr size="10" color="black">
+                    <div class="row">
                         @forelse ($role->permissions as $permission)
-                        <div class="col-2 m-2 p-2 bg-success text-center">
-                            <span>
-                                {{ $permission->name }}
-                            </span>
-                        </div>
+                        <strong class="col-3">
+                             <button class="mb-2 btn btn-block btn-default btn-md">{{ $permission->name }}</button>
+                        </strong>
+                         @empty
+
+                        @endforelse
+                    </div>
+                    <hr size="10" color="black">
+
+                     {{-- <div class="row">
+                        @forelse ($role->permissions as $permission)
+                        <a class="col-2 btn btn-app bg-danger">
+                            <i class="fas fa-lock"></i> <strong>{{ $permission->name }}</strong>
+                        </a>
+                        <button type="button" class="btn btn-outline-primary btn-block col-2 mr-2 ">
+                            <i class="fa fa-lock"></i> {{ $permission->name }}
+                        </button>
                         @empty
                         <li>
                             N/A
@@ -60,13 +74,16 @@ bg-success
                         @endforelse
 
 
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <!-- /.card -->
 
         </div>
     </section>
+    @else
+    <div class="alert alert-danger">You dont' have the privelege.</div>
+    @endcan
 </div>
 @endsection
 

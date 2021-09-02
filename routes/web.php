@@ -93,11 +93,14 @@ Route::post('coupon/destroyall', [CouponController::class, 'destroyAll'])->name(
 Route::get('coupon/trash', [CouponController::class, 'trash'])->name('coupon.trash');
 Route::get('coupon/restore/{id}', [CouponController::class, 'restore'])->name('coupon.restore');
 Route::get('coupon/clean/{id}', [CouponController::class, 'clean'])->name('coupon.clean');
-Route::get('assign/user', [RoleController::class, 'assignUser'])->name('assignuser.index');
-Route::post('assign/user', [RoleController::class, 'assignUserStore'])->name('assignuser.store');
 Route::resource('coupon', CouponController::class,);
 
 ############################ Role Route ############################
+Route::get('assign/user', [RoleController::class, 'assignUser'])->name('assignuser.index');
+Route::post('assign/user', [RoleController::class, 'assignUserStore'])->name('assignuser.store');
+Route::get('revoke/{role}/user/{user}', [RoleController::class, 'revokeuser'])->name('revokeuser');
+Route::get('add/user', [RoleController::class, 'addUser'])->name('add.user.index');
+Route::post('add/user', [RoleController::class, 'UserStore'])->name('add.user.store');
 Route::resource('role', RoleController::class);
 
 

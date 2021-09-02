@@ -19,6 +19,7 @@ bg-success
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+    @can('assign user')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -48,43 +49,49 @@ bg-success
                     <div class="card-body">
                         <div class="form-group">
                             <label for="role_name">Role Name</label>
-                            <input type="text" class="form-control @error('role_name') is-invalid @enderror"
+                            <input type="text" class="form-control  @error('role_name') is-invalid @enderror"
                                 id="role_name" placeholder="Role Name" name="role_name" value="{{old('role_name')}}">
                         </div>
                         @error('role_name')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <div class="text-bold">
-                            <label class="custom-label">Choose Permission from Here.</label>
-                            <span class="ml-5">
-                                <input class="custom-control-input" type="checkbox" id="checkall">
-                                <label for="checkall" class="custom-control-label mb-3">Check All</label>
-                            </span>
-                            @if (session()->has('per_error'))
-                            <div class="alert alert-danger">
-                                {{session()->get('per_error')}}</div>
-                            @endif
+                            <h4>Choose Permission from Here.</h4>
                         </div>
+                        <hr width="100%" size="10" color="black">
 
                         @error('permissions')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+                        <div class="row">
 
-                        @foreach ($permissions as $permission)
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox"
-                                    id="customCheckbox{{$permission->id}}" value="{{$permission->name}}"
-                                    name="permissions[]">
-                                <label for="customCheckbox{{$permission->id}}"
-                                    class="custom-control-label">{{$permission->name}}</label>
+                            @foreach ($permissions as $permission)
+                            <div class="form-group col-2">
+                                <div class="custom-control custom-checkbox ">
+                                    <input class="custom-control-input" type="checkbox"
+                                        id="customCheckbox{{$permission->id}}" value="{{$permission->name}}"
+                                        name="permissions[]">
+                                    <label for="customCheckbox{{$permission->id}}"
+                                        class="custom-control-label">{{$permission->name}}</label>
+                                </div>
                             </div>
+                            @endforeach
                         </div>
-                        @endforeach
-
-
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                       <hr width="100%" size="10" color="black">
+                        <div class="row mt-4">
+                            <div class="text-bold pull-right col-3">
+                                <span class="ml-5">
+                                    <input class="custom-control-input" type="checkbox" id="checkall">
+                                    <label for="checkall" class="custom-control-label mb-3">Check All</label>
+                                </span>
+                                @if (session()->has('per_error'))
+                                <div class="alert alert-danger">
+                                    {{session()->get('per_error')}}</div>
+                                @endif
+                            </div>
+                            <div class="text-center col-9">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
                     </div>
 
@@ -94,6 +101,9 @@ bg-success
 
         </div>
     </section>
+    @else
+    <div class="alert alert-danger">You dont' have the privelege.</div>
+    @endcan
 </div>
 @endsection
 

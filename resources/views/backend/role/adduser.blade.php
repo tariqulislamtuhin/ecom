@@ -1,7 +1,7 @@
 @extends('backend.master');
 
 @section('title')
-Role Create
+Add User
 @endsection
 @section('roleActive')
 active
@@ -10,7 +10,7 @@ active
 @section('roleOpen')
 menu-is-opening menu-open active
 @endsection
-@section('roleIndexactive')
+@section('adduserseractive')
 bg-success
 @endsection
 
@@ -18,18 +18,18 @@ bg-success
 @section('content')
 
 <div class="content-wrapper">
+@can('assign user')
     <!-- Content Header (Page header) -->
-    @can('assign user')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Edit role</h1>
+                    <h1 class="m-0">New User</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('role.index') }}">Roles</a></li>
-                        <li class="breadcrumb-item active">Edit Role</li>
+                        <li class="breadcrumb-item active">Add User</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -40,51 +40,47 @@ bg-success
             <!-- general form elements -->
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Form Role</h3>
+                    <h3 class="card-title">Create New User</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="POST" action="{{ route('role.update',$role) }}">
+                <form class="col-6 mx-auto" method="POST" action="{{ route('add.user.store') }}">
                     @csrf
-                    @method("PUT")
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="role_name">Role Name</label>
-                            <input type="text" class="form-control @error('role_name') is-invalid @enderror"
-                                id="role_name" placeholder="Role Name" name="role_name" readonly value="{{$role->name}}">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                id="name" placeholder="Name" name="name" value="{{old('name')}}">
                         </div>
-                        @error('role_name')
+                        @error('name')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                        <div class="text-bold">
-                            <h4> Choose permission from here.</h4>
-                            <hr width="100%" size="10" color="black">
-
-                            @if (session()->has('per_error'))
-                            <div class="alert alert-danger">
-                                {{session()->get('per_error')}}</div>
-                            @endif
-
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                id="email" placeholder="Email" name="email" value="{{old('email')}}">
                         </div>
-                        <div class="row">
-                            @foreach ($permissions as $permission)
-                            <div class="form-group col-3">
+                        @error('email')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
 
-                                <div class="custom-control custom-checkbox">
-                                    <input {{$role->hasPermissionTo($permission) ? 'checked' : ''}}
-                                        class="custom-control-input" type="checkbox" id="customCheckbox{{$permission->id}}"
-                                        value="{{$permission->name}}" name="permissions[]">
-                                    <label for="customCheckbox{{$permission->id}}"
-                                        class="custom-control-label">{{$permission->name}}</label>
-                                </div>
-                            </div>
-                            @endforeach
+
+                        <div class="form-group">
+                            <label for="email">Role</label>
+                            <select class="form-control" name="role_name" id="">
+                                <option value="">--Select--</option>
+                                @foreach ($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
+
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
+
                 </form>
             </div>
             <!-- /.card -->
@@ -121,29 +117,37 @@ bg-success
     }
     @endif
 
-    @if (session('error'))
-        Command: toastr["error"]("{{ session('error') }}")
+@if (session('error'))
+    Command: toastr["error"]("{{ session('error') }}")
 
-        toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-        }
-        @endif
+    toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+    }
+    @endif
+
     $('#subcategory_name').keyup(function() {
       $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
     });
+
+
+    $('#checkall').click(function(){
+        $('input:checkbox').not(this).prop('checked',this.checked);
+        $("#submit").show();
+    });
 </script>
+
 @endsection

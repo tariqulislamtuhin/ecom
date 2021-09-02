@@ -1,7 +1,7 @@
 @extends('backend.master');
 
 @section('title')
-Coupon Create
+Assign User
 @endsection
 @section('roleActive')
 active
@@ -17,7 +17,9 @@ bg-success
 
 @section('content')
 
+
 <div class="content-wrapper">
+    @can('assign user')
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -40,6 +42,7 @@ bg-success
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Edit Form Assign User</h3>
+
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -49,10 +52,13 @@ bg-success
                         <div class="form-group">
                             <label for="user_name">Assign User Name</label>
                             <select class="form-control" name="user_name">
-                                <option value="">select</option>
-                                @forelse ($users as $user)
+                                <option value="">--Select--</option>
 
-                                <option value="{{$user->id}}">{{$user->name}}({{$user->email}})</option>
+                                @forelse ($users as $user)
+                                @if (Auth::user()->id == $user->id) @continue
+                                @else
+                                    <option value="{{$user->id}}">{{$user->name}}({{$user->email}})  {{ $user->roles->first()->name ?? " "}}</option>
+                                @endif
                                 @empty
 
                                 @endforelse
@@ -64,7 +70,7 @@ bg-success
                         <div class="form-group">
                             <label for="role_name">Assign Role</label>
                             <select class="form-control" name="role_name">
-                                <option value="">select</option>
+                                <option value="">--Select--</option>
                                 @foreach ($roles as $role)
                                 <option value="{{$role->id}}">{{$role->name}}</option>
                                 @endforeach
@@ -97,46 +103,54 @@ bg-success
                     <table class=" mt-3 table table-bordered">
                         <thead class="bg-primary">
                             <tr>
-                                <th>User</th>
-                                <th>Role & Permissions</th>
+                                <th class="col-2">User</th>
+                                <th class="col-10">Role & Permissions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($users as $user)
-                            <tr>
-                                <td scope="row">
-                                    <span class="text-success text-bold">{{$user->name}}</span>
-                                </td>
-                                <td>
-                                    @forelse ($user->roles as $role)
-                                    @if ($loop->index > 0)
-                                    <br>
-                                    @endif
-                                    <a class="text-dark text-bold" href="{{ route('role.show',$role->id)}}">
-                                        <h4 class="display text-info"><i class="fas fa-user"> {{ $role->name }}</i></h4>
-                                    </a>
+                            @if(Auth::user()->id == $user->id) @continue
+                             @else
+                                    <tr>
+                                        <td class="bg-info text-center">
+                                            <h5>{{$user->name}}</h5>
+                                        </td>
+                                        <td>
+                                            <br>
+                                            @forelse ($user->roles as $role)
+                                                <a class="text-dark text-bold" href="{{ route('role.show',$role->id)}}">
+                                                    <h4 class="display text-info"><i class="fas fa-user" data-toggle="tooltip" data-placement="left" title="Role"></i> {{ $role->name }}
+                                                        @if (Auth::user()->hasRole('Super Admin'))
+                                                        <a class="small" href="{{ route('revokeuser',[$role,$user]) }}">
+                                                            <i class="small fas fa-trash-alt" data-toggle="tooltip" data-placement="right" title="Delete"
+                                                            ></i>
+                                                        </a>
+                                                        @endif
+                                                    </h4>
+                                                </a>
 
-                                    @forelse ($role->permissions as $permission)
-                                    @if ($loop->index == 0)
-                                    <h6 class="text-red"><i class="fas fa-lock"> Permissions: </i></h6>
-                                    @endif
-                                    @if ((($loop->index + 1) % 10) == 0)
-                                    <br>
-                                    @endif
-                                    {{ $permission->name }}
-                                    @empty
 
-                                    @endforelse
-                                    @empty
-                                    <h4>N/A</h4>
-                                    @endforelse
-                                </td>
-                            </tr>
+                                                <div class="text-red">
+                                                    <i class="fas fa-lock" data-toggle="tooltip" data-placement="left" title="Permissions"></i>
+                                                    <strong> Permissions: </strong>
+                                                </div>
+                                                <div class="row">
+                                                    @forelse ($role->permissions as $permission)
+                                                    <span class="col-3"><li class="small">{{ $permission->name }}</li></span>
+                                                    @empty
+                                                    @endforelse
+                                                </div>
+
+                                            @empty
+                                            <h4>N/A</h4>
+                                            @endforelse
+                                        </td>
+                                    </tr>
+                                @endif
                             @empty
-                            <tr>
-                                <td scope="row"></td>
-                                <td scope="row"></td>
-                            </tr>
+                                <tr>
+                                     <td colspan="50" class="text-center">No Data Avilable</td>
+                                </tr>
                             @endforelse
 
 
@@ -149,6 +163,9 @@ bg-success
 
         </div>
     </section>
+    @else
+    <div class="alert alert-danger">You dont' have the privelege.</div>
+    @endcan
 </div>
 @endsection
 
@@ -201,4 +218,6 @@ bg-success
       $('#slug').val($(this).val().toLowerCase().split(',').join('').replace(/\s/g,"-"));
     });
 </script>
+
+
 @endsection

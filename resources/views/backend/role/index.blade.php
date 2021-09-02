@@ -19,6 +19,7 @@ bg-success
 @section("content")
 <div class="content-wrapper" style="min-height: 1299.69px;">
     <!-- Content Header (Page header) -->
+    @can('assign user')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -70,7 +71,6 @@ bg-success
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>
                                             <a class="text-dark text-bold" href="{{ route('role.show',$role->id)}}">{{ $role->name}}</a>
-                                            (All access)
                                         </td>
                                         <td class="text-center">
                                             <a class="btn btn-info" href="{{ route('role.show',$role->id)}}">Details</a>
@@ -111,6 +111,9 @@ bg-success
 
         </div><!-- /.container-fluid -->
     </section>
+    @else
+    <div class="alert alert-danger">You dont' have the privelege.</div>
+    @endcan
     <!-- /.content -->
 </div>
 
