@@ -5,12 +5,12 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
 
-function cart_total_count()
+function countCarts()
 {
     return Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', Cookie::get('cookie_id'))->count();
 }
 
-function cart_Get()
+function getCarts()
 {
     return Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', Cookie::get('cookie_id'))->get();
 }

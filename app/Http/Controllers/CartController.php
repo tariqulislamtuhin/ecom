@@ -53,9 +53,10 @@ class CartController extends Controller
             'size_id.required' => 'Please! Choose a size'
         ]);
 
+        // return $request->all();
         if ($request->hasCookie('cookie_id')) {
             $random_generated_coockie_id = $request->cookie('cookie_id');
-            $cart_before = Cart::with(['GetColor', 'GetProduct', 'GetSize'])->where('cookie_id', $random_generated_coockie_id)->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->first()->exists();
+            $cart_before = Cart::where('cookie_id', $random_generated_coockie_id)->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->first();
 
             if ($cart_before) {
                 $cart_before->increment('quantity', $request->quantity);

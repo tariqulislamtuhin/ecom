@@ -92,7 +92,9 @@ bg-success
         </div>
     </section>
     @else
-    <div class="alert alert-danger">You dont' have the privelege.</div>
+    <script>
+          window.history.back()
+      </script>
     @endcan
 </div>
 @endsection

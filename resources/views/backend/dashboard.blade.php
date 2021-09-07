@@ -6,6 +6,9 @@
 @section('dashboardactive')
 active
 @endsection
+@section('title')
+Dashboard
+@endsection
 
 <div class="content-wrapper" style="min-height: 266px;">
   <!-- Content Header (Page header) -->

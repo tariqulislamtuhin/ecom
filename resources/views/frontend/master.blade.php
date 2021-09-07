@@ -68,14 +68,26 @@
                     <div class="col-md-6 col-12">
                         <ul class="d-flex account_login-area">
                             <li>
-                                <a href="javascript:void(0);"><i class="fa fa-user"></i> My Account <i
+                                @auth
+                                    @php
+                                        $name = Auth::user()->name;
+                                        $nick_name = explode(' ',$name);
+                                    @endphp
+                                <a href="javascript:void(0);"><i class="fa fa-user"></i> Welcome {{ array_pop($nick_name) }} <i
                                         class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown_style">
-
-                                    @auth
                                     <li><a href="cart.html">Cart</a></li>
                                     <li><a href="checkout.html">Checkout</a></li>
                                     <li><a href="wishlist.html">wishlist</a></li>
+                                    <form id="form-logout" action="{{route('logout')}}" method="POST">
+                                        <li> <a class="text-danger" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();document.getElementById('form-logout').submit()">
+                                                    Logout
+                                            </a>
+                                        </li>
+
+                                        @csrf
+                                    </form>
                                     @else
                                     <li><a href="{{route('login')}}">Login</a></li>
                                     <li><a href="{{route('register')}}">Register</a></li>
@@ -83,9 +95,9 @@
                                 </ul>
                             </li>
                             @auth
-                            <li><a href="{{route('dashboard')}}"> dashboard </a></li>
+                            <li><a href="{{route('dashboard')}}"> Dashboard </a></li>
                             @else
-                            <li><a href="{{route('login')}}"> Login/Register </a></li>
+                            {{-- <li><a href="{{route('login')}}"> Login/Register </a></li> --}}
                             @endauth
                         </ul>
                     </div>
@@ -172,11 +184,11 @@
                             <li>
 
                                 <a href="javascript:void(0);"><i class="flaticon-shop"></i>
-                                    <span> {{cart_total_count()}}</span>
+                                    <span> {{countCarts()}}</span>
                                 </a>
                                 <ul class="cart-wrap dropdown_style">
                                     @php $total = 0; @endphp
-                                    @forelse (cart_Get() as $cart)
+                                    @forelse (getCarts() as $cart)
                                     <li class="cart-items">
                                         <div class="cart-img">
                                             <img src="{{asset('thumb/'.$cart->getProduct->thumbnail)}}"
@@ -204,7 +216,7 @@
                                     </li>
                                     {{-- <li>Subtotol: <span class="pull-right">0</span></li> --}}
                                     @endforelse
-                                    @if (cart_total_count() !=0 )
+                                    @if (countCarts() >0 )
                                     <li>Subtotol: <span class="pull-right">{{$total}}</span></li>
                                     <li>
                                         <button>Check Out</button>

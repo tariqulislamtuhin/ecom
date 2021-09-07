@@ -112,14 +112,17 @@ bg-success
         </div><!-- /.container-fluid -->
     </section>
     @else
-    <div class="alert alert-danger">You dont' have the privelege.</div>
-    @endcan
+      <script>
+          window.history.back()
+      </script>
+ @endcan
     <!-- /.content -->
 </div>
 
 @endsection
 
 @section("toastr_js")
+
 <script>
     @if (session('success'))
     Command: toastr["success"]("{{ session('success') }}")
@@ -170,4 +173,8 @@ bg-success
 
 
 </script>
+
+
 @endsection
+
+

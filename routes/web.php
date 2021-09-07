@@ -104,5 +104,8 @@ Route::post('add/user', [RoleController::class, 'UserStore'])->name('add.user.st
 Route::resource('role', RoleController::class);
 
 
+############################ Role Route ############################
+Route::post('add/user', [RoleController::class, 'UserStore'])->name('add.user.store');
+
 
 require __DIR__ . '/auth.php';
