@@ -8,6 +8,12 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $datas = Category::with('getProducts')->orderBY('created_at', 'desc')->paginate(10);
@@ -26,11 +32,8 @@ class CategoryController extends Controller
             'slug' => 'required|unique:categories',
         ]);
 
-        $category = new Category;
-        $category->category_name = $request->category_name;
-        $category->slug = str::slug($request->category_name);
-        $category->save();
-        return redirect()->action([CategoryController::class, 'index'])->with("success", "Added Successfully.");
+        Category::firstOrCreate($request->except('_token'));
+        return redirect()->route('category.index')->with("success", "Added Successfully.");
     }
 
     public function show(Category $category)
@@ -54,10 +57,11 @@ class CategoryController extends Controller
     }
     public function update(Request $request, Category $category)
     {
+        $category->update([
+            'category_name' => $request->category_name,
+            'slug' => Str::slug($request->category_name)
+        ]);
 
-        $category->category_name = $request->category_name;
-        $category->slug = Str::slug($request->category_name);
-        $category->save();
         return redirect()->action([CategoryController::class, 'index'])->with("success", "Category Updated Succesfull");;
     }
 

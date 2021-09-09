@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FrontendController;
@@ -104,8 +105,8 @@ Route::post('add/user', [RoleController::class, 'UserStore'])->name('add.user.st
 Route::resource('role', RoleController::class);
 
 
-############################ Role Route ############################
-Route::post('add/user', [RoleController::class, 'UserStore'])->name('add.user.store');
+############################ Checkout Route ############################
+Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout.index');
 
 
 require __DIR__ . '/auth.php';

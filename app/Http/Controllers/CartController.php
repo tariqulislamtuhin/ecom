@@ -8,6 +8,7 @@ use App\Models\Coupon;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 
@@ -60,7 +61,7 @@ class CartController extends Controller
 
             if ($cart_before) {
                 $cart_before->increment('quantity', $request->quantity);
-                return redirect()->action([CartController::class, 'cartview']);
+                return back();
             } else {
                 $cart = new Cart();
                 $cart->cookie_id = $random_generated_coockie_id;
@@ -70,7 +71,7 @@ class CartController extends Controller
                 $cart->size_id = $request->size_id;
                 $cart->size_id = now();
                 $cart->save();
-                return redirect()->action([CartController::class, 'cartview']);
+                return back();
             }
         } else {
             $random_generated_coockie_id = time() . Str::random(10);

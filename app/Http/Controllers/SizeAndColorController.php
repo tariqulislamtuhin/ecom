@@ -10,6 +10,11 @@ use Illuminate\Support\Str;
 
 class SizeAndColorController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     //
     public function CreateSize()
     {
@@ -19,23 +24,18 @@ class SizeAndColorController extends Controller
 
     public function PostSize(Request $request)
     {
-        $valid = $request->validate([
-
+        $request->validate([
             'size_name' => 'required|max:4|unique:sizes',
         ], [
             'max' => 'Please! enter Short term of sizes.',
             'unique' => 'This size already added. '
         ]);
-        if (!$valid) {
-            return redirect('Size/create/#size_name');
-        } else {
 
-            $size = new Size();
-            $size->size_name = Str::lower($request->size_name);
-            $size->slug = Str::slug($request->size_name . " size ");
-            $size->save();
-            return redirect('Size/create/#size_name');
-        }
+        Size::create([
+            'size_name' => Str::lower($request->size_name),
+            'slug' => Str::slug($request->size_name . " size ")
+        ]);
+        return redirect('Size/create/#size_name');
     }
 
 
@@ -54,15 +54,17 @@ class SizeAndColorController extends Controller
             'unique' => 'This color already added.'
         ]);
 
-        $color = new color();
-        $color->color_name = Str::ucfirst($request->color_name);
-        $color->slug = Str::slug($request->color_name . ' size');
-        $color->save();
+        color::create([
+            "color_name" => Str::ucfirst($request->color_name),
+            "slug" => Str::slug($request->color_name . ' size')
+        ]);
         return back();
     }
 
     public function DeleteColor(color $color)
     {
+        // return $color;
+        // return Atrribute::where('color_id', $color->id)->exists();
         if (!Atrribute::where('color_id', $color->id)->exists()) {
             $color->delete();
             return back()->with('success', $color->color_name . ' Color Deleted succesfully');

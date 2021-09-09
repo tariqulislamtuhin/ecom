@@ -23,3 +23,9 @@ function discountTotal($total, $discount)
 {
     return ($total * $discount) / 100;
 }
+
+// function checkoutProduct()
+// {
+//     if (Cookie::get('cookie_id')) {
+//     }
+// }

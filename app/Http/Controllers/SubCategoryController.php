@@ -11,6 +11,11 @@ use Illuminate\Support\Str;
 
 class SubCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function Subcategories()
     {
         return view('backend.subcategory.subcategory', [
@@ -82,10 +87,11 @@ class SubCategoryController extends Controller
         if (!empty($req->delete)) {
 
             if ($req->button == 'delete') {
-                foreach ($req->delete as $value) {
+                SubCategory::onlyTrashed()->destroy($req->delete);
+                // foreach ($req->delete as $value) {
 
-                    SubCategory::onlyTrashed()->findorFail($value)->forceDelete();
-                }
+                //     SubCategory::onlyTrashed()->findorFail($value)->forceDelete();
+                // }
                 return back()->with('success', 'Deletation successfull.');
             }
             if ($req->button == 'restore') {

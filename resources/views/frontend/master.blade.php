@@ -76,29 +76,25 @@
                                 <a href="javascript:void(0);"><i class="fa fa-user"></i> Welcome {{ array_pop($nick_name) }} <i
                                         class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown_style">
-                                    <li><a href="cart.html">Cart</a></li>
+                                    {{-- <li><a href="cart.html">Cart</a></li>
                                     <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="wishlist.html">wishlist</a></li>
-                                    <form id="form-logout" action="{{route('logout')}}" method="POST">
-                                        <li> <a class="text-danger" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();document.getElementById('form-logout').submit()">
-                                                    Logout
-                                            </a>
-                                        </li>
+                                    <li><a href="wishlist.html">wishlist</a></li> --}}
+                                    <li><a href="{{route('dashboard')}}">Dashboard</a></li>
+                                </ul>
+                                <li> <a class="text-danger" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();$('#form-logout').submit()">
+                                            Logout
+                                        </a>
+                                    </li>
 
-                                        @csrf
-                                    </form>
+                                <form id="form-logout" action="{{route('logout')}}" method="POST">
+                                    @csrf
+                                </form>
                                     @else
                                     <li><a href="{{route('login')}}">Login</a></li>
                                     <li><a href="{{route('register')}}">Register</a></li>
                                     @endauth
-                                </ul>
                             </li>
-                            @auth
-                            <li><a href="{{route('dashboard')}}"> Dashboard </a></li>
-                            @else
-                            {{-- <li><a href="{{route('login')}}"> Login/Register </a></li> --}}
-                            @endauth
                         </ul>
                     </div>
                 </div>
@@ -177,7 +173,7 @@
                                     </li>
                                     <li>Subtotol: <span class="pull-right">$70.00</span></li>
                                     <li>
-                                        <button>Check Out</button>
+                                        <button></button>
                                     </li>
                                 </ul>
                             </li>
@@ -219,7 +215,7 @@
                                     @if (countCarts() >0 )
                                     <li>Subtotol: <span class="pull-right">{{$total}}</span></li>
                                     <li>
-                                        <button>Check Out</button>
+                                        <a href="{{ route('CartView') }}"><button>Check Out</button></a>
                                     </li>
                                     @endif
                                 </ul>

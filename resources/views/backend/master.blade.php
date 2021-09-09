@@ -210,9 +210,14 @@
                     <div class="info">
                         @php
                             $name = Auth::user()->name;
+                            $admin = true;
+                            if (Auth::user()->roles()->first()->name == "Customer") {
+                                $admin = false;
+                            }
                             $nick_name = explode(' ',$name);
                         @endphp
-                        <a href="{{ route('dashboard') }}" class="d-block">{{ $nick_name[0]}} ( {{ Auth::user()->roles()->first()->name ?? '' }} )</a>
+                        <a href="{{ route('dashboard') }}" class="d-block">{{ $nick_name[0]}}
+                            @if($admin) ({{ Auth::user()->roles()->first()->name ?? '' }}) @endif </a>
                     </div>
                 </div>
 
@@ -587,6 +592,6 @@
 
 @else
     <script>
-        window.location = "login";
+        window.location.replace = "/login";
     </script>
 @endif

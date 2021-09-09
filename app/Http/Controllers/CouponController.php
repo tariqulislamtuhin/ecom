@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Models\Coupon;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CouponController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +22,7 @@ class CouponController extends Controller
      */
     public function index()
     {
+
         return view('backend.coupon.index', [
             "Coupons" => Coupon::orderBy('created_at', 'desc')->paginate(5)
         ]);

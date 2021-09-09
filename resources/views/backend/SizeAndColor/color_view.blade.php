@@ -66,8 +66,9 @@ bg-success
                                         <td>{{ $data->created_at->format('d-M-Y h:i:s a') }}
                                             ({{ $data->created_at->diffForHumans() }})</td>
                                         <td class="text-center">
-                                            <a class="btn btn-danger colorDelete" data-id="{{$data->id}}"
-                                                {{-- href="{{ route('DeleteColor',$data->id) }}" --}}>Delete</a>
+                                            <a class="btn btn-danger colorDelete" data-id="{{$data}}"
+                                               >Delete
+                                            </a>
                                         </td>
                                     </tr>
                                     @empty

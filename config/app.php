@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Igaster\LaravelCities\GeoServiceProvider::class,
 
         /*
          * Package Service Providers...
