@@ -52,7 +52,8 @@
                                 {{getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price}}
                             </td>
                             <td class="quantity cart-plus-minus">
-                                <input type="text" value="{{$cart->quantity}}" />
+                                <form action="{{route('cart.update',$cart)}}">
+                                <input type="text" id="cart_quantity" name="quantity" value="{{$cart->quantity}}" />
                             </td>
                             <td class="total">
                                 {{ getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity}}
@@ -61,9 +62,15 @@
                             $total += getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price
                             * $cart->quantity; @endphp
                             <td class="remove">
-                                <a href="{{route('DeleteCart',$cart)}}"> <i class="fa fa-trash text-danger"></i>
+                                <a href="{{route('DeleteCart',$cart)}}" data-toggle="tooltip" data-placement="top" title="Remove">
+                                    <i class="fa fa-trash text-danger"></i>
                                 </a>
+                                <button class="ml-5 btn btn-basic" type="submit" data-toggle="tooltip" data-placement="top" title="Update">
+                                    <i class="fa fa-refresh text-primary"></i>
+
+                                </button>
                             </td>
+                            </form>
                         </tr>
                         @empty
                         <tr>
@@ -101,12 +108,18 @@
                                 <li><span class="pull-left">Subtotal </span>{{$total}}</li>
                                 <li><span class="pull-left">Discount({{$discount}}%)</span>{{$discount}}</li>
                                 <li><span class="pull-left"> Total </span>
-                                    {{discountTotal($total,$discount)}}
+                                    {{$total-discountTotal($total,$discount)}}
                                     <p class="small pull-left">Adjusted({{$discount}}%) discount
                                     </p>
                                 </li>
                             </ul>
-                            <a href="checkout.html">Proceed to Checkout</a>
+                            @php
+                                session()->put('s_coupon',$coupon_name);
+                                session()->put('s_subtotal',$total);
+                                session()->put('s_discount',$discount);
+                                session()->put('s_total',$total-discountTotal($total,$discount));
+                            @endphp
+                            <a href="{{ route('checkout.index') }}">Proceed to Checkout</a>
                         </div>
                     </div>
                 </div>
@@ -128,5 +141,11 @@
         var coupon_address = "{{url('/carts')}}/"+coupon_name;
         window.location.href = coupon_address;
     });
+</script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+     })
 </script>
 @endsection

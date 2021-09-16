@@ -1,159 +1,249 @@
 @extends('frontend.master')
 
 @section('content')
-    <div class="checkout-area ptb-100">
-        <div class="container">
+<div class="checkout-area ptb-100">
+    <div class="container">
+        <form action="{{ route('checkout.store') }}" method="POST">
+            @csrf
             <div class="row">
                 <div class="col-lg-8">
                     <div class="checkout-form form-style">
                         <h3>Billing Details</h3>
-                        <form action="http://themepresss.com/tf/html/tohoney/checkout">
-                            <div class="row">
-                                <div class="col-sm-6 col-12">
-                                    <p>First Name *</p>
-                                    <input type="text">
-                                </div>
-                                <div class="col-sm-6 col-12">
-                                    <p>Last Name *</p>
-                                    <input type="text">
-                                </div>
-                                <div class="col-12">
-                                    <p>Compani Name</p>
-                                    <input type="text">
-                                </div>
-                                <div class="col-sm-6 col-12">
-                                    <p>Email Address *</p>
-                                    <input type="email">
-                                </div>
-                                <div class="col-sm-6 col-12">
-                                    <p>Phone No. *</p>
-                                    <input type="text">
-                                </div>
-                                <div class="col-12">
-                                    <p>Country *</p>
-                                    <input type="text">
-                                </div>
-                                <div class="col-12">
-                                    <p>Your Address *</p>
-                                    <input type="text">
-                                </div>
-                                <div class="col-sm-6 col-12">
-                                    <p>Postcode/ZIP</p>
-                                    <input type="email">
-                                </div>
-                                <div class="col-sm-6 col-12">
-                                    <p>Town/City *</p>
-                                    <input type="text">
-                                </div>
-                                <div class="col-12">
-                                    <input id="toggle1" type="checkbox">
-                                    <label for="toggle1">Pure CSS Accordion</label>
-                                    <div class="create-account">
-                                        <p>Create an account by entering the information below. If you are a returning customer please login at the top of the page.</p>
-                                        <span>Account password</span>
-                                        <input type="password">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <input id="toggle2" type="checkbox">
-                                    <label class="fontsize" for="toggle2">Ship to a different address?</label>
-                                    <div class="row" id="open2">
-                                        <div class="col-12">
-                                            <p>Country</p>
-                                            <select id="s_country">
-                                                <option value="1">Select a country</option>
-                                                <option value="2">bangladesh</option>
-                                                <option value="3">Algeria</option>
-                                                <option value="4">Afghanistan</option>
-                                                <option value="5">Ghana</option>
-                                                <option value="6">Albania</option>
-                                                <option value="7">Bahrain</option>
-                                                <option value="8">Colombia</option>
-                                                <option value="9">Dominican Republic</option>
-                                            </select>
-                                        </div>
-                                        <div class=" col-12">
-                                            <p>First Name</p>
-                                            <input id="s_f_name" type="text" />
-                                        </div>
-                                        <div class=" col-12">
-                                            <p>Last Name</p>
-                                            <input id="s_l_name" type="text" />
-                                        </div>
-                                        <div class="col-12">
-                                            <p>Company Name</p>
-                                            <input id="s_c_name" type="text" />
-                                        </div>
-                                        <div class="col-12">
-                                            <p>Address</p>
-                                            <input type="text" placeholder="Street address" />
-                                        </div>
-                                        <div class="col-12">
-                                            <input type="text" placeholder="Apartment, suite, unit etc. (optional)" />
-                                        </div>
-                                        <div class="col-12">
-                                            <p>Town / City </p>
-                                            <input id="s_city" type="text" placeholder="Town / City" />
-                                        </div>
-                                        <div class="col-12">
-                                            <p>State / County </p>
-                                            <input id="s_county" type="text" />
-                                        </div>
-                                        <div class="col-12">
-                                            <p>Postcode / Zip </p>
-                                            <input id="s_zip" type="text" placeholder="Postcode / Zip" />
-                                        </div>
-                                        <div class="col-12">
-                                            <p>Email Address </p>
-                                            <input id="s_email" type="email" />
-                                        </div>
-                                        <div class="col-12">
-                                            <p>Phone </p>
-                                            <input id="s_phone" type="text" placeholder="Phone Number" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <p>Order Notes </p>
-                                    <textarea name="massage" placeholder="Notes about Your Order, e.g.Special Note for Delivery"></textarea>
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-12 form-group">
+                                <label>Name *</label>
+                                <input class="form-control" type="text" value="{{ $user->name }}" name="billing_name">
+                                @error('billing_name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                        </form>
+                            <div class="col-sm-6 col-12 form-group">
+                                <label>Email Address *</label>
+                                <input class="form-control @error('billing_email') is-invalid @enderror" type="email"
+                                    value="{{ $user->email }}" name="billing_email">
+                                @error('billing_email')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-sm-6 col-12 form-group @error('billing_phone_number') is-invalid @enderror">
+                                <label>Phone No. *</label>
+                                <input class="form-control" type="number" name="billing_phone_number">
+                                @error('billing_phone_number')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-6 form-group">
+                                <label>Country</label>
+                                <select
+                                    class="form-control single_select text-center @error('country') is-invalid @enderror"
+                                    id="country_dropdown" name="country">
+                                    <option value="">--Select--</option>
+                                    @forelse ($countries as $country)
+                                    <option class="text-center" value="{{ $country->country }}">{{ $country->name }}
+                                    </option>
+                                    @empty
+
+                                    @endforelse
+                                </select>
+                                @error('country')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-6 form-group">
+                                <label>Division</label>
+                                <select id="city" class="form-control text-center @error('city') is-invalid @enderror"
+                                    name="city">
+
+                                </select>
+                                @error('city')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-6 form-group">
+                                <label>District</label>
+                                <select id="district"
+                                    class="form-control text-center @error('district') is-invalid @enderror"
+                                    name="district">
+
+                                </select>
+                            </div>
+
+                            <div class="col-6 form-group">
+                                <label>Thana</label>
+                                <select id="thana" class="form-control text-center @error('thana') is-invalid @enderror"
+                                    name="thana">
+
+                                </select>
+                            </div>
+
+                            <div class="col-sm-6 col-12 form-group">
+                                <label>Postcode/ZIP</label>
+                                <input class="form-control" type="text" name="billing_postcode">
+                            </div>
+                            <div class="col-12 form-group">
+                                <label>Your Address *</label>
+                                <input class="form-control" type="text" name="billing_address">
+                                @error('billing_address')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            {{-- <div class="col-sm-6 col-12 form-group">
+                                <label>Town/City *</label>
+                                <input class="form-control" type="text" >
+                            </div> --}}
+                            <div class="col-12 form-group">
+                                <label>Order Notes </label>
+                                <textarea class="form-control" name="order_note" id="order_note"
+                                    placeholder="Notes about Your Order, e.g.Special Note for Delivery"></textarea>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="order-area">
                         <h3>Your Order</h3>
                         <ul class="total-cost">
-                            <li>Pure Nature Honey <span class="pull-right">$139.00</span></li>
-                            <li>Your Product Name <span class="pull-right">$100.00</span></li>
-                            <li>Pure Nature Honey <span class="pull-right">$141.00</span></li>
-                            <li>Subtotal <span class="pull-right"><strong>$380.00</strong></span></li>
-                            <li>Shipping <span class="pull-right">Free</span></li>
-                            <li>Total<span class="pull-right">$380.00</span></li>
+                            @foreach (getCarts() as $cart)
+                            <li> <img src="{{ asset('thumb/'.$cart->GetProduct->thumbnail) }}"
+                                    alt="{{ $cart->getproduct->title }}" width="40">
+                                <strong>{{ $cart->getproduct->title }}({{ $cart->quantity }} Picese)
+                                    <span class="pull-right">
+                                        {{ getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity }}৳
+                                    </span></strong>
+                            </li>
+                            @endforeach
+
+                            <li><strong>Subtotal <span
+                                        class="pull-right">{{ session()->get('s_subtotal') }}<span>৳</span></strong></span>
+                            </li>
+                            <li><strong>Discount <span class="small">({{ session()->get('s_coupon') }})</span>
+                                    <span class="pull-right">{{ session()->get('s_discount') }}%</strong></span>
+                            </li>
+                            <li><strong>Shipping <span id="shipping_cost" class="pull-right">Free</span></strong></li>
+                            <li><strong>Total<span class="pull-right"
+                                        id="all_total">{{ session()->get('s_total') }}</span></strong>
+                            </li>
                         </ul>
                         <ul class="payment-method">
                             <li>
-                                <input id="bank" type="checkbox">
-                                <label for="bank">Direct Bank Transfer</label>
-                            </li>
-                            <li>
-                                <input id="paypal" type="checkbox">
+                                <input id="paypal" type="radio" value="credit card" name="payment_method">
                                 <label for="paypal">Paypal</label>
                             </li>
                             <li>
-                                <input id="card" type="checkbox">
-                                <label for="card">Credit Card</label>
-                            </li>
-                            <li>
-                                <input id="delivery" type="checkbox">
+                                <input id="delivery" type="radio" value="cash on delivary" name="payment_method">
                                 <label for="delivery">Cash on Delivery</label>
                             </li>
+                            @error('payment_method')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </ul>
-                        <button>Place Order</button>
+                        <button type="submit" id="place_order">Place Order</button>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
+</div>
+@endsection
+@section('footer_js')
+<script>
+    $(document).ready(function() {
+            $('.single_select').select2();
+            $("#country_dropdown").change(function(){
+                var country_code = $('#country_dropdown').val();
+                var total = "{{ session()->get('s_total') }}";
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url:'get/city/list',
+                    data: {country_code: country_code},
+                    success: function(res){
+                        $("#city").empty();
+                        $("#city").append('<option value="">--Select One--</option>');
+                        $.each(res,function (key,value) {
+                            $("#city").append('<option value="'+value.id+'">'+value.name+'</option>');
+                        });
+                    }
+                });
+
+                $("#city").change(function(){
+
+                    if (country_code == 'BD') {
+                        $("#shipping_cost").html(120+"৳");
+                        $("#all_total").html((120 + parseInt(total))+" ৳");
+                        @php
+                            session()->put('s_shipping',120);
+                        @endphp
+                    }else{
+                        $("#shipping_cost").html(500+"৳");
+                        $("#all_total").html((500 + parseInt(total))+" ৳");
+                        @php
+                            session()->put('s_shipping',500);
+                        @endphp
+                    }
+                    var city_id = $("#city").val();
+                    $.ajaxSetup({
+                        headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url:'get/district/list',
+                        data: {city_id: city_id,country_code: country_code},
+                        success: function(res){
+                            $("#district").empty();
+                            $("#district").append('<option>--Select One--</option>');
+                            $.each(res,function (key,value) {
+                                $("#district").append('<option value="'+value.id+'">'+value.name+'</option>');
+                            });
+                        }
+                    });
+
+
+                    $("#district").change(function(){
+
+                        var district_id = $("#district").val();
+                        $.ajaxSetup({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            type: 'POST',
+                            url:'get/thana/list',
+                            data: {country_code: country_code,district_id: district_id},
+                            success: function(res){
+                               if(res){
+                                    $("#thana").empty();
+                                    $("#thana").append('<option value="">--Select One--</option>');
+                                    $.each(res,function (key,value) {
+                                            $("#thana").append('<option value="'+value.id+'">'+value.name+'</option>');
+
+                                    });
+                               }else{
+                                    $("#thana").empty();
+                                    $("#thana").append('<option>--Not Available--</option>');
+                               }
+                            }
+                        });
+                    });
+
+
+                });
+
+
+            });
+    });
+</script>
 @endsection

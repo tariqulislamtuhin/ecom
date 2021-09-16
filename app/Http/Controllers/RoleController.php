@@ -34,6 +34,10 @@ class RoleController extends Controller
      */
     public function index()
     {
+        // Permission::create(['name' => 'category view']);
+        // Permission::create(['name' => 'category add']);
+        // Permission::create(['name' => 'category edit']);
+        // Permission::create(['name' => 'category delete']);
         // Permission::create(['name' => 'subcategory view']);
         // Permission::create(['name' => 'subcategory add']);
         // Permission::create(['name' => 'subcategory edit']);
@@ -54,10 +58,21 @@ class RoleController extends Controller
         // Permission::create(['name' => 'coupon add']);
         // Permission::create(['name' => 'coupon edit']);
         // Permission::create(['name' => 'coupon delete']);
+        // Permission::create(['name' => 'assign user']);
         // Permission::create(['name' => 'customer dashboard access']);
-
-        // $user = User::find(Auth::user()->id);
+        // Role::create([
+        //     "name" => 'Super Admin',
+        //     "guard_name" => 'web'
+        // ]);
+        // Role::create([
+        //     "name" => 'Customer',
+        //     "guard_name" => 'web'
+        // ]);
+        // $user = User::find(Auth::id());
         // $user->assignrole('Super Admin');
+        // $role = $user->roles->first();
+        // $role->givePermissionTo(Permission::all());
+        // $user->removeRole('Customer');
 
         return view('backend.role.index', [
             'roles' => Role::all()

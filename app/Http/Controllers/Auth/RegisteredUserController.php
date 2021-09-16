@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Contracts\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -45,9 +46,9 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
         $user->assignRole('Customer');
         // $user->assignRole('Super Admin');
+
 
         Auth::login($user);
 

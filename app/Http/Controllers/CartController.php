@@ -14,7 +14,11 @@ use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
-    ####### Nullable Method #######
+    /**
+     *
+     * Nullable Method
+     *
+     */
     public function CartView($coupon_name = null)
     {
         if ($coupon_name == null) {
@@ -43,6 +47,12 @@ class CartController extends Controller
         }
         return redirect('/carts/#coupon_section')->with('coupon_error', 'Coupon is invalid.!');
     }
+
+    /**
+     *
+     * Store cart here
+     *
+     * **/
     public function CartPost(Request $request)
     {
         $request->validate([
@@ -56,12 +66,20 @@ class CartController extends Controller
 
         // return $request->all();
         if ($request->hasCookie('cookie_id')) {
+            // return $request->cookie('cookie_id');
             $random_generated_coockie_id = $request->cookie('cookie_id');
-            $cart_before = Cart::where('cookie_id', $random_generated_coockie_id)->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->first();
 
-            if ($cart_before) {
-                $cart_before->increment('quantity', $request->quantity);
-                return back();
+            $ok = Cart::where([
+                "cookie_id" => $random_generated_coockie_id, "product_id" => $request->product_id,
+                "color_id" => $request->color_id, "size_id" => $request->size_id
+            ])->exists();
+            // return $ok;
+            if ($ok) {
+                Cart::where([
+                    "cookie_id" => $random_generated_coockie_id, "product_id" => $request->product_id,
+                    "color_id" => $request->color_id, "size_id" => $request->size_id
+                ])->first()->increment('quantity', $request->quantity);
+                return redirect()->route('CartView');
             } else {
                 $cart = new Cart();
                 $cart->cookie_id = $random_generated_coockie_id;
@@ -90,6 +108,16 @@ class CartController extends Controller
     public function DeleteCart(Cart $cart)
     {
         $cart->delete();
+        return back();
+    }
+
+    /**
+     * Update Quantity
+     */
+    public function updateCart(Request $request, Cart $cart)
+    {
+        $cart->quantity = $request->quantity;
+        $cart->save();
         return back();
     }
 }

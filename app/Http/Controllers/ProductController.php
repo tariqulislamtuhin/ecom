@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Atrribute;
+use App\Models\Billing;
 use App\Models\Category;
 use App\Models\color;
 use App\Models\product;
@@ -94,7 +95,7 @@ class ProductController extends Controller
         return redirect()->action([ProductController::class, "ProductForm"])->with('success', 'Product Added Succesfully');
     }
 
-    ############ Here API ############
+    ############ AJAX Method ############
 
     public function GetSubCat($id)
     {

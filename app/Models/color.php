@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class color extends Model
 {
     use HasFactory, SoftDeletes;
-    public function Cart()
-    {
-        return $this->hasMany(Cart::class, 'color_id');
-    }
+
+    protected $guarded = [];
 }

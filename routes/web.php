@@ -43,11 +43,9 @@ Route::get('get/color/size/{color_id}/{product_id}', [FrontendController::class,
 Route::get('carts/{coupon_name?}', [CartController::class, 'CartView'])->name('CartView');
 Route::post('cart/', [CartController::class, 'CartPost'])->name('CartPost');
 Route::get('delete-cart/{cart}', [CartController::class, 'DeleteCart'])->name('DeleteCart');
+Route::get('update-cart/{cart}', [CartController::class, 'updateCart'])->name('cart.update');
 
-
-/*
-########################################### Backend Start #############################################
-*/
+/**                     Backend Start                     */
 ############################ Dashboard Routes ############################
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
@@ -107,6 +105,11 @@ Route::resource('role', RoleController::class);
 
 ############################ Checkout Route ############################
 Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout.index');
+Route::post('get/city/list', [CheckoutController::class, 'getCityList'])->name('getCityList');
+Route::post('get/district/list', [CheckoutController::class, 'getDistrictList'])->name('getDistrictList');
+Route::post('get/thana/list', [CheckoutController::class, 'getTownList'])->name('getTownList');
+Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('after/checkout', [CheckoutController::class, 'checkoutFinish'])->name('checkout.finish');
 
 
 require __DIR__ . '/auth.php';

@@ -231,7 +231,6 @@ bg-success
               $("#subcategory_id").append('<option>Select</option>');
               $.each(res,function(key,value){
                 $("#subcategory_id").append('<option value="'+value.id+'">'+value.subcategory_name+'</option>');
-
               });
 
 
