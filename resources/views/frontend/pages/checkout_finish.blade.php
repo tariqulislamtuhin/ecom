@@ -1,11 +1,18 @@
 @extends('frontend.master')
 
 @section('content')
-<div class="checkout-area ptb-100">
+<style>
+    .bgImage {
+        background-image: url("{{ asset('front/images/bg/shopping.jpg' )}}");
+        height: 100%;
+
+    }
+</style>
+<div class="checkout-area ptb-100 bgImage">
     <div class="container">
-        <div class="aler alert-success">
-            Product is ready to be shippied
-        </div>
+        <span class="aler alert-success display-3 "> Product is ready for shipping.</span>
+
+
         <h1>
             <a href="{{ route('Frontend') }}">Continue shopping</a>
         </h1>

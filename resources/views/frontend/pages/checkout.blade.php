@@ -152,11 +152,10 @@
 @section('footer_js')
 <script>
     $(document).ready(function() {
-            $('.single_select').select2();
+            // $('.single_select').select2();
             $("#country_dropdown").change(function(){
                 var country_code = $('#country_dropdown').val();
                 var total = "{{ session()->get('s_total') }}";
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -177,6 +176,7 @@
                 });
 
                 $("#city").change(function(){
+
 
                     if (country_code == 'BD') {
                         $("#shipping_cost").html(120+"৳");

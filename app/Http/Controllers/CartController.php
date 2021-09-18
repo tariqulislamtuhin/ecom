@@ -70,37 +70,40 @@ class CartController extends Controller
             $random_generated_coockie_id = $request->cookie('cookie_id');
 
             $ok = Cart::where([
-                "cookie_id" => $random_generated_coockie_id, "product_id" => $request->product_id,
-                "color_id" => $request->color_id, "size_id" => $request->size_id
+                "cookie_id" => $random_generated_coockie_id,
+                "product_id" => $request->product_id,
+                "color_id" => $request->color_id,
+                "size_id" => $request->size_id
             ])->exists();
             // return $ok;
             if ($ok) {
                 Cart::where([
-                    "cookie_id" => $random_generated_coockie_id, "product_id" => $request->product_id,
-                    "color_id" => $request->color_id, "size_id" => $request->size_id
+                    "cookie_id" => $random_generated_coockie_id,
+                    "product_id" => $request->product_id,
+                    "color_id" => $request->color_id,
+                    "size_id" => $request->size_id
                 ])->first()->increment('quantity', $request->quantity);
                 return redirect()->route('CartView');
             } else {
-                $cart = new Cart();
-                $cart->cookie_id = $random_generated_coockie_id;
-                $cart->product_id = $request->product_id;
-                $cart->quantity = $request->quantity;
-                $cart->color_id = $request->color_id;
-                $cart->size_id = $request->size_id;
-                $cart->size_id = now();
-                $cart->save();
+                $cart = Cart::create([
+                    "cookie_id" => $random_generated_coockie_id,
+                    "product_id" => $request->product_id,
+                    "color_id" => $request->color_id,
+                    "size_id" => $request->size_id,
+                    "quantity" => $request->quantity,
+                ]);
                 return back();
             }
         } else {
             $random_generated_coockie_id = time() . Str::random(10);
             Cookie::queue('cookie_id', $random_generated_coockie_id, 1440);
-            $cart = new Cart();
-            $cart->cookie_id = $random_generated_coockie_id;
-            $cart->product_id = $request->product_id;
-            $cart->quantity = $request->quantity;
-            $cart->color_id = $request->color_id;
-            $cart->size_id = $request->size_id;
-            $cart->save();
+            $$cart = Cart::create([
+                "cookie_id" => $random_generated_coockie_id,
+                "product_id" => $request->product_id,
+                "color_id" => $request->color_id,
+                "size_id" => $request->size_id,
+                "quantity" => $request->quantity,
+            ]);
             return back();
         }
     }

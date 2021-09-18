@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
 use App\Models\Atrribute;
-use App\Models\Billing_Detail;
+use App\Models\BillingDetail;
 use App\Models\Cart;
 use App\Models\Coupon;
-use App\Models\Order_detail;
-use App\Models\Order_Summery;
+use App\Models\OrderAmount;
+use App\Models\OrderedProduct;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,46 +38,35 @@ class CheckoutController extends Controller
 
     public function store(CheckoutRequest $checkrequest)
     {
-        $sessionData = [
-            'coupon' => session()->get('s_coupon'),
-            'subtotal' => round(session()->get('s_subtotal')),
-            'discount' => session()->get('s_discount'),
-            'total' =>   round(session()->get('s_total')),
-        ];
-        // return $sessionData;
-        $billing_detail = Billing_Detail::create($checkrequest->except('_token', 'country') + [
+        // return $checkrequest->all();
+        $billing_detail = BillingDetail::create($checkrequest->except('_token', 'country') + [
             "user_id" => Auth::id(),
             "country" => Geo::Country($checkrequest->country)->level(Geo::LEVEL_COUNTRY)->orderBy('population', 'DESC')->first()->name,
 
         ]);
 
-        if (session()->get('s_coupon')) {
-            $order_detail = Order_detail::create([
-                "billing_id" => $billing_detail->id,
-                'coupon' => session()->get('s_coupon'),
-                'subtotal' => round(session()->get('s_subtotal')),
-                'discount' => session()->get('s_discount'),
-                'total' =>   round(session()->get('s_total')),
-            ]);
-            Coupon::where("coupon_name", $order_detail->coupon)->decrement("coupon_limit", 1);
-        } else {
-            $order_detail = Order_detail::create([
-                "billing_id" => $billing_detail->id,
-                'coupon' => "null",
-                'subtotal' => round(session()->get('s_subtotal')),
-                'discount' => session()->get('s_discount'),
-                'total' =>   round(session()->get('s_total')),
-            ]);
+        $order_ammount = OrderAmount::create([
+            "billing_detail_id" => $billing_detail->id,
+            'coupon' => session('s_coupon'),
+            'subtotal' => round(session()->get('s_subtotal')),
+            'discount' => session()->get('s_discount'),
+            'shipping' => session('s_shipping'),
+            'total' =>   round(session()->get('s_total')),
+        ]);
+
+        if (session('s_coupon')) {
+            Coupon::where("coupon_name", $order_ammount->coupon)->decrement("coupon_limit", 1);
         }
 
         foreach (Cart::where("cookie_id", Cookie::get('cookie_id'))->get() as $cart) {
-            $order_summery = Order_Summery::create([
-                "billing_id" => $billing_detail->id,
-                "order_detail_id" => $order_detail->id,
+
+            $order_product = OrderedProduct::insert([
+                "order_amount_id" => $order_ammount->id,
                 "product_id" => $cart->product_id,
                 "color_id" => $cart->color_id,
                 "size_id" => $cart->size_id,
                 "quantity" => $cart->quantity,
+                "created_at" => Carbon::now(),
             ]);
             Atrribute::where([
                 "product_id" => $cart->product_id,
@@ -85,8 +74,8 @@ class CheckoutController extends Controller
                 "size_id" => $cart->size_id,
             ])->decrement("quantity", $cart->quantity);
             $cart->delete();
-            return redirect()->route('checkout.finish');
         }
+        return redirect()->route('checkout.finish');
     }
 
     public function checkoutFinish()

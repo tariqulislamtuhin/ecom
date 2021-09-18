@@ -54,7 +54,7 @@ class ProductController extends Controller
 
         ]);
 
-        $slug = str::slug($request->title);
+        $slug = str::slug($request->title) . Str::random();
         $products = new product();
         $products->title  = $request->title;
         $products->slug = $slug;
