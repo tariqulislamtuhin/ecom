@@ -130,7 +130,7 @@
                         </ul>
                         <ul class="payment-method">
                             <li>
-                                <input id="paypal" type="radio" value="credit card" name="payment_method">
+                                <input id="paypal" type="radio" value="online" name="payment_method">
                                 <label for="paypal">Paypal</label>
                             </li>
                             <li>
@@ -181,15 +181,10 @@
                     if (country_code == 'BD') {
                         $("#shipping_cost").html(120+"৳");
                         $("#all_total").html((120 + parseInt(total))+" ৳");
-                        @php
-                            session()->put('s_shipping',120);
-                        @endphp
+
                     }else{
                         $("#shipping_cost").html(500+"৳");
                         $("#all_total").html((500 + parseInt(total))+" ৳");
-                        @php
-                            session()->put('s_shipping',500);
-                        @endphp
                     }
                     var city_id = $("#city").val();
                     $.ajaxSetup({

@@ -18,12 +18,13 @@ use Illuminate\Support\Facades\Cookie;
 
 class CheckoutController extends Controller
 {
-
-    // "city" => Geo::findorFail($checkrequest->city)->name,
-    // "district" => Geo::findorfail($checkrequest->district)->name,
-    // "thana" => Geo::findorfail($checkrequest->thana)->name,
-
-
+    /**
+     *
+     *  "city" => Geo::findorFail($request->city)->name,
+     *  "district" => Geo::findorfail($request->district)->name,
+     *  "thana" => Geo::findorfail($request->thana)->name,
+     *
+     *  */
 
     public function __construct()
     {
@@ -36,13 +37,13 @@ class CheckoutController extends Controller
         return view('frontend.pages.checkout', compact('user', 'countries'));
     }
 
-    public function store(CheckoutRequest $checkrequest)
+    public function store(CheckoutRequest $request)
     {
-        // return $checkrequest->all();
-        $billing_detail = BillingDetail::create($checkrequest->except('_token', 'country') + [
+        ($request->country == 'BD') ? session()->put('s_shipping', 120) : session()->put('s_shipping', 500);
+        // return $request->all();
+        $billing_detail = BillingDetail::create($request->except('_token', 'country') + [
             "user_id" => Auth::id(),
-            "country" => Geo::Country($checkrequest->country)->level(Geo::LEVEL_COUNTRY)->orderBy('population', 'DESC')->first()->name,
-
+            "country" => Geo::Country($request->country)->level(Geo::LEVEL_COUNTRY)->orderBy('population', 'DESC')->first()->name,
         ]);
 
         $order_ammount = OrderAmount::create([
@@ -51,7 +52,7 @@ class CheckoutController extends Controller
             'subtotal' => round(session()->get('s_subtotal')),
             'discount' => session()->get('s_discount'),
             'shipping' => session('s_shipping'),
-            'total' =>   round(session()->get('s_total')),
+            'total' => round(session()->get('s_total')) + session('s_shipping'),
         ]);
 
         if (session('s_coupon')) {
@@ -60,7 +61,7 @@ class CheckoutController extends Controller
 
         foreach (Cart::where("cookie_id", Cookie::get('cookie_id'))->get() as $cart) {
 
-            $order_product = OrderedProduct::insert([
+            OrderedProduct::insert([
                 "order_amount_id" => $order_ammount->id,
                 "product_id" => $cart->product_id,
                 "color_id" => $cart->color_id,
@@ -75,6 +76,11 @@ class CheckoutController extends Controller
             ])->decrement("quantity", $cart->quantity);
             $cart->delete();
         }
+        session()->forget('s_coupon');
+        session()->forget('s_subtotal');
+        session()->forget('s_discount');
+        session()->forget('s_shipping');
+        session()->forget('s_total');
         return redirect()->route('checkout.finish');
     }
 
@@ -84,6 +90,17 @@ class CheckoutController extends Controller
     }
 
     #################### Ajax Methods Start From Here ###############
+    /**
+     *
+     * $options = "<option value=" . "> --Select One-- </option>";
+     * foreach ($cityList as $city) {
+     *  $options .= "<option value=" . $city->id . ">" . $city->name . "</option>";
+     *
+     * }
+     * echo $options;
+     *
+     *  */
+
 
     public function getCityList(Request $request)   //  Ajax Response Method
     {
@@ -91,13 +108,9 @@ class CheckoutController extends Controller
             ->level(Geo::LEVEL_1)
             ->orderBy('population', 'DESC')
             ->get();
-        // $options = "<option value=" . "> --Select One-- </option>";
-        // foreach ($cityList as $city) {
-        //     $options .= "<option value=" . $city->id . ">" . $city->name . "</option>";
-        // }
-        // echo $options;
         return response()->json($cityList);
     }
+
     public function getDistrictList(Request $request)
     {
         $District_List = Geo::Country($request->country_code)->where('parent_id', $request->city_id)->orderBy('name', 'ASC')->get();

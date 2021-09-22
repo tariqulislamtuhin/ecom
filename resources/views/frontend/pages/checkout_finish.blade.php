@@ -5,7 +5,6 @@
     .bgImage {
         background-image: url("{{ asset('front/images/bg/shopping.jpg' )}}");
         height: 100%;
-
     }
 </style>
 <div class="checkout-area ptb-100 bgImage">
@@ -18,4 +17,5 @@
         </h1>
     </div>
 </div>
+
 @endsection

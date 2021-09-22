@@ -97,7 +97,7 @@ class CartController extends Controller
         } else {
             $random_generated_coockie_id = time() . Str::random(10);
             Cookie::queue('cookie_id', $random_generated_coockie_id, 1440);
-            $$cart = Cart::create([
+            $cart = Cart::create([
                 "cookie_id" => $random_generated_coockie_id,
                 "product_id" => $request->product_id,
                 "color_id" => $request->color_id,

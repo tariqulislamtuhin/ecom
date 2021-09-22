@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Atrribute;
+use Igaster\LaravelCities\Geo;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
@@ -22,6 +23,11 @@ function getproductPrice($p_id, $c_id, $s_id)
 function discountTotal($total, $discount)
 {
     return ($total * $discount) / 100;
+}
+
+function getGeoName($id)
+{
+    return Geo::findorFail($id)->name;
 }
 
 // function checkoutProduct()

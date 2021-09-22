@@ -21,6 +21,7 @@ class CreateOrderAmountsTable extends Migration
             $table->integer('discount');
             $table->integer('shipping');
             $table->integer('total');
+            $table->integer('payment_status')->default(2)->comment('1 = Paid, 2 = Unpaid');
             $table->softDeletes();
             $table->timestamps();
         });
