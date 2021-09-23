@@ -1,5 +1,5 @@
 <p align="center"> <a href="https://github.com/tariqulislamtuhin/laravel"> WelCome to my Repo.</a></p>
-<p align="center"><a href="https://github.com/tariqulislamtuhin" target="_blank"><img src="https://avatars.githubusercontent.com/u/33233680?v=4" width="400"></a></p>
+<p style="border-radius: 50%" align="center"><a href="https://github.com/tariqulislamtuhin" target="_blank"><img src="https://avatars.githubusercontent.com/u/33233680?v=4" width="200"></a></p>
 <!-- <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
