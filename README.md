@@ -9,7 +9,7 @@
 
 ## About This Project
 
-This is a Single Vendor web E-Commerce application  with all basic funtionalities.
+This is a Single Vendor web E-Commerce application  with all basic functionalities.
 
 - [Well Written Router (check out)](https://github.com/tariqulislamtuhin/laravel/blob/main/routes/web.php).
 - [SslCommerz Payment Method Integration](https://github.com/sslcommerz/SSLCommerz-Laravel).
