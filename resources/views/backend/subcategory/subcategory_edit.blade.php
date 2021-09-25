@@ -39,9 +39,6 @@ active
                     <div class="card-body">
                         <div class="form-group">
 
-                            <input type="hidden" class="form-control" id="id" value="{{ $subcategory->id }}"
-                                placeholder="Category name" name="id">
-
                             <label for="name">Category Name</label>
                             <input type="text" class="form-control" id="name"
                                 value="{{ $subcategory->subcategory_name }}" placeholder="Category name"
@@ -49,15 +46,13 @@ active
                             <label for="name">Slug</label>
                             <input type="text" class="form-control" id="name" value="{{ $subcategory->slug }}"
                                 placeholder="Category name" name="slug">
-
-
                         </div>
                         {{-- <div class="form-group">
                     <label for="slug"> Slug </label>
                     <input type="text" class="form-control" id="slug" placeholder="Slug"name="slug">
                   </div> --}}
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-primary"> Update </button>
                         </div>
                 </form>
             </div>

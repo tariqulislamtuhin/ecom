@@ -26,7 +26,7 @@ bg-success
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('subcategories') }}">Subcategories</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('Subcategories') }}">Subcategories</a></li>
                         <li class="breadcrumb-item active">Add SubCategory</li>
                     </ol>
                 </div><!-- /.col -->

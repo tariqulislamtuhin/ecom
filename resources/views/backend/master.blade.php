@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 @if (Auth::user())
 <html lang="en">
@@ -209,12 +208,12 @@
                     </div>
                     <div class="info">
                         @php
-                            $name = Auth::user()->name;
-                            $admin = true;
-                            if (Auth::user()->roles()->first()->name == "Customer") {
-                                $admin = false;
-                            }
-                            $nick_name = explode(' ',$name);
+                        $name = Auth::user()->name;
+                        $admin = true;
+                        if (Auth::user()->roles()->first()->name == "Customer") {
+                        $admin = false;
+                        }
+                        $nick_name = explode(' ',$name);
                         @endphp
                         <a href="{{ route('dashboard') }}" class="d-block">{{ $nick_name[0]}}
                             @if($admin) ({{ Auth::user()->roles()->first()->name ?? '' }}) @endif </a>
@@ -343,16 +342,16 @@
                                         <p>Views Products</p>
                                     </a>
                                 </li>
-                            @endcan
-                            @can("product add")
+                                @endcan
+                                @can("product add")
                                 <li class="nav-item">
                                     <a href="{{ route('ProductForm') }}" class="nav-link @yield('productaddcatactive')">
                                         <i class="nav-icon fas fa-plus"></i>
                                         <p>Add Product</p>
                                     </a>
                                 </li>
-                            @endcan
-                            @can("product view")
+                                @endcan
+                                @can("product view")
                                 <li class="nav-item">
                                     <a href="{{ route('TrashedProduct') }}"
                                         class="nav-link @yield('producttrashcatactive')">
@@ -360,7 +359,7 @@
                                         <p>Trashed Products</p>
                                     </a>
                                 </li>
-                            @endcan
+                                @endcan
                             </ul>
                         </li>
                         @endcan
@@ -459,7 +458,8 @@
                                 </li>
 
                                 <li class="nav-item ">
-                                    <a href="{{ route('assignuser.index') }}" class="nav-link @yield('assignUseractive')">
+                                    <a href="{{ route('assignuser.index') }}"
+                                        class="nav-link @yield('assignUseractive')">
                                         <i class="nav-icon fas fa-plus"></i>
                                         <p>
                                             Assign User
@@ -583,6 +583,7 @@
         })
     </script>
     @yield("toastr_js");
+    @yield("footer_js");
 
 
 </body>
@@ -591,7 +592,7 @@
 </html>
 
 @else
-    <script>
-        window.location.replace = "/login";
-    </script>
+<script>
+    window.location.replace = "/login";
+</script>
 @endif

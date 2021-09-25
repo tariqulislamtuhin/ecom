@@ -42,9 +42,9 @@ bg-success
                 <div class="col-md">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Sub-Category Table</h3>
-                            <a class="float-right" href="{{ url('add-subcategory') }}">
-                                <i class="fa fa-plus"> SubCategory</i>
+                            <h3 class="card-title"> Sub-Category Table </h3>
+                            <a class="float-right" href="{{ route('addSubcategory') }}">
+                                <i class="fa fa-plus"> SubCategory </i>
                             </a>
                         </div>
 
@@ -72,9 +72,11 @@ bg-success
                                         <td>{{ $subcategory->created_at->diffForHumans() }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-warning"
-                                                href="{{ route('editsubcategories',$subcategory) }}">Edit</a>
+                                                href="{{ route('editsubcategories',$subcategory) }}"> Edit
+                                            </a>
                                             <a class="btn btn-danger"
-                                                href="{{ route('deletesubcategory',$subcategory)}}">Delete</a>
+                                                href="{{ route('deletesubcategory',$subcategory) }}"> Delete
+                                            </a>
                                         </td>
                                     </tr>
                                     @empty

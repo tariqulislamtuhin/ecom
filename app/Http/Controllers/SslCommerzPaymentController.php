@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Library\SslCommerz\SslCommerzNotification;
 
@@ -11,12 +11,12 @@ class SslCommerzPaymentController extends Controller
 
     public function exampleEasyCheckout()
     {
-        return view('exampleEasycheckout');
+        return view('sslcommerz.exampleEasycheckout');
     }
 
     public function exampleHostedCheckout()
     {
-        return view('exampleHosted');
+        return view('sslcommerz.exampleHosted');
     }
 
     public function index(Request $request)
@@ -85,7 +85,6 @@ class SslCommerzPaymentController extends Controller
             print_r($payment_options);
             $payment_options = array();
         }
-
     }
 
     public function payViaAjax(Request $request)
@@ -156,7 +155,6 @@ class SslCommerzPaymentController extends Controller
             print_r($payment_options);
             $payment_options = array();
         }
-
     }
 
     public function success(Request $request)
@@ -207,8 +205,6 @@ class SslCommerzPaymentController extends Controller
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";
         }
-
-
     }
 
     public function fail(Request $request)
@@ -229,7 +225,6 @@ class SslCommerzPaymentController extends Controller
         } else {
             echo "Transaction is Invalid";
         }
-
     }
 
     public function cancel(Request $request)
@@ -250,8 +245,6 @@ class SslCommerzPaymentController extends Controller
         } else {
             echo "Transaction is Invalid";
         }
-
-
     }
 
     public function ipn(Request $request)
@@ -292,7 +285,6 @@ class SslCommerzPaymentController extends Controller
 
                     echo "validation Fail";
                 }
-
             } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
 
                 #That means Order status already updated. No need to udate database.
@@ -307,5 +299,4 @@ class SslCommerzPaymentController extends Controller
             echo "Invalid Data";
         }
     }
-
 }

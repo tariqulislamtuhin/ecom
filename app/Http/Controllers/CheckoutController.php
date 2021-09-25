@@ -39,6 +39,8 @@ class CheckoutController extends Controller
 
     public function store(CheckoutRequest $request)
     {
+        if ($request->payment_method == "online") {
+        }
         ($request->country == 'BD') ? session()->put('s_shipping', 120) : session()->put('s_shipping', 500);
         // return $request->all();
         $billing_detail = BillingDetail::create($request->except('_token', 'country') + [

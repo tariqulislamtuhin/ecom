@@ -6,7 +6,7 @@ use App\Models\BillingDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use PDF;
+use Barryvdh\DomPDF\PDF;
 
 
 
@@ -23,6 +23,7 @@ class DashboardController extends Controller
         if (auth()->user()->roles->first()->name == "Customer") {
 
             $billing_details = BillingDetail::where('user_id', Auth::id())->get();
+            // $payment_method = BillingDetail::where('payment_method',)
             return view('backend.customer_dashboard', compact('billing_details'));
         }
         return view('backend.dashboard');
