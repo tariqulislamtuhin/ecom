@@ -47,8 +47,8 @@ Route::get('update-cart/{cart}', [CartController::class, 'updateCart'])->name('c
 /**                     Backend Start                     */
 ############################ Dashboard Routes ############################
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-Route::get('download/customer/invoice/{billing_detail}', [DashboardController::class, 'downloadCustomerInvoice'])->name('download.Customer.Invoice');
-Route::get('view/customer/invoice/{billing_detail}', [DashboardController::class, 'viewCustomerInvoice'])->name('view.Customer.Invoice');
+Route::get('download/customer/{billing_detail}/invoice', [DashboardController::class, 'downloadCustomerInvoice'])->name('download.Customer.Invoice');
+Route::get('customer/invoice/{billing_detail}/view', [DashboardController::class, 'viewCustomerInvoice'])->name('view.Customer.Invoice');
 
 ############################ Category Routes ############################
 Route::get('/category/trash', [CategoryController::class, 'trash'])->name('category.trash');
@@ -109,12 +109,12 @@ Route::get('checkout', [CheckoutController::class, 'checkout'])->name('checkout.
 Route::post('get/city/list', [CheckoutController::class, 'getCityList'])->name('getCityList');
 Route::post('get/district/list', [CheckoutController::class, 'getDistrictList'])->name('getDistrictList');
 Route::post('get/thana/list', [CheckoutController::class, 'getTownList'])->name('getTownList');
-Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-Route::get('after/checkout', [CheckoutController::class, 'checkoutFinish'])->name('checkout.finish');
+Route::post('checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('checkout/greeting', [CheckoutController::class, 'checkoutFinish'])->name('checkout.finish');
 
-// SSLCOMMERZ Start
-Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
-Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+############################ SSLCOMMERZ Start ############################
+// Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+// Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
 
 Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);

@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin | @yield('title')</title>
-
     <!-- Google Font: Source Sans Pro -->
     <link rel="icon" type="image/png" href="{{ asset('assets/dist/img/online-shopping.ico') }}">
     <link rel="stylesheet"
@@ -377,7 +376,7 @@
                                 @can("size view")
                                 <li class="nav-item">
                                     <a href="{{ route('CreateSize') }}" class="nav-link @yield('sizeviewactive')">
-                                        <i class="nav-icon fas fa-size"></i>
+                                        <i class="nav-icon fas fa-size fa-xl"> <img src="" alt=""> </i>
                                         <p>Sizes</p>
                                     </a>
                                 </li>@endcan

@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Tohoney - Home Page</title>
+    @php
+    $url= explode("/",url()->current());
+    @endphp
+    <title>Tohoney - {{ Route::is('Frontend') ? 'Home' : ucwords(end($url)) }}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -72,31 +75,31 @@
                         <ul class="d-flex account_login-area">
                             <li>
                                 @auth
-                                    @php
-                                        $name = Auth::user()->name;
-                                        $nick_name = explode(' ',$name);
-                                    @endphp
-                                <a href="javascript:void(0);"><i class="fa fa-user"></i> Welcome {{ array_pop($nick_name) }} <i
-                                        class="fa fa-angle-down"></i></a>
+                                @php
+                                $name = Auth::user()->name;
+                                $nick_name = explode(' ',$name);
+                                @endphp
+                                <a href="javascript:void(0);"><i class="fa fa-user"></i> Welcome
+                                    {{ array_pop($nick_name) }} <i class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown_style">
                                     {{-- <li><a href="cart.html">Cart</a></li>
                                     <li><a href="checkout.html">Checkout</a></li>
                                     <li><a href="wishlist.html">wishlist</a></li> --}}
                                     <li><a href="{{route('dashboard')}}">Dashboard</a></li>
                                 </ul>
-                                <li> <a class="text-danger" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();$('#form-logout').submit()">
-                                            Logout
-                                        </a>
-                                    </li>
+                            <li> <a class="text-danger" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();$('#form-logout').submit()">
+                                    Logout
+                                </a>
+                            </li>
 
-                                <form id="form-logout" action="{{route('logout')}}" method="POST">
-                                    @csrf
-                                </form>
-                                    @else
-                                    <li><a href="{{route('login')}}">Login</a></li>
-                                    <li><a href="{{route('register')}}">Register</a></li>
-                                    @endauth
+                            <form id="form-logout" action="{{route('logout')}}" method="POST">
+                                @csrf
+                            </form>
+                            @else
+                            <li><a href="{{route('login')}}">Login</a></li>
+                            <li><a href="{{route('register')}}">Register</a></li>
+                            @endauth
                             </li>
                         </ul>
                     </div>

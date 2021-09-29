@@ -32,9 +32,15 @@ class CheckoutController extends Controller
     }
     public function checkout()
     {
-        $user = Auth::user();
-        $countries = Geo::getCountries();
-        return view('frontend.pages.checkout', compact('user', 'countries'));
+
+        if (Cart::where('cookie_id', Cookie::get('cookie_id'))->exists()) {
+            $user = Auth::user();
+            $countries = Geo::getCountries();
+            return view('frontend.pages.checkout', compact('user', 'countries'));
+        } else {
+            // return back();
+            abort(403, "Here nothing to checekout! get a product.");
+        }
     }
 
     public function store(CheckoutRequest $request)

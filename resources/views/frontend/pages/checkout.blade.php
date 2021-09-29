@@ -3,7 +3,7 @@
 @section('content')
 <div class="checkout-area ptb-100">
     <div class="container">
-        <form action="{{ route('checkout.store') }}" method="POST">
+        <form id="checkout_form" action="{{ url('/pay') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-lg-8">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-sm-6 col-12 form-group @error('billing_phone_number') is-invalid @enderror">
                                 <label>Phone No. *</label>
-                                <input class="form-control" type="number" name="billing_phone_number">
+                                <input class="form-control" type="tel" name="billing_phone_number">
                                 @error('billing_phone_number')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -130,12 +130,23 @@
                         </ul>
                         <ul class="payment-method">
                             <li>
-                                <input id="paypal" type="radio" value="online" name="payment_method">
-                                <label for="paypal">Paypal</label>
+                                <div class="form-control text-bold radio">
+                                    <input id="sslcommerz" type="radio" value="sslcommerz" name="payment_method">
+                                    <label class="label label-primary" for="sslcommerz"> Pay with SSLCOMMERZ
+                                        <img src="https://www.sslcommerz.com/wp-content/uploads/2020/03/favicon.png"
+                                            width="25" alt="">
+                                    </label>
+                                </div>
                             </li>
                             <li>
-                                <input id="delivery" type="radio" value="cash on delivary" name="payment_method">
-                                <label for="delivery">Cash on Delivery</label>
+                                <div class="form-control text-bold radio">
+                                    <input id="cash_on_delivery" type="radio" value="cash on delivary"
+                                        name="payment_method">
+                                    <label class="label label-info" for="cash_on_delivery"> Cash on Delivery
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1554/1554401.png" width="25"
+                                            alt="">
+                                    </label>
+                                </div>
                             </li>
                             @error('payment_method')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -169,9 +180,11 @@
                     success: function(res){
                         $("#city").empty();
                         $("#city").append('<option value="">--Select One--</option>');
+                        let options = "";
                         $.each(res,function (key,value) {
-                            $("#city").append('<option value="'+value.id+'">'+value.name+'</option>');
+                            options += '<option value="'+value.id+'">'+value.name+'</option>';
                         });
+                        $("#city").append(options);
                     }
                 });
 
@@ -199,9 +212,11 @@
                         success: function(res){
                             $("#district").empty();
                             $("#district").append('<option>--Select One--</option>');
+                            let options = '';
                             $.each(res,function (key,value) {
-                                $("#district").append('<option value="'+value.id+'">'+value.name+'</option>');
+                                options += '<option value="'+value.id+'">'+value.name+'</option>';
                             });
+                            $("#district").append(options);
                         }
                     });
 
@@ -222,10 +237,11 @@
                                if(res){
                                     $("#thana").empty();
                                     $("#thana").append('<option value="">--Select One--</option>');
+                                    let options = "";
                                     $.each(res,function (key,value) {
-                                            $("#thana").append('<option value="'+value.id+'">'+value.name+'</option>');
-
+                                            options += '<option value="'+value.id+'">'+value.name+'</option>';
                                     });
+                                    $("#thana").append(options);
                                }else{
                                     $("#thana").empty();
                                     $("#thana").append('<option>--Not Available--</option>');
@@ -239,6 +255,21 @@
 
 
             });
+
+
+            $("#sslcommerz").change(function(){
+                $("#checkout_form").attr("action","{{ url('/pay') }}");
+            });
+            $("#cash_on_delivery").change(function(){
+                $("#checkout_form").attr("action","{{ url('checkout/store') }}");
+            });
+
+            $("#checkout_form").submit(function(e){
+                @php
+                    session()->put("s_shipping",200);
+                @endphp
+            });
+
     });
 </script>
 @endsection

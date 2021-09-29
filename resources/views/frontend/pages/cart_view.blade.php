@@ -33,7 +33,7 @@
                             <th class="ptice">Price(Per Unit)</th>
                             <th class="quantity">Quantity</th>
                             <th class="total">Total</th>
-                            <th class="remove">Remove</th>
+                            <th class="remove">Remove/Update</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,7 +53,7 @@
                             </td>
                             <td class="quantity cart-plus-minus">
                                 <form action="{{route('cart.update',$cart)}}">
-                                <input type="text" id="cart_quantity" name="quantity" value="{{$cart->quantity}}" />
+                                    <input type="text" id="cart_quantity" name="quantity" value="{{$cart->quantity}}" />
                             </td>
                             <td class="total">
                                 {{ getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity}}
@@ -62,10 +62,12 @@
                             $total += getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price
                             * $cart->quantity; @endphp
                             <td class="remove">
-                                <a href="{{route('DeleteCart',$cart)}}" data-toggle="tooltip" data-placement="top" title="Remove">
+                                <a href="{{route('DeleteCart',$cart)}}" data-toggle="tooltip" data-placement="top"
+                                    title="Remove">
                                     <i class="fa fa-trash text-danger"></i>
                                 </a>
-                                <button class="ml-5 btn btn-basic" type="submit" data-toggle="tooltip" data-placement="top" title="Update">
+                                <button class="ml-5 btn btn-basic" type="submit" data-toggle="tooltip"
+                                    data-placement="top" title="Update">
                                     <i class="fa fa-refresh text-primary"></i>
 
                                 </button>
@@ -74,7 +76,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="50" class="text-center"><Strong> No Data Avilable</Strong> </td>
+                            <td colspan="50" class="text-center display-4"><Strong> No Data Avilable</Strong> </td>
                         </tr>
                         @endforelse
 
@@ -114,10 +116,10 @@
                                 </li>
                             </ul>
                             @php
-                                session()->put('s_coupon',$coupon_name);
-                                session()->put('s_subtotal',$total);
-                                session()->put('s_discount',$discount);
-                                session()->put('s_total',$total-discountTotal($total,$discount));
+                            session()->put('s_coupon',$coupon_name);
+                            session()->put('s_subtotal',$total);
+                            session()->put('s_discount',$discount);
+                            session()->put('s_total',$total-discountTotal($total,$discount));
                             @endphp
                             <a href="{{ route('checkout.index') }}">Proceed to Checkout</a>
                         </div>

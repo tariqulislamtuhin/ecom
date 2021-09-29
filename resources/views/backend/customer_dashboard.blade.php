@@ -109,11 +109,11 @@ Dashboard
 var myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-        labels: ['Cash on delivary', 'Online'],
+        labels: ['Cash on delivary', 'Paid Online'],
         datasets: [{
             label: '# of Votes',
             data: [ {{ $billing_details->where('payment_method','cash on delivary')->count() }},
-                    {{ $billing_details->where('payment_method','online')->count() }} ],
+                    {{ $billing_details->where('payment_method','sslcommerz')->count() }} ],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.5)',
                 'rgba(255, 255, 0, 0.5)'

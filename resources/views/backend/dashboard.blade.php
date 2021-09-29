@@ -37,7 +37,7 @@ Dashboard
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3>{{ App\Models\OrderAmount::where('payment_status',2)->get()->count() }}</h3>
 
                             <p>New Orders</p>
                         </div>
@@ -67,7 +67,7 @@ Dashboard
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ App\Models\User::all()->count() }}</h3>
 
                             <p>User Registrations</p>
                         </div>
@@ -82,7 +82,7 @@ Dashboard
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>65</h3>
+                            <h3>{{ (App\Models\Cart::all()->count()) }}</h3>
 
                             <p>Unique Visitors</p>
                         </div>

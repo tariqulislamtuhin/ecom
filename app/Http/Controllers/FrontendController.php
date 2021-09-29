@@ -17,7 +17,11 @@ class FrontendController extends Controller
     }
     public function ProductDetails(Product $product, $product_slug = null)
     {
-        $reletedProduct = Product::with(['Atrribute', 'getCategory', 'getSubCategory'])->where('id', '!=', $product->id)->where('category_id', $product->category_id)->get();
+        $reletedProduct = Product::where('id', '!=', $product->id)
+            ->where([
+                'category_id' => $product->category_id,
+                'subcategory_id' => $product->subcategory_id,
+            ])->get();
         $attribute = Atrribute::with(['Products', 'getColor', 'getSize'])->where('product_id', $product->id)->get();
         $grouped = $attribute->groupBy('color_id');
         return view('frontend.pages.product_details', compact(['product', 'reletedProduct', 'grouped']));
