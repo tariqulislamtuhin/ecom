@@ -5,7 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin | @yield('title')</title>
+    @php
+    $url = explode('8000',url()->current());
+    $url = ucwords(str_replace('/',' ',end($url)));
+    $url = preg_replace('/[0-9]+/', ' ', $url);
+    @endphp
+    <title>Admin | {{ ($url == '' ? "home" : $url) }} </title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="icon" type="image/png" href="{{ asset('assets/dist/img/online-shopping.ico') }}">
     <link rel="stylesheet"

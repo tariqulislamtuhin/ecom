@@ -81,7 +81,7 @@ bg-success
                                                 </div>
 
                                                 <div class="col">
-                                                    <img src="{{asset('images/'.$item->image ?? $item->image)}}"
+                                                    <img src="{{asset('thumbnail/attribute_images/'.$item->image ?? $item->image)}}"
                                                         width="25" alt="{{$item->image}}">
                                                 </div>
                                             </div>
@@ -92,7 +92,8 @@ bg-success
 
                                         </td>
                                         <td>
-                                            <img src="{{ asset('thumb/'.$product->thumbnail) }}" width="100" alt="">
+                                            <img src="{{ asset('thumbnail/' . $product->created_at->format('Y/M/') . $product->id . '/'.$product->thumbnail) }}"
+                                                width="100" alt="">
                                         </td>
                                         <td>{{ $product->created_at->diffForHumans() }}</td>
                                         <td class="text-center">

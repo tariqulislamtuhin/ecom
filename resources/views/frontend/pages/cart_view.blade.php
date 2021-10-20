@@ -25,15 +25,15 @@
         <div class="row">
             <div class="col-12">
 
-                <table class="table-responsive cart-wrap">
-                    <thead class="bg-danger">
-                        <tr>
-                            <th class="images">Image</th>
-                            <th class="product">Products</th>
-                            <th class="ptice">Price(Per Unit)</th>
-                            <th class="quantity">Quantity</th>
-                            <th class="total">Total</th>
-                            <th class="remove">Remove/Update</th>
+                <table class="table-responsive cart-wrap table-striped">
+                    <thead class="bg-success">
+                        <tr class="text-bold">
+                            <th>Image</th>
+                            <th>Products</th>
+                            <th>Unit Price(tk.)</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove/Update</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,15 +41,19 @@
                         @forelse ($carts as $cart)
                         <tr>
                             <td class="images">
-                                <img src="{{asset('thumb/'.$cart->GetProduct->thumbnail)}}"
+                                <img src="{{asset('thumbnail/' . $products->created_at->format('Y/M/') . $products->id . '/'.$cart->GetProduct->thumbnail)}}"
                                     alt="{{$cart->Getproduct->title}}">
                             </td>
-                            <td class="product"><a
-                                    href="{{route('ProductDetails',[$cart->GetProduct,$cart->GetProduct->slug])}}">{{$cart->Getproduct->title}}</a>
-                                <br><span>({{'Color: '.$cart->GetColor->color_name.', Size: '.$cart->GetSize->size_name}})</span>
+                            <td class="product">
+                                <a href="{{route('ProductDetails',[$cart->GetProduct,$cart->GetProduct->slug])}}">
+                                    <h5>{{$cart->Getproduct->title}}</h5>
+                                </a>
+                                <br><span>Variant:
+                                    ({{'Color: '.$cart->GetColor->color_name.', Size: '.$cart->GetSize->size_name}})</span>
                             </td>
                             <td class="price">
-                                {{getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price}}
+                                {{getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price}} <span
+                                    class="text-danger"> tk.</span>
                             </td>
                             <td class="quantity cart-plus-minus">
                                 <form action="{{route('cart.update',$cart)}}">
@@ -57,19 +61,18 @@
                             </td>
                             <td class="total">
                                 {{ getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity}}
+                                <span class="text-danger"> tk.</span>
                             </td>
                             @php
-                            $total += getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price
-                            * $cart->quantity; @endphp
+                            $total +=
+                            getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price*$cart->quantity;
+                            @endphp
                             <td class="remove">
                                 <a href="{{route('DeleteCart',$cart)}}" data-toggle="tooltip" data-placement="top"
-                                    title="Remove">
-                                    <i class="fa fa-trash text-danger"></i>
+                                    title="Remove"> <i class="fa fa-trash text-danger"></i>
                                 </a>
                                 <button class="ml-5 btn btn-basic" type="submit" data-toggle="tooltip"
-                                    data-placement="top" title="Update">
-                                    <i class="fa fa-refresh text-primary"></i>
-
+                                    data-placement="top" title="Update"> <i class="fa fa-refresh text-success"></i>
                                 </button>
                             </td>
                             </form>
@@ -85,18 +88,12 @@
                 <div class="row mt-60">
                     <div class="col-xl-4 col-lg-5 col-md-6 ">
                         <div class="cartcupon-wrap">
-                            <ul class="d-flex">
-                                <li>
-                                    <button>Update Cart</button>
-                                </li>
-                                <li><a href="shop.html">Continue Shopping</a></li>
-                            </ul>
                             <h3>Cupon</h3>
-                            <p>Enter Your Cupon Code if You Have One</p>
+                            <label for="coupon_name_input">Enter Your Cupon Code if You Have One</label>
                             <div id="coupon_section" class="cupon-wrap">
                                 <input id="coupon_name_input" type="text" placeholder="Cupon Code"
                                     value="{{$coupon_name}}">
-                                <button id="coupon_name_btn">Apply Cupon</button>
+                                <button class="bg-success" id="coupon_name_btn">Apply Cupon</button>
                             </div>
                             @if (session('coupon_error'))
                             <span class="text-danger">{{session('coupon_error')}}</span>
@@ -107,12 +104,16 @@
                         <div class="cart-total text-right">
                             <h3>Cart Totals</h3>
                             <ul>
-                                <li><span class="pull-left">Subtotal </span>{{$total}}</li>
-                                <li><span class="pull-left">Discount({{$discount}}%)</span>{{$discount}}</li>
-                                <li><span class="pull-left"> Total </span>
-                                    {{$total-discountTotal($total,$discount)}}
-                                    <p class="small pull-left">Adjusted({{$discount}}%) discount
-                                    </p>
+                                <li><span class="pull-left">Subtotal </span>{{$total}} <span class="text-danger">
+                                        tk.</span></li>
+                                <li><span class="pull-left">Discount % @if($discount !=0)<span
+                                            class="text-muted">({{$coupon_name}})</span>@endif
+                                    </span>{{$discount}} <span class="text-danger"> tk.</span></li>
+                                <li><span class="text-danger pull-left"> Total </span>
+                                    <span class="text-danger"> {{$total-discountTotal($total,$discount)}} tk.</span>
+                                    @if ($discount != 0)
+                                    <p class="small text-muted pull-left">Adjusted({{$discount}}%) discount</p>
+                                    @endif
                                 </li>
                             </ul>
                             @php
@@ -121,7 +122,7 @@
                             session()->put('s_discount',$discount);
                             session()->put('s_total',$total-discountTotal($total,$discount));
                             @endphp
-                            <a href="{{ route('checkout.index') }}">Proceed to Checkout</a>
+                            <a class="bg-success" href="{{ route('checkout.index') }}">Proceed to Checkout</a>
                         </div>
                     </div>
                 </div>

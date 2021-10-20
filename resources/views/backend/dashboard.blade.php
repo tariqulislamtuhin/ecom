@@ -82,7 +82,7 @@ Dashboard
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>{{ (App\Models\Cart::all()->count()) }}</h3>
+                            <h3>{{ (App\Models\Cart::all()->groupBy('cookie_id')->count()) }}</h3>
 
                             <p>Unique Visitors</p>
                         </div>

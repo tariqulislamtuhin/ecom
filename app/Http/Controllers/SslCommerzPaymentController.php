@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckoutRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Library\SslCommerz\SslCommerzNotification;
@@ -30,7 +31,7 @@ class SslCommerzPaymentController extends Controller
     //     return view('sslcommerz.exampleHosted');
     // }
 
-    public function index(Request $request)
+    public function index(CheckoutRequest $request)
     {
         # Here you have to receive all the order data to initate the payment.
         # Let's say, your oder transaction informations are saving in a table called "orders"

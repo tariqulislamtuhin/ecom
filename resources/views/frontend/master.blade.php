@@ -5,9 +5,11 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     @php
-    $url= explode("/",url()->current());
+    $url = explode('8000',url()->current());
+    $url = ucwords(str_replace('/',' ',end($url)));
+    $url = ucwords(preg_replace('/[\d-]+/', ' ', $url));
     @endphp
-    <title>Tohoney - {{ Route::is('Frontend') ? 'Home' : ucwords(end($url)) }}</title>
+    <title>Tohoney - {{ Route::is('Frontend') ? 'Home' : $url }}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -193,7 +195,7 @@
                                     @forelse (getCarts() as $cart)
                                     <li class="cart-items">
                                         <div class="cart-img">
-                                            <img src="{{asset('thumb/'.$cart->getProduct->thumbnail)}}"
+                                            <img src="{{asset('thumbnail/' . $cart->getproduct->created_at->format('Y/M/') . $cart->getproduct->id . '/'.$cart->getProduct->thumbnail)}}"
                                                 alt="{{$cart->GetProduct->title}}" width="100" height="150">
                                         </div>
                                         <div class="cart-content">

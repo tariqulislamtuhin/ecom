@@ -26,11 +26,13 @@
                 <div class="product-single-img">
                     <div class="product-active owl-carousel">
                         <div class="item">
-                            <img src="{{asset('thumb/'.$product->thumbnail)}}" alt="{{$product->title}}" width="50">
+                            <img src="{{asset('thumbnail/' . $product->created_at->format('Y/M/') . $product->id . '/'.$product->thumbnail)}}"
+                                alt="{{$product->title}}" width="50">
                         </div>
                         @foreach ($product->atrribute as $attribute)
                         <div class="item">
-                            <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}">
+                            <img src="{{asset('thumbnail/attribute_images/'.$attribute->image)}}"
+                                alt="{{$product->title}}">
                         </div>
                         @endforeach
                     </div>
@@ -40,12 +42,12 @@
                         $unique = $product->atrribute->unique('color_id')
                         @endphp
                         <div class="item">
-                            <img src="{{asset('thumb/'.$product->thumbnail)}}" alt="{{$product->title}}">
+                            <img src="{{asset('thumbnail/2021/Oct/3/'.$product->thumbnail)}}" alt="{{$product->title}}">
                         </div>
                         @foreach ($unique as $attribute)
                         <div class="item">
-                            <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}" width="50"
-                                height="50">
+                            <img src="{{asset('thumbnail/attribute_images/'.$attribute->image)}}"
+                                alt="{{$product->title}}" width="50" height="50">
                         </div>
                         @endforeach
                     </div>
@@ -382,7 +384,8 @@
                 <div class="featured-product-wrap">
                     <div class="featured-product-img">
                         <a href="{{route('ProductDetails',[$product,$product->slug])}}">
-                            <img src="{{asset('thumb/'.$item->thumbnail)}}" alt=""></a>
+                            <img src="{{asset('thumbnail/' . $product->created_at->format('Y/M/') . $product->id . '/'.$item->thumbnail)}}"
+                                alt=""></a>
                     </div>
                     <div class="featured-product-content">
                         <div class="row">

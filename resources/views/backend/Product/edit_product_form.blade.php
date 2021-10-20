@@ -41,7 +41,6 @@ active
 
                         <div class="form-group">
                             <label for="name">Product Name</label>
-                            <input type="hidden" value="{{ $product->id }}" name="product_id">
                             <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
                                 placeholder="Product name" value="{{ $product->title }}" name="title">
                         </div>
@@ -52,14 +51,15 @@ active
                             <div class=" col form-group">
                                 <label for="thumbnail">Product Thumbnail </label>
                                 <input type="file" class="form-control @error('thumbnail') is-invalid @enderror"
-                                    value="value=" {{ asset('thumb'.$product->title) }}"" id="thumbnailid"
+                                    value="{{ asset('thumb'.$product->title) }}" id="thumbnailid"
                                     placeholder="thumbnail" name="thumbnail">
                             </div>
                             <div class="col form-group">
                                 <label for="">Thumbnail Preview: <strong class="text-danger">**</strong></label><br>
-                                @if (file_exists(public_path('thumb/'.$product->thumbnail)))
-                                <img src="{{asset('thumb/'.$product->thumbnail)}}" alt="{{$product->title}}"
-                                    width="100">
+                                @if (file_exists(public_path('thumbnail/') . $product->created_at->format('Y/M/')
+                                .$product->id . '/'))
+                                <img src="{{asset('thumbnail/' . $product->created_at->format('Y/M/') . $product->id . '/'.$product->thumbnail)}}"
+                                    alt="{{$product->title}}" width="100">
                                 @else
                                 <strong class="text-danger">Not Available</strong>
                                 @endif
@@ -122,8 +122,6 @@ active
 
                         {{-- product field end --}}
 
-                        {{-- attribute field start here --}}
-
                         @foreach ($product->Atrribute as $key=> $attribute)
                         <div class="form-group">
 
@@ -138,9 +136,9 @@ active
                                 </div>
                                 <div class="col form-group">
                                     <label for="">Image<strong class="text-danger">**</strong></label><br>
-                                    @if (file_exists(public_path('images/' .$attribute->image)))
-                                    <img src="{{asset('images/'.$attribute->image)}}" alt="{{$product->title}}"
-                                        width="50">
+                                    @if (file_exists(public_path('thumbnail/attribute_images/' .$attribute->image)))
+                                    <img src="{{asset('thumbnail/attribute_images/'.$attribute->image)}}"
+                                        alt="{{$product->title}}" width="50">
                                     @else
                                     <strong class="text-danger">Not Available</strong>
                                     @endif
@@ -197,12 +195,12 @@ active
 
                                 @can("attribute delete")
                                 <div class="form-group text-center">
-                                <span class="row" for="">Delete</span>
-                                <a lass="form-control " href="{{route('DeleteProductAttribute',$attribute)}}">
-                                    <h6>
-                                        <i class="text-danger fas fa-trash-alt"></i>
-                                    </h6>
-                                </a>
+                                    <span class="row" for="">Delete</span>
+                                    <a lass="form-control " href="{{route('DeleteProductAttribute',$attribute)}}">
+                                        <h6>
+                                            <i class="text-danger fas fa-trash-alt"></i>
+                                        </h6>
+                                    </a>
                                 </div>
 
                                 @endcan
@@ -210,14 +208,8 @@ active
                         </div>
                         @endforeach
 
-                        {{-- attribute field start here --}}
-
-
                         <h3 class="mt-4 mb-4 text-center bg-blue"> <label class="text-white"> Add Attributes</label>
                         </h3>
-
-
-                        {{-- new attribute start here dynamically--}}
 
 
                         <div id="dynamic-field-1" class="form-group dynamic-field hiding">

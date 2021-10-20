@@ -44,14 +44,12 @@ class ProductController extends Controller
     }
     public function AddProduct(Request $request)
     {
-
         $request->validate([
             'thumbnail' => 'required|mimes:jpeg,jpg,png',
             'title' => 'max:255|required|unique:products',
             'category_id' => 'required',
             'subcategory_id' => 'required',
             'summery' => 'required|min:10|max:255',
-
         ]);
 
         $slug = str::slug($request->title) . Str::random();
@@ -62,21 +60,24 @@ class ProductController extends Controller
         $products->subcategory_id  = $request->subcategory_id;
         $products->summery  = $request->summery;
         $products->description  = $request->description;
-
-        // $save_location = public_path('thumbnail/') . $products->created_at()->format('Y/M/') . $products->id;
-        // File::makeDirectory($save_location, 0777, true, true);
+        $products->thumbnail = '';
+        $products->save();
+        $save_location = public_path('thumbnail/') . $products->created_at->format('Y/M/') . $products->id . '/';
+        $attribute_location = public_path('thumbnail/' .  'attribute_images/');
 
         if ($request->hasFile('thumbnail')) {
             $image = $request->file('thumbnail');
             $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
 
-            Image::make($image)->save(\public_path('thumb/' . $name), 70);
+            File::makeDirectory($save_location, 0777, true, true);
+            Image::make($image)->save($save_location . $name, 70);
             $products->thumbnail  = $name;
         }
         $products->save();
 
         if ($request->hasFile('image')) {
 
+            File::makeDirectory($attribute_location, 0777, true, true);
             $images = $request->file('image');
 
             foreach ($request->color_id as $key => $color) {
@@ -88,7 +89,7 @@ class ProductController extends Controller
                 $attr->regular_price = $request->regular_price[$key];
                 $attr->sale_price = $request->sale_price[$key];
                 $attr->image = $products->title . $products->id . strtolower(Str::random(4)) . '.' . $images[$key]->getClientOriginalExtension();
-                Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
+                Image::make($images[$key])->save($attribute_location . $attr->image, 70);
                 $attr->save();
             }
         }
@@ -133,6 +134,10 @@ class ProductController extends Controller
 
     public function UpdateProduct(Request $request, product $product)
     {
+
+        $save_location = public_path('thumbnail/') . $product->created_at->format('Y/M/') . $product->id . '/';
+        $attribute_location = public_path('thumbnail/attribute_images/');
+
         $slug = str::slug($request->title);
         $product->title = $request->title;
         $product->slug = $slug;
@@ -144,7 +149,7 @@ class ProductController extends Controller
         if ($request->hasFile('thumbnail')) {
 
             $image = $request->file('thumbnail');
-            $old_img = \public_path('thumb/') . $product->thumbnail;
+            $old_img = $save_location . $product->thumbnail;
 
             if (file_exists($old_img)) {
                 unlink($old_img);
@@ -155,58 +160,7 @@ class ProductController extends Controller
             // $location = public_path() . '/nefolder/image' . $name;
             // File::makeDirectory($location, 0777, true, true);
 
-            Image::make($image)->save(\public_path('thumb/' . $name), 70);
-            $product->thumbnail  = $name;
-        }
-        if ($request->hasFile('thumbnail')) {
-
-            $image = $request->file('thumbnail');
-            $old_img = \public_path('thumb/') . $product->thumbnail;
-
-            if (file_exists($old_img)) {
-                unlink($old_img);
-            }
-
-            $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
-
-            ##############   $location = public_path() . '/nefolder/image' . $name; ##############
-            ##############  File::makeDirectory($location, 0777, true, true);      ##############
-
-            Image::make($image)->save(\public_path('thumb/' . $name), 70);
-            $product->thumbnail  = $name;
-        }
-        if ($request->hasFile('thumbnail')) {
-
-            $image = $request->file('thumbnail');
-            $old_img = \public_path('thumb/') . $product->thumbnail;
-
-            if (file_exists($old_img)) {
-                unlink($old_img);
-            }
-
-            $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
-
-            ##############   $location = public_path() . '/nefolder/image' . $name; ##############
-            ##############  File::makeDirectory($location, 0777, true, true);      ##############
-
-            Image::make($image)->save(\public_path('thumb/' . $name), 70);
-            $product->thumbnail  = $name;
-        }
-        if ($request->hasFile('thumbnail')) {
-
-            $image = $request->file('thumbnail');
-            $old_img = \public_path('thumb/') . $product->thumbnail;
-
-            if (file_exists($old_img)) {
-                unlink($old_img);
-            }
-
-            $name = $slug . '-' . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
-
-            ##############   $location = public_path() . '/nefolder/image' . $name; ##############
-            ##############  File::makeDirectory($location, 0777, true, true);      ##############
-
-            Image::make($image)->save(\public_path('thumb/' . $name), 70);
+            Image::make($image)->save($save_location . $name, 70);
             $product->thumbnail  = $name;
         }
         $product->save();
@@ -219,7 +173,7 @@ class ProductController extends Controller
 
             foreach ($images as $key => $image) {
                 $attr = Atrribute::findorFail($request->att_id[$key]);
-                $old_path = public_path('images/' . $attr->image);
+                $old_path = $attribute_location . $attr->image;
                 if (!empty($request->image[$key])) {
 
                     if (file_exists($old_path)) {
@@ -227,7 +181,7 @@ class ProductController extends Controller
                         unlink($old_path);
                     }
                     $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . $image->getClientOriginalExtension();
-                    Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
+                    Image::make($images[$key])->save($attribute_location . $attr->image, 70);
                 }
 
                 $attr->save();
@@ -255,7 +209,7 @@ class ProductController extends Controller
             $images = $request->file('update_image');
             foreach ($request->update_color_id as $key => $val) {
 
-                // try {
+
 
                 if ($val != null && $request->update_quantity[$key] != null) {
 
@@ -267,18 +221,14 @@ class ProductController extends Controller
                     $attr->regular_price = $request->update_regular_price[$key];
                     $attr->sale_price = $request->update_sale_price[$key];
                     $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . $images[$key]->getClientOriginalExtension();
-                    Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
+                    Image::make($images[$key])->save($attribute_location . $attr->image, 70);
                     $attr->save();
                 }
-                // } catch (Throwable $e) {
-
-                //     return redirect()->action([ProductController::class, 'ViewProducts'])->with('error', $e);
-                // }
             }
         } else {
             foreach ($request->update_color_id as $key => $val) {
 
-                // try {
+
 
                 if ($val != null && $request->update_quantity[$key] != null) {
 
@@ -290,13 +240,9 @@ class ProductController extends Controller
                     $attr->regular_price = $request->update_regular_price[$key];
                     $attr->sale_price = $request->update_sale_price[$key];
                     $attr->image = $product->title . $product->id . strtolower(Str::random(4)) . '.' . 'png';
-                    Image::make($images[$key])->save(\public_path('images/' . $attr->image), 70);
+                    Image::make($images[$key])->save($attribute_location . $attr->image, 70);
                     $attr->save();
                 }
-                // } catch (Throwable $e) {
-
-                //     return redirect()->action([ProductController::class, 'ViewProducts'])->with('error', $e);
-                // }
             }
         }
         return back()->with('success', 'Product succesfully Updated');

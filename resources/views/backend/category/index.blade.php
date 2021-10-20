@@ -12,7 +12,7 @@ active
 menu-is-opening menu-open active
 @endsection
 
-@section(' cviewatactive')
+@section('cviewatactive')
 bg-success
 @endsection
 

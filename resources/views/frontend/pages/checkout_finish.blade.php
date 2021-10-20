@@ -23,7 +23,7 @@
                 </h1>
             </div>
             <div class="card-footer">
-                <h3 class="text-center">Happy Shopping!</h3>
+                <h3 class="text-center">Happy Shopping! ☺</h3>
             </div>
         </div>
 

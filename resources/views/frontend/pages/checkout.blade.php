@@ -3,7 +3,7 @@
 @section('content')
 <div class="checkout-area ptb-100">
     <div class="container">
-        <form id="checkout_form" action="{{ url('/pay') }}" method="POST">
+        <form id="checkout_form" action="{{ route('checkout.store') }}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-lg-8">
@@ -12,7 +12,8 @@
                         <div class="row">
                             <div class="col-sm-12 col-12 form-group">
                                 <label>Name *</label>
-                                <input class="form-control" type="text" value="{{ $user->name }}" name="billing_name">
+                                <input class="form-control" type="text" value="{{ $user->name }}" name="billing_name"
+                                    required>
                                 @error('billing_name')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -20,14 +21,14 @@
                             <div class="col-sm-6 col-12 form-group">
                                 <label>Email Address *</label>
                                 <input class="form-control @error('billing_email') is-invalid @enderror" type="email"
-                                    value="{{ $user->email }}" name="billing_email">
+                                    value="{{ $user->email }}" name="billing_email" required>
                                 @error('billing_email')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-sm-6 col-12 form-group @error('billing_phone_number') is-invalid @enderror">
                                 <label>Phone No. *</label>
-                                <input class="form-control" type="tel" name="billing_phone_number">
+                                <input class="form-control" type="tel" name="billing_phone_number" required>
                                 @error('billing_phone_number')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -37,7 +38,7 @@
                                 <label>Country</label>
                                 <select
                                     class="form-control single_select text-center @error('country') is-invalid @enderror"
-                                    id="country_dropdown" name="country">
+                                    id="country_dropdown" name="country" required>
                                     <option value="">--Select--</option>
                                     @forelse ($countries as $country)
                                     <option class="text-center" value="{{ $country->country }}">{{ $country->name }}
@@ -54,7 +55,7 @@
                             <div class="col-6 form-group">
                                 <label>Division</label>
                                 <select id="city" class="form-control text-center @error('city') is-invalid @enderror"
-                                    name="city">
+                                    name="city" required>
 
                                 </select>
                                 @error('city')
@@ -66,7 +67,7 @@
                                 <label>District</label>
                                 <select id="district"
                                     class="form-control text-center @error('district') is-invalid @enderror"
-                                    name="district">
+                                    name="district" required>
 
                                 </select>
                             </div>
@@ -74,7 +75,7 @@
                             <div class="col-6 form-group">
                                 <label>Thana</label>
                                 <select id="thana" class="form-control text-center @error('thana') is-invalid @enderror"
-                                    name="thana">
+                                    name="thana" required>
 
                                 </select>
                             </div>
@@ -85,7 +86,7 @@
                             </div>
                             <div class="col-12 form-group">
                                 <label>Your Address *</label>
-                                <input class="form-control" type="text" name="billing_address">
+                                <input class="form-control" type="text" name="billing_address" required>
                                 @error('billing_address')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -108,12 +109,14 @@
                         <h3>Your Order</h3>
                         <ul class="total-cost">
                             @foreach (getCarts() as $cart)
-                            <li> <img src="{{ asset('thumb/'.$cart->GetProduct->thumbnail) }}"
+                            <li> <img
+                                    src="{{ asset('thumbnail/' . $products->created_at->format('Y/M/') . $products->id . '/'.$cart->GetProduct->thumbnail) }}"
                                     alt="{{ $cart->getproduct->title }}" width="40">
-                                <strong>{{ $cart->getproduct->title }}({{ $cart->quantity }} Picese)
-                                    <span class="pull-right">
-                                        {{ getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity }}৳
-                                    </span></strong>
+                                <span>{{ $cart->getproduct->title }} ({{ $cart->GetColor->color_name }})</span>
+                                <span class="pull-right">
+                                    {{ getproductPrice($cart->product_id,$cart->color_id,$cart->size_id)->sale_price * $cart->quantity }}৳
+                                </span>
+
                             </li>
                             @endforeach
 
@@ -131,8 +134,10 @@
                         <ul class="payment-method">
                             <li>
                                 <div class="form-control text-bold radio">
-                                    <input id="sslcommerz" type="radio" value="sslcommerz" name="payment_method">
-                                    <label class="label label-primary" for="sslcommerz"> Pay with SSLCOMMERZ
+                                    <input id="sslcommerz" type="radio" value="sslcommerz" name="payment_method"
+                                        required>
+                                    <label class="form-check-lebel" for="sslcommerz"> Pay with
+                                        SSLCOMMERZ
                                         <img src="https://www.sslcommerz.com/wp-content/uploads/2020/03/favicon.png"
                                             width="25" alt="">
                                     </label>
@@ -140,14 +145,16 @@
                             </li>
                             <li>
                                 <div class="form-control text-bold radio">
-                                    <input id="cash_on_delivery" type="radio" value="cash on delivary"
+                                    <input id="cash_on_delivery" type="radio" value="cash on delivary" required
                                         name="payment_method">
-                                    <label class="label label-info" for="cash_on_delivery"> Cash on Delivery
+                                    <label class="form-check-lebel" for="cash_on_delivery"> Cash on
+                                        Delivery
                                         <img src="https://cdn-icons-png.flaticon.com/512/1554/1554401.png" width="25"
                                             alt="">
                                     </label>
                                 </div>
                             </li>
+
                             @error('payment_method')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
